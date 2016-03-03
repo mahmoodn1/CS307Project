@@ -13,6 +13,9 @@ import android.provider.ContactsContract;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AutoCompleteTextView;
@@ -46,7 +49,27 @@ public class ShowRidesActivity extends AppCompatActivity{
 
     // UI references.
     private ListView list;
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.showrides_menu, menu);
+        return true;
 
+    }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle item selection
+        switch (item.getItemId()) {
+            case R.id.menustatus:
+                menuStatus();
+                return true;
+            case R.id.menu_profile:
+                menuSettings();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -151,6 +174,16 @@ public class ShowRidesActivity extends AppCompatActivity{
 
         int ADDRESS = 0;
         int IS_PRIMARY = 1;
+    }
+    private void menuStatus(){
+        Intent intent = new Intent(this, SettingsActivity.class);
+        startActivity(intent);
+        finish();
+    }
+    private void menuSettings(){
+        Intent intent = new Intent(this, SettingsActivity.class);
+        startActivity(intent);
+        finish();
     }
 
 }
