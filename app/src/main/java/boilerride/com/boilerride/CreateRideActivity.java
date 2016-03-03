@@ -71,6 +71,8 @@ public class CreateRideActivity extends AppCompatActivity implements LoaderCallb
     private SeekBar mSeekbar;
     private TextView Tv_passengers;
     private SeekBar mSeekbar2;
+    private TextView Tv_rideSeekers;
+    private SeekBar mSeekbar3;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -121,6 +123,22 @@ public class CreateRideActivity extends AppCompatActivity implements LoaderCallb
             }
         });
 
+        Tv_rideSeekers = (TextView) findViewById(R.id.createride_tv_NumberSeekers);
+
+        mSeekbar3 = (SeekBar) findViewById(R.id.createride_seekBar3);
+
+        mSeekbar3.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                Tv_rideSeekers.setText(Integer.toString(progress + 1));
+            }
+
+            public void onStartTrackingTouch(SeekBar seekBar) {
+            }
+
+            public void onStopTrackingTouch(SeekBar seekBar) {
+            }
+        });
+
         sw=(Switch) findViewById(R.id.createride_switch);
         sw.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -135,8 +153,10 @@ public class CreateRideActivity extends AppCompatActivity implements LoaderCallb
                 {
                     mSeekbar.setVisibility(View.GONE);
                     mSeekbar2.setVisibility(View.GONE);
+                    mSeekbar3.setVisibility(View.VISIBLE);
                     Tv_price.setVisibility(View.GONE);
                     Tv_passengers.setVisibility(View.GONE);
+                    Tv_rideSeekers.setVisibility(View.VISIBLE);
                     tv1.setVisibility(View.GONE);
                     tv2.setVisibility(View.GONE);
                     tv3.setVisibility(View.VISIBLE);
@@ -145,8 +165,10 @@ public class CreateRideActivity extends AppCompatActivity implements LoaderCallb
                 {
                     mSeekbar.setVisibility(View.VISIBLE);
                     mSeekbar2.setVisibility(View.VISIBLE);
+                    mSeekbar3.setVisibility(View.GONE);
                     Tv_price.setVisibility(View.VISIBLE);
                     Tv_passengers.setVisibility(View.VISIBLE);
+                    Tv_rideSeekers.setVisibility(View.GONE);
                     tv1.setVisibility(View.VISIBLE);
                     tv2.setVisibility(View.VISIBLE);
                     tv3.setVisibility(View.GONE);
@@ -269,8 +291,8 @@ public class CreateRideActivity extends AppCompatActivity implements LoaderCallb
         } else {
             // The ViewPropertyAnimator APIs are not available, so simply show
             // and hide the relevant UI components.
-           // mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
-           // mLoginFormView.setVisibility(show ? View.GONE : View.VISIBLE);
+            // mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
+            // mLoginFormView.setVisibility(show ? View.GONE : View.VISIBLE);
         }
     }
 

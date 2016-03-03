@@ -153,20 +153,23 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Number of people"
-                android:id="@+id/createride_textView3" />
+                android:id="@+id/createride_textView3"
+                android:visibility="gone" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="1"
-                android:id="@+id/createride_tv_NumberSeekers" />
+                android:id="@+id/createride_tv_NumberSeekers"
+                android:visibility="gone" />
 
             <SeekBar
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/createride_seekBar3"
-                android:progress="2"
-                android:max="9"/>
+                android:progress="0"
+                android:max="9"
+                android:visibility="gone"/>
 
             <Button
                 android:id="@+id/createride_post"
