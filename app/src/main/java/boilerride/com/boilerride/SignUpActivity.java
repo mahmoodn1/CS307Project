@@ -69,6 +69,8 @@ public class SignUpActivity extends AppCompatActivity implements LoaderCallbacks
     */
     private EditText mFirstName;
     private EditText mLastName;
+    private EditText mPhoneNumber;
+    private String password, firstName, lastName, email, phoneNumber;
     private View mProgressView;
     private View mLoginFormView;
 
@@ -78,17 +80,15 @@ public class SignUpActivity extends AppCompatActivity implements LoaderCallbacks
         setContentView(R.layout.activity_signup);
 
         Firebase.setAndroidContext(this);
-        myFirebase  = new Firebase("https://sweltering-fire-447.firebaseio.com/");
+        myFirebase  = new Firebase("https://luminous-torch-1510.firebaseio.com/");
 
         // Set up the login form.
         mEmailView = (AutoCompleteTextView) findViewById(R.id.sign_up_email);
         populateAutoComplete();
-        /*
-        mPasswordView1 = (EditText) findViewById(R.id.sign_up_password);
-        mPasswordView2 = (EditText) findViewById(R.id.repeat_password);
-        */
         mFirstName = (EditText) findViewById(R.id.sign_up_firstname);
         mLastName = (EditText) findViewById(R.id.sign_up_lastname);
+        mPhoneNumber = (EditText) findViewById(R.id.sign_up_phonenumber);
+
 
 
         Button signUpButton = (Button) findViewById(R.id.sign_up_button);
@@ -160,36 +160,17 @@ public class SignUpActivity extends AppCompatActivity implements LoaderCallbacks
 
         // Reset errors.
         mEmailView.setError(null);
-        /*
-        mPasswordView1.setError(null);
-        mPasswordView2.setError(null);
-        */
+
         // Store values at the time of the login attempt.
-        String email = mEmailView.getText().toString();
-        /*
-        String password1 = mPasswordView1.getText().toString();
-        String password2 = mPasswordView2.getText().toString();
-        */
-        String firstName = mFirstName.getText().toString();
-        String lastName = mLastName.getText().toString();
+        email = mEmailView.getText().toString();
+        firstName = mFirstName.getText().toString();
+        lastName = mLastName.getText().toString();
+        phoneNumber = mPhoneNumber.getText().toString();
 
         boolean cancel = false;
         View focusView = null;
 
-        // Check for a valid password, if the user entered one.
-        /*
-        if (!TextUtils.isEmpty(password1) && !isPasswordValid(password1)) {
-            mPasswordView1.setError(getString(R.string.error_invalid_password));
-            focusView = mPasswordView1;
-            cancel = true;
-        }
-        // Check if passwords are equal
-        if (!password1.equals(password2)) {
-            mPasswordView2.setError(getString(R.string.error_password_not_equal));
-            focusView = mPasswordView2;
-            cancel = true;
-        }
-        */
+
         // Check for a valid email address.
         if (TextUtils.isEmpty(email)) {
             mEmailView.setError(getString(R.string.error_field_required));
@@ -223,9 +204,9 @@ public class SignUpActivity extends AppCompatActivity implements LoaderCallbacks
             // Show a progress spinner, and kick off a background task to
             // perform the user login attempt.
             focusView = null;
-            mPassword = new BigInteger(130, mRandom).toString(32);
+            password = new BigInteger(130, mRandom).toString(32);
             showProgress(true);
-            mAuthTask = new UserSignUpTask(email, mPassword, firstName, lastName);
+            mAuthTask = new UserSignUpTask(email, password, firstName, lastName, phoneNumber);
             mAuthTask.execute((Void) null);
         }
     }
@@ -336,18 +317,19 @@ public class SignUpActivity extends AppCompatActivity implements LoaderCallbacks
      * the user.
      */
     public class UserSignUpTask extends AsyncTask<Void, Void, Boolean> {
-        private final User user;
-        private final String mEmail;
-        private final String mPassword;
-        private final String mFirstname;
-        private final String mLastname;
+        private User user;
+        private final String email;
+        private final String password;
+        private final String firstName;
+        private final String lastName;
+        private final String phoneNumber;
 
-        UserSignUpTask(String email, String password, String Firstname, String Lastname) {
-            this.user = new User(email, Firstname, Lastname);
-            mEmail = email;
-            mPassword = password;
-            mFirstname = Firstname;
-            mLastname = Lastname;
+        UserSignUpTask(String email, String password, String firstName, String lastName, String phoneNumber) {
+            this.email = email;
+            this.password = password;
+            this.firstName = firstName;
+            this.lastName = lastName;
+            this.phoneNumber = phoneNumber;
         }
 
         @Override
@@ -356,24 +338,24 @@ public class SignUpActivity extends AppCompatActivity implements LoaderCallbacks
 
             try {
                 // Simulate network access.
-                myFirebase.createUser(mEmail, mPassword, new Firebase.ValueResultHandler<Map<String, Object>>() {
+                myFirebase.createUser(email, password, new Firebase.ValueResultHandler<Map<String, Object>>() {
                     @Override
                     public void onSuccess(Map<String, Object> result) {
-                        Log.d("CREATE USER SUCCESS:", mEmail + " " + mPassword);
+                        Log.d("CREATE USER SUCCESS:", email + " " + password);
 
                         Firebase fireUser = myFirebase.child("users");
-                        User user = new User(mEmail, mFirstname, mLastname);
+                        user = new User(firstName, lastName, email, phoneNumber);
                         fireUser.push().setValue(user);
 
-                        myFirebase.resetPassword(mEmail, new Firebase.ResultHandler() {
+                        myFirebase.resetPassword(email, new Firebase.ResultHandler() {
                             @Override
                             public void onSuccess() {
-                                Log.d("PASSWORD SENT TO USER MAIL :", mEmail);
+                                Log.d("PASSWORD SENT TO USER:", email);
                                 mAuthTask = null;
                                 showProgress(false);
 
                                 Toast.makeText(getApplicationContext(),
-                                        "Account created succesfully. We sent the password to your email. Please change it before 24h", Toast.LENGTH_LONG).show();
+                                        "Account created successfully. We sent the password to your email. Please change it before 24h", Toast.LENGTH_LONG).show();
                                 SignUpActivity();
                             }
 
@@ -444,29 +426,6 @@ public class SignUpActivity extends AppCompatActivity implements LoaderCallbacks
         Intent intent = new Intent(this, SignUpActivity.class);
         startActivity(intent);
         finish();
-    }
-
-    public class User{
-
-        private String email;
-        private String Firstname;
-        private String Lastname;
-        public User() {}
-        public User(String email, String Firstname, String Lastname) {
-            this.email = email;
-            this.Firstname = Firstname;
-            this.Lastname = Lastname;
-        }
-        public String getFirstname() {
-            return this.Firstname;
-        }
-        public String getLastname() {
-            return this.Lastname;
-        }
-
-        public String getEmail(){
-            return this.email;
-        }
     }
 
 

@@ -69,7 +69,7 @@ public class ResetPwdActivity extends AppCompatActivity {
         if(cancel){
             //There was an error
         }else{
-            myFirebase  = new Firebase("https://sweltering-fire-447.firebaseio.com/");
+            myFirebase  = new Firebase("https://luminous-torch-1510.firebaseio.com/");
             myFirebase.resetPassword(email, new Firebase.ResultHandler() {
                 @Override
                 public void onSuccess() {
