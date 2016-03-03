@@ -9,7 +9,7 @@ public class Passenger extends User {
 
     public Passenger(String firstName, String lastName, String email,
                      String password, String phoneNumber) {
-        super(firstName, lastName,email,password, phoneNumber);
+        super(firstName, lastName, email, phoneNumber);
         privacy = false;
     }
 
