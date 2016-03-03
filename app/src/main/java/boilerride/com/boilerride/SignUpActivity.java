@@ -18,24 +18,21 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
-import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.inputmethod.EditorInfo;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.util.Log;
+import android.widget.Toast;
 
-import com.firebase.client.Firebase;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.firebase.client.AuthData;
 import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
-import com.firebase.client.ServerValue;
+import com.firebase.client.Query;
 
+import java.math.BigInteger;
+import java.security.SecureRandom;
 import java.util.Map;
 import java.util.ArrayList;
 import java.util.List;
@@ -59,10 +56,17 @@ public class SignUpActivity extends AppCompatActivity implements LoaderCallbacks
 
     private Firebase myFirebase;
 
+    private boolean feedback = false;
+    /*Random Password at the begining*/
+    private String mPassword;
+    private SecureRandom mRandom = new SecureRandom();
+
     // UI references.
     private AutoCompleteTextView mEmailView;
+    /*
     private EditText mPasswordView1;
     private EditText mPasswordView2;
+    */
     private EditText mFirstName;
     private EditText mLastName;
     private View mProgressView;
@@ -74,13 +78,15 @@ public class SignUpActivity extends AppCompatActivity implements LoaderCallbacks
         setContentView(R.layout.activity_signup);
 
         Firebase.setAndroidContext(this);
-        myFirebase  = new Firebase("https://luminous-torch-1510.firebaseio.com/");
+        myFirebase  = new Firebase("https://sweltering-fire-447.firebaseio.com/");
 
         // Set up the login form.
         mEmailView = (AutoCompleteTextView) findViewById(R.id.sign_up_email);
         populateAutoComplete();
+        /*
         mPasswordView1 = (EditText) findViewById(R.id.sign_up_password);
         mPasswordView2 = (EditText) findViewById(R.id.repeat_password);
+        */
         mFirstName = (EditText) findViewById(R.id.sign_up_firstname);
         mLastName = (EditText) findViewById(R.id.sign_up_lastname);
 
@@ -154,14 +160,16 @@ public class SignUpActivity extends AppCompatActivity implements LoaderCallbacks
 
         // Reset errors.
         mEmailView.setError(null);
+        /*
         mPasswordView1.setError(null);
         mPasswordView2.setError(null);
-
+        */
         // Store values at the time of the login attempt.
         String email = mEmailView.getText().toString();
+        /*
         String password1 = mPasswordView1.getText().toString();
         String password2 = mPasswordView2.getText().toString();
-
+        */
         String firstName = mFirstName.getText().toString();
         String lastName = mLastName.getText().toString();
 
@@ -169,19 +177,19 @@ public class SignUpActivity extends AppCompatActivity implements LoaderCallbacks
         View focusView = null;
 
         // Check for a valid password, if the user entered one.
-        if (/*!TextUtils.isEmpty(password1) && */!isPasswordValid(password1)) {
+        /*
+        if (!TextUtils.isEmpty(password1) && !isPasswordValid(password1)) {
             mPasswordView1.setError(getString(R.string.error_invalid_password));
             focusView = mPasswordView1;
             cancel = true;
         }
-
         // Check if passwords are equal
         if (!password1.equals(password2)) {
             mPasswordView2.setError(getString(R.string.error_password_not_equal));
             focusView = mPasswordView2;
             cancel = true;
         }
-
+        */
         // Check for a valid email address.
         if (TextUtils.isEmpty(email)) {
             mEmailView.setError(getString(R.string.error_field_required));
@@ -214,8 +222,10 @@ public class SignUpActivity extends AppCompatActivity implements LoaderCallbacks
         } else {
             // Show a progress spinner, and kick off a background task to
             // perform the user login attempt.
+            focusView = null;
+            mPassword = new BigInteger(130, mRandom).toString(32);
             showProgress(true);
-            mAuthTask = new UserSignUpTask(email, password1);
+            mAuthTask = new UserSignUpTask(email, mPassword, firstName, lastName);
             mAuthTask.execute((Void) null);
         }
     }
@@ -224,10 +234,12 @@ public class SignUpActivity extends AppCompatActivity implements LoaderCallbacks
         return !TextUtils.isEmpty(email) && android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches() && email.contains("@purdue.edu");
     }
 
+    /*
     private boolean isPasswordValid(String password) {
         //TODO: Replace this with your own logic
         return password.length() > 4;
     }
+    */
 
     /**
      * Shows the progress UI and hides the login form.
@@ -324,13 +336,18 @@ public class SignUpActivity extends AppCompatActivity implements LoaderCallbacks
      * the user.
      */
     public class UserSignUpTask extends AsyncTask<Void, Void, Boolean> {
-
+        private final User user;
         private final String mEmail;
         private final String mPassword;
+        private final String mFirstname;
+        private final String mLastname;
 
-        UserSignUpTask(String email, String password) {
+        UserSignUpTask(String email, String password, String Firstname, String Lastname) {
+            this.user = new User(email, Firstname, Lastname);
             mEmail = email;
             mPassword = password;
+            mFirstname = Firstname;
+            mLastname = Lastname;
         }
 
         @Override
@@ -343,14 +360,48 @@ public class SignUpActivity extends AppCompatActivity implements LoaderCallbacks
                     @Override
                     public void onSuccess(Map<String, Object> result) {
                         Log.d("CREATE USER SUCCESS:", mEmail + " " + mPassword);
-                        onPostExecute(true);
+
+                        Firebase fireUser = myFirebase.child("users");
+                        User user = new User(mEmail, mFirstname, mLastname);
+                        fireUser.push().setValue(user);
+
+                        myFirebase.resetPassword(mEmail, new Firebase.ResultHandler() {
+                            @Override
+                            public void onSuccess() {
+                                Log.d("PASSWORD SENT TO USER MAIL :", mEmail);
+                                mAuthTask = null;
+                                showProgress(false);
+
+                                Toast.makeText(getApplicationContext(),
+                                        "Account created succesfully. We sent the password to your email. Please change it before 24h", Toast.LENGTH_LONG).show();
+                                SignUpActivity();
+                            }
+
+                            @Override
+                            public void onError(FirebaseError firebaseError) {
+                                mAuthTask = null;
+                                showProgress(false);
+                                Log.d("CREATE PASSWORD ERROR:", firebaseError.getMessage());
+
+                                Toast.makeText(getApplicationContext(),
+                                        "Unable to create user account", Toast.LENGTH_LONG).show();
+                                SignUpActivity();
+
+                            }
+                        });
+                        //Query queryref = fireUser.child("email").equalTo(mEmail); check how it works
                     }
                     @Override
                     public void onError(FirebaseError firebaseError) {
                         // there was an error
                         Log.d("CREATE USER ERROR:", firebaseError.getMessage());
-                        onPostExecute(false);
+
+
+                        Toast.makeText(getApplicationContext(),
+                                "Unable to create user account", Toast.LENGTH_LONG).show();
+                        SignUpActivity();
                     }
+
                 });
                 Thread.sleep(2000);
             } catch (InterruptedException e) {
@@ -361,20 +412,20 @@ public class SignUpActivity extends AppCompatActivity implements LoaderCallbacks
             // TODO: register the new account here.
             return false;
         }
-
+        /*
         @Override
         protected void onPostExecute(final Boolean success) {
             mAuthTask = null;
             showProgress(false);
-
             if (success) {
-                startShowRidesActivity();
+                Toast.makeText(getApplicationContext(),
+                        "Account created succesfully. We sent the password to your email. Please change it before 24h", Toast.LENGTH_LONG).show();
             } else {
-                mPasswordView1.setError(getString(R.string.error_incorrect_password));
-                mPasswordView1.requestFocus();
+               // Toast.makeText(getApplicationContext(),
+                 //       "Unable to create user account3", Toast.LENGTH_LONG).show();
             }
         }
-
+        */
         @Override
         protected void onCancelled() {
             mAuthTask = null;
@@ -382,11 +433,41 @@ public class SignUpActivity extends AppCompatActivity implements LoaderCallbacks
         }
     }
 
-    private void startShowRidesActivity()
+    private void LoginActivity()
     {
-        Intent intent = new Intent(this, ShowRidesActivity.class);
+        Intent intent = new Intent(this, LoginActivity.class);
         startActivity(intent);
         finish();
     }
-}
+    private void SignUpActivity()
+    {
+        Intent intent = new Intent(this, SignUpActivity.class);
+        startActivity(intent);
+        finish();
+    }
 
+    public class User{
+
+        private String email;
+        private String Firstname;
+        private String Lastname;
+        public User() {}
+        public User(String email, String Firstname, String Lastname) {
+            this.email = email;
+            this.Firstname = Firstname;
+            this.Lastname = Lastname;
+        }
+        public String getFirstname() {
+            return this.Firstname;
+        }
+        public String getLastname() {
+            return this.Lastname;
+        }
+
+        public String getEmail(){
+            return this.email;
+        }
+    }
+
+
+}
