@@ -39,6 +39,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Calendar;
 import java.text.SimpleDateFormat;
+import java.util.HashMap;
+import java.util.Map;
 
 import static android.Manifest.permission.READ_CONTACTS;
 
@@ -431,8 +433,24 @@ public class CreateRideActivity extends AppCompatActivity implements LoaderCallb
 
             try {
                 Firebase fireRide = myFirebase.child("rides");
-                Ride ride = new Ride(numOfPassengers, fare, distance, origin, destination, maxPassengers, departTime, arrivalTime, timePosted, title, type);
-                fireRide.push().setValue(ride);
+                Map<String, String> ride1 = new HashMap<String, String>();
+                ride1.put("numOfPassengers", String.valueOf(numOfPassengers));
+                ride1.put("fare", String.valueOf(fare));
+                ride1.put("distance", String.valueOf(distance));
+                ride1.put("origin", origin);
+                ride1.put("destination", destination);
+                ride1.put("maxPassengers", String.valueOf(maxPassengers));
+                ride1.put("departTime", departTime);
+                ride1.put("arrivalTime", arrivalTime);
+                ride1.put("timePosted", timePosted);
+                ride1.put("title", title);
+                if (type == false) {
+                    ride1.put("type", "offer");
+                }
+                else
+                    ride1.put("type", "request");
+
+                fireRide.push().setValue(ride1);
                 // Simulate network access.
                 Thread.sleep(500);
             } catch (InterruptedException e) {
