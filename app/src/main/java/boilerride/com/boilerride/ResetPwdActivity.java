@@ -89,12 +89,12 @@ public class ResetPwdActivity extends AppCompatActivity {
             Toast.makeText(getApplicationContext(),
                     "We have sent your new password. You have 24h to change it.", Toast.LENGTH_LONG).show();
         }
-        /* For security we say that we sent the password to the email either if the email exists or not.
+        // For security we say that we sent the password to the email either if the email exists or not.
         else {
             Toast.makeText(getApplicationContext(),
-                    "Wrong email", Toast.LENGTH_LONG).show();
+                    "This email is invalid.", Toast.LENGTH_LONG).show();
         }
-        */
+
     }
     private void startShowRidesActivity()
     {
