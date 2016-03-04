@@ -13,6 +13,9 @@ import android.provider.ContactsContract;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AutoCompleteTextView;
@@ -46,7 +49,30 @@ public class ShowRidesActivity extends AppCompatActivity{
 
     // UI references.
     private ListView list;
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.showrides_menu, menu);
+        return true;
 
+    }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle item selection
+        switch (item.getItemId()) {
+            case R.id.menustatus:
+                menuStatus();
+                return true;
+            case R.id.menu_profile:
+                menuSettings();
+                return true;
+            case R.id.menu_offer:
+                menuFilter();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -54,11 +80,10 @@ public class ShowRidesActivity extends AppCompatActivity{
         // Set up the login form.
 
         list = (ListView) findViewById(R.id.showrides_listView);
-        ArrayList arrayList = new ArrayList<String>();
-
+        ArrayList arrayList = new ArrayList<Ride>();
         // Adapter: You need three parameters 'the context, id of the layout (it will be where the data is shown),
         // and the array that contains the data
-        ArrayAdapter adapter = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_spinner_item, arrayList){
+        ArrayAdapter adapter = new ArrayAdapter<Ride>(getApplicationContext(), android.R.layout.simple_spinner_item, arrayList){
             @Override
             public View getView(int position, View convertView, ViewGroup parent) {
                 View view = super.getView(position, convertView, parent);
@@ -71,45 +96,21 @@ public class ShowRidesActivity extends AppCompatActivity{
         // Here, you set the data in your ListView
         list.setAdapter(adapter);
 
-        arrayList.add("(O) Ride to O'Hare");
-        arrayList.add("(O) Ride to Indy");
-        arrayList.add("(S) Ride to Fort Wayne");
-        arrayList.add("(O) Ride to O'Hare");
-        arrayList.add("(O) Ride to Indy");
-        arrayList.add("(S) Ride to Fort Wayne");
-        arrayList.add("(O) Ride to O'Hare");
-        arrayList.add("(O) Ride to Indy");
-        arrayList.add("(S) Ride to Fort Wayne");
-        arrayList.add("(O) Ride to O'Hare");
-        arrayList.add("(O) Ride to Indy");
-        arrayList.add("(S) Ride to Fort Wayne");
-        arrayList.add("(O) Ride to O'Hare");
-        arrayList.add("(O) Ride to Indy");
-        arrayList.add("(S) Ride to Fort Wayne");
-        arrayList.add("(O) Ride to O'Hare");
-        arrayList.add("(O) Ride to Indy");
-        arrayList.add("(S) Ride to Fort Wayne");
-        arrayList.add("(O) Ride to O'Hare");
-        arrayList.add("(S) Ride to Cleveland");
-        arrayList.add("(S) Ride to Fort Wayne");
-        arrayList.add("(O) Ride to O'Hare");
-        arrayList.add("(O) Ride to Indy");
-        arrayList.add("(S) Ride to Fort Wayne");
-        arrayList.add("(O) Ride to O'Hare");
-        arrayList.add("(O) Ride to Indy");
-        arrayList.add("(S) Ride to Fort Wayne");
-        arrayList.add("(O) Ride to Bloomington");
-        arrayList.add("(O) Ride to Indy");
-        arrayList.add("(S) Ride to Fort Wayne");
-        arrayList.add("(O) Ride to O'Hare");
-        arrayList.add("(O) Ride to Indy");
-        arrayList.add("(S) Ride to Fort Wayne");
-        arrayList.add("(O) Ride to O'Hare");
-        arrayList.add("(O) Ride to Indy");
-        arrayList.add("(S) Ride to Fort Wayne");
-        arrayList.add("(O) Ride to O'Hare");
-        arrayList.add("(O) Ride to Indy");
-        arrayList.add("(S) Ride to Fort Wayne");
+
+
+        Ride ride1 = new Ride(1, 2, 200, "Purdue Union", "Chicago", 5, "12 am", "2 pm", "10 pm",
+                "Ride to Chicago airport");
+        Ride ride2  = new Ride(1, 3, 100, "Purdue Airport", "Chicago", 5, "12 am", "2 pm", "10 pm",
+                "Ride to Chicago downtown");
+        Ride ride3  = new Ride(1, 2, 200, "Purdue Union", "Indy", 5, "12 am", "2 pm", "10 pm",
+                "Ride to Indy");
+        Ride ride4  = new Ride(1, 2, 200, "Purdue Union", "FortWayne", 5, "12 am", "2 pm", "10 pm",
+                "Ride to FortWayne");
+
+        arrayList.add(ride1);
+        arrayList.add(ride2);
+        arrayList.add(ride3);
+        arrayList.add(ride4);
         // next thing you have to do is check if your adapter has changed
         adapter.notifyDataSetChanged();
 
@@ -152,6 +153,28 @@ public class ShowRidesActivity extends AppCompatActivity{
         int ADDRESS = 0;
         int IS_PRIMARY = 1;
     }
-
+    private void menuStatus(){
+        Intent intent = new Intent(this, SettingsActivity.class);
+        startActivity(intent);
+<<<<<<< HEAD
+      //  finish();
+=======
+       // finish();
+>>>>>>> 4d722bd623b7ab202d5b049e2f81bfac5cf9ee32
+    }
+    private void menuSettings(){
+        Intent intent = new Intent(this, SettingsActivity.class);
+        startActivity(intent);
+<<<<<<< HEAD
+      //  finish();
+    }
+    private void menuFilter() {
+        Intent intent = new Intent(this, SettingsActivity.class);
+        startActivity(intent);
+        //  finish();
+=======
+       // finish();
+>>>>>>> 4d722bd623b7ab202d5b049e2f81bfac5cf9ee32
+    }
 }
 
