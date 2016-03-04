@@ -8,33 +8,90 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"></LinearLayout>
 
-    <TextView
+    <LinearLayout
+        android:orientation="horizontal"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="email"
-        android:id="@+id/email_field" />
-
-    <EditText
+        android:weightSum="100">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_weight="50"
+            android:layout_height="wrap_content"
+            android:gravity="left"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="Email:   "
+            android:id="@+id/email_field_name" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_weight="50"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="         email"
+            android:id="@+id/email_field" />
+    </LinearLayout>
+    <LinearLayout
+        android:orientation="horizontal"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:id="@+id/firstname_field"
-        android:text="Username" />
+        android:weightSum="100">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_weight="50"
+            android:layout_height="wrap_content"
+            android:gravity="left"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="Firstname:   "
+            android:id="@+id/firstname_field_name" />
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:id="@+id/firstname_field"
+            android:text="First name" />
+    </LinearLayout>
 
-    <EditText
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:weightSum="100">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_weight="50"
+            android:layout_height="wrap_content"
+            android:gravity="left"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="Lastname:   "
+            android:id="@+id/lastname_field_name" />
+        <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="Lastname"
         android:id="@+id/lastname_field" />
+    </LinearLayout>
 
-    <EditText
+    <LinearLayout
+        android:orientation="horizontal"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="phone_field"
-        android:id="@+id/phone_field" />
+        android:weightSum="100">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_weight="50"
+            android:layout_height="wrap_content"
+            android:gravity="left"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="Phone:         "
+            android:id="@+id/phone_field_text" />
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="Phone"
+            android:id="@+id/phone_field" />
+    </LinearLayout>
+
 
     <Button
         android:layout_width="wrap_content"
@@ -42,6 +99,19 @@
         android:text="Change Settings"
         android:id="@+id/submit_profile_changes_button" />
 
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:weightSum="100">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_weight="50"
+            android:layout_height="wrap_content"
+            android:gravity="left"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="Current password:         "
+            android:id="@+id/pwdold_field_text" />
     <EditText
         android:hint="@string/prompt_password"
         android:imeActionId="@+id/login"
@@ -54,7 +124,21 @@
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:id="@+id/oldPassword" />
+    </LinearLayout>
 
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:weightSum="100">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_weight="50"
+            android:layout_height="wrap_content"
+            android:gravity="left"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="New password:              "
+            android:id="@+id/pwdnew1_field_text" />
     <EditText
         android:hint="@string/prompt_password"
         android:imeActionId="@+id/login"
@@ -67,7 +151,20 @@
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:id="@+id/newPassword1" />
-
+</LinearLayout>
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:weightSum="100">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_weight="50"
+            android:layout_height="wrap_content"
+            android:gravity="left"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="Repeat password:         "
+            android:id="@+id/pwdnew2_field_text" />
     <EditText
         android:hint="@string/prompt_password"
         android:imeActionId="@+id/login"
@@ -80,7 +177,7 @@
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:id="@+id/newPassword2" />
-
+    </LinearLayout>
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
