@@ -214,6 +214,22 @@ public class ShowRidesActivity extends AppCompatActivity implements FilterDialog
         ArrayList NewArrayList = new ArrayList<Ride>();
 
 
+
+        Ride ride1 = new Ride(1, 2, 200, "Purdue Union", "Chicago", 5, "12 am", "2 pm", "10 pm",
+                "Ride to Chicago airport", false);
+        Ride ride2  = new Ride(1, 3, 100, "Purdue Airport", "Chicago", 5, "12 am", "2 pm", "10 pm",
+                "Ride to Chicago downtown", false);
+        Ride ride3  = new Ride(1, 2, 200, "Purdue Union", "Indy", 5, "12 am", "2 pm", "10 pm",
+                "Ride to Indy", false);
+        Ride ride4  = new Ride(1, 2, 200, "Purdue Union", "FortWayne", 5, "12 am", "2 pm", "10 pm",
+                "Ride to FortWayne", false);
+
+        arrayList.add(ride1);
+        arrayList.add(ride2);
+        arrayList.add(ride3);
+        arrayList.add(ride4);
+
+
         Iterator<Ride> iter = arrayList.iterator();
         while(iter.hasNext()){
             Ride item = iter.next();
