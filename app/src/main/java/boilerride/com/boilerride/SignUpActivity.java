@@ -89,8 +89,6 @@ public class SignUpActivity extends AppCompatActivity implements LoaderCallbacks
         mLastName = (EditText) findViewById(R.id.sign_up_lastname);
         mPhoneNumber = (EditText) findViewById(R.id.sign_up_phonenumber);
 
-
-
         Button signUpButton = (Button) findViewById(R.id.sign_up_button);
         signUpButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -344,8 +342,8 @@ public class SignUpActivity extends AppCompatActivity implements LoaderCallbacks
                         Log.d("CREATE USER SUCCESS:", email + " " + password);
 
                         Firebase fireUser = myFirebase.child("users");
-                        user = new User(firstName, lastName, email, phoneNumber);
-                        fireUser.push().setValue(user);
+                        User user2 = new User(firstName, lastName, email, phoneNumber);
+                        fireUser.push().setValue(user2);
 
                         myFirebase.resetPassword(email, new Firebase.ResultHandler() {
                             @Override
