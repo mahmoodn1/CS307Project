@@ -1,5 +1,6 @@
 package boilerride.com.boilerride;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Credentials;
@@ -10,9 +11,15 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.TabHost;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.firebase.client.DataSnapshot;
@@ -20,6 +27,10 @@ import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
 import com.firebase.client.Query;
 import com.firebase.client.ValueEventListener;
+
+import android.view.KeyEvent;
+import android.view.inputmethod.EditorInfo;
+import android.widget.TextView;
 
 import java.util.Map;
 
@@ -76,6 +87,7 @@ public class ResetPwdActivity extends AppCompatActivity {
                     Log.d("RESET PASSWORD SUCCESS:", email);
                     onPostExecute(true, email);
                 }
+
                 @Override
                 public void onError(FirebaseError firebaseError) {
                     Log.d("RESET PASSWORD ERROR:", firebaseError.getMessage());
@@ -83,26 +95,29 @@ public class ResetPwdActivity extends AppCompatActivity {
                 }
             });
         }
+
+
     }
+
     protected void onPostExecute(final Boolean success, final String email){
         if (success) {
             Toast.makeText(getApplicationContext(),
                     "We have sent your new password. You have 24h to change it.", Toast.LENGTH_LONG).show();
         }
-        /* For security we say that we sent the password to the email either if the email exists or not.
+        // For security we say that we sent the password to the email either if the email exists or not.
         else {
             Toast.makeText(getApplicationContext(),
-                    "Wrong email", Toast.LENGTH_LONG).show();
+                    "This email is invalid.", Toast.LENGTH_LONG).show();
         }
-        */
+
     }
+
     private void startShowRidesActivity()
     {
         Intent intent = new Intent(this, ShowRidesActivity.class);
         startActivity(intent);
         finish();
     }
-
     private boolean isEmailValid(String email) {
         return !TextUtils.isEmpty(email) && android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches() && email.contains("@purdue.edu");
     }
