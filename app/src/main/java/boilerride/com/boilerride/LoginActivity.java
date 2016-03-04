@@ -94,6 +94,13 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             }
         });
 
+        Button mForgotPass = (Button) findViewById(R.id.forgot_pass);
+        mForgotPass.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                forgotpass();
+            }
+        });
         mLoginFormView = findViewById(R.id.login_form);
         mProgressView = findViewById(R.id.login_progress);
     }
@@ -366,6 +373,11 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         Intent intent = new Intent(this, ShowRidesActivity.class);
         startActivity(intent);
         finish();
+    }
+    private void forgotpass() {
+        Intent intent = new Intent(this, ResetPwdActivity.class);
+       startActivity(intent);
+        //  finish();
     }
 }
 

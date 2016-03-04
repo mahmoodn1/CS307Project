@@ -10,21 +10,18 @@ public class User {
     private String firstName;
     private String lastName;
     private String email;
-    private String password;
     private String phoneNumber;
     private Firebase myFb;
 
-    public User(String firstName, String lastName, String email,
-                String password, String phoneNumber) {
+    public User(String firstName, String lastName, String email, String phoneNumber) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
-        this.password = password;
         this.phoneNumber = phoneNumber;
         myFb  = new Firebase("https://luminous-torch-1510.firebaseio.com/");
     }
 
-    public boolean changePassword(String newPassword) {
+    public boolean changePassword(String password, String newPassword) {
         myFb.changePassword(email, password, newPassword, new Firebase.ResultHandler() {
             @Override
             public void onSuccess() {
@@ -39,7 +36,7 @@ public class User {
         return true;
     }
 
-    public boolean changeEmail(String newEmail) {
+    public boolean changeEmail(String password, String newEmail) {
         myFb.changeEmail(email, password, newEmail, new Firebase.ResultHandler() {
             @Override
             public void onSuccess() {

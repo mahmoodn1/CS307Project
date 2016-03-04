@@ -1,0 +1,32 @@
+
+
+        <menu xmlns:android="http://schemas.android.com/apk/res/android">
+            <item android:id="@+id/menustatus"
+                android:title="Status" >
+                <!-- "file" submenu -->
+            </item>
+            <item android:id="@+id/menusettings"
+                android:title="Settings" >
+                <!-- "file" submenu -->
+                <menu>
+                    <item android:id="@+id/menu_profile"
+                        android:title="Profile" />
+                    <item android:id="@+id/menu_notifications"
+                        android:title="Notifications" />
+                </menu>
+            </item>
+            <item android:id="@+id/menufilter"
+                android:title="Filter" >
+                <!-- "file" submenu -->
+                <menu>
+                    <item android:id="@+id/menu_price"
+                        android:title="Price" />
+                    <item android:id="@+id/menu_distance"
+                        android:title="Distance" />
+                    <item android:id="@+id/menu_offer"
+                        android:title="Offer" />
+                    <item android:id="@+id/menu_search"
+                        android:title="Search" />
+                </menu>
+            </item>
+        </menu>
