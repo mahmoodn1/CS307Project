@@ -156,17 +156,35 @@ public class ShowRidesActivity extends AppCompatActivity{
     private void menuStatus(){
         Intent intent = new Intent(this, SettingsActivity.class);
         startActivity(intent);
+<<<<<<< HEAD
       //  finish();
+=======
+<<<<<<< HEAD
+      //  finish();
+=======
+       // finish();
+>>>>>>> 4d722bd623b7ab202d5b049e2f81bfac5cf9ee32
+>>>>>>> refs/remotes/origin/master
     }
     private void menuSettings(){
         Intent intent = new Intent(this, SettingsActivity.class);
         startActivity(intent);
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> refs/remotes/origin/master
       //  finish();
     }
     private void menuFilter() {
         Intent intent = new Intent(this, SettingsActivity.class);
         startActivity(intent);
         //  finish();
+<<<<<<< HEAD
+=======
+=======
+       // finish();
+>>>>>>> 4d722bd623b7ab202d5b049e2f81bfac5cf9ee32
+>>>>>>> refs/remotes/origin/master
     }
 }
 
