@@ -15,9 +15,21 @@
                         android:title="Notifications" />
                 </menu>
             </item>
-            <item android:id="@+id/menufilter"
-                android:title="Filter" >
-                <!-- "file" submenu -->
+            <item android:id="@+id/menu_filter_type"
+                android:title="Type of ride" >
+                <!-- "file" submenu-->
+                <menu>
+                    <item android:id="@+id/type_all"
+                        android:title="All" />
+                    <item android:id="@+id/type_offer"
+                        android:title="Offer" />
+                    <item android:id="@+id/type_search"
+                        android:title="Search" />
+                </menu>
+            </item>
+            <item android:id="@+id/menu_filter"
+                android:title="More filters" >
+                <!-- "file" submenu
                 <menu>
                     <item android:id="@+id/menu_price"
                         android:title="Price" />
@@ -27,6 +39,6 @@
                         android:title="Offer" />
                     <item android:id="@+id/menu_search"
                         android:title="Search" />
-                </menu>
+                </menu>-->
             </item>
         </menu>
