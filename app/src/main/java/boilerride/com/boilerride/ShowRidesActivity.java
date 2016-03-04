@@ -178,12 +178,12 @@ public class ShowRidesActivity extends AppCompatActivity{
     private void menuStatus(){
         Intent intent = new Intent(this, SettingsActivity.class);
         startActivity(intent);
-        finish();
+       // finish();
     }
     private void menuSettings(){
         Intent intent = new Intent(this, SettingsActivity.class);
         startActivity(intent);
-        finish();
+       // finish();
     }
 
 }
