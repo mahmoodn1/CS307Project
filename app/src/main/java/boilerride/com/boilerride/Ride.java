@@ -24,7 +24,7 @@ public class Ride {
         this.fare = fare;
         this.distance = distance;
         this.origin = origin;
-        this.origin = origin;
+        //this.origin = origin;
         this.destination = destination;
         this.maxPassengers = maxPassengers;
         this.departTime = departTime;
@@ -34,5 +34,13 @@ public class Ride {
         listOfPassengers = new ArrayList<Passenger>();
     }
 
+    @Override
+    public String toString()
+    {
+        boolean search=true;
+        if(!search)
+        return "(offer) " + title;
+        else return "(search) " + title;
+    }
 
 }
