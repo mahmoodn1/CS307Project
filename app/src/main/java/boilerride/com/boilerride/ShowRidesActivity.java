@@ -13,11 +13,13 @@ import android.provider.ContactsContract;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
+import android.view.ContextMenu;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.AdapterView;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
@@ -66,13 +68,20 @@ public class ShowRidesActivity extends AppCompatActivity{
             case R.id.menu_profile:
                 menuSettings();
                 return true;
-            case R.id.menu_offer:
+            case R.id.menufilter:
                 menuFilter();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
     }
+   /* @Override
+    public void onCreateContextMenu(ContextMenu menu, View v,
+                                    ContextMenu.ContextMenuInfo menuInfo) {
+        super.onCreateContextMenu(menu, v, menuInfo);
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.context_menu, menu);
+    }*/
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -95,7 +104,6 @@ public class ShowRidesActivity extends AppCompatActivity{
 
         // Here, you set the data in your ListView
         list.setAdapter(adapter);
-
 
 
         Ride ride1 = new Ride(1, 2, 200, "Purdue Union", "Chicago", 5, "12 am", "2 pm", "10 pm",
@@ -156,25 +164,30 @@ public class ShowRidesActivity extends AppCompatActivity{
     private void menuStatus(){
         Intent intent = new Intent(this, SettingsActivity.class);
         startActivity(intent);
-<<<<<<< HEAD
+
       //  finish();
-=======
+
        // finish();
->>>>>>> 4d722bd623b7ab202d5b049e2f81bfac5cf9ee32
+
     }
     private void menuSettings(){
         Intent intent = new Intent(this, SettingsActivity.class);
         startActivity(intent);
-<<<<<<< HEAD
       //  finish();
     }
     private void menuFilter() {
         Intent intent = new Intent(this, SettingsActivity.class);
         startActivity(intent);
         //  finish();
-=======
+
        // finish();
->>>>>>> 4d722bd623b7ab202d5b049e2f81bfac5cf9ee32
+
     }
+    private void context_menu(){
+        Intent intent = new Intent(this, SettingsActivity.class);
+        startActivity(intent);
+        //  finish();
+    }
+
 }
 
