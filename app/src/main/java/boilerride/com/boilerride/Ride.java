@@ -35,5 +35,12 @@ public class Ride {
         listOfPassengers = new ArrayList<Passenger>();
     }
 
+    @Override
+    public String toString()
+    {
+        if(type)
+        return "(request) " + title;
+        else return "(offer) " + title;
+    }
 
 }

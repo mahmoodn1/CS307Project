@@ -302,7 +302,7 @@ public class CreateRideActivity extends AppCompatActivity implements LoaderCallb
             showProgress(true);
             mAuthTask = new CreateRideTask(passengers, fare, 1, origin, destination, maxPassengers, depart, "forever", time,
                     title, type);
-            mAuthTask.doInBackground();
+            mAuthTask.execute((Void) null);
         }
     }
 
@@ -400,7 +400,7 @@ public class CreateRideActivity extends AppCompatActivity implements LoaderCallb
      * Represents an asynchronous login/registration task used to authenticate
      * the user.
      */
-    public class CreateRideTask {
+    public class CreateRideTask extends AsyncTask<Void, Void, Boolean> {
         private boolean type; // 0 = offer 1 = request
         private double numOfPassengers;
         private double fare;
@@ -428,7 +428,7 @@ public class CreateRideActivity extends AppCompatActivity implements LoaderCallb
             this.type = type;
         }
 
-        protected Boolean doInBackground() {
+        protected Boolean doInBackground(Void... params) {
             // TODO: attempt authentication against a network service.
 
             try {
@@ -468,7 +468,7 @@ public class CreateRideActivity extends AppCompatActivity implements LoaderCallb
             if (success) {
                 startShowRidesActivity();
             } else {
-                mTitleView.setError(getString(R.string.error_incorrect_password));
+                mTitleView.setError("Ride could not be created. Try again.");
                 mTitleView.requestFocus();
             }
         }
