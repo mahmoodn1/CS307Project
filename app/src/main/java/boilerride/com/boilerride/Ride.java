@@ -17,10 +17,11 @@ public class Ride {
     private String arrivalTime;
     private String timePosted;
     private String title;
+    private boolean createdByUser;
     private ArrayList<Passenger> listOfPassengers;
 
     public Ride(double numOfPassengers, double fare, double distance, String origin, String destination, double maxPassengers, String departTime, String arrivalTime, String timePosted,
-                String title, boolean type) {
+                String title, boolean type, boolean createdByUser) {
         this.numOfPassengers = numOfPassengers;
         this.fare = fare;
         this.distance = distance;
@@ -32,6 +33,7 @@ public class Ride {
         this.timePosted = timePosted;
         this.title = title;
         this.type = type;
+        this.createdByUser = createdByUser;
         listOfPassengers = new ArrayList<Passenger>();
     }
 

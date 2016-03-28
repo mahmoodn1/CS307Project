@@ -42,6 +42,7 @@ import static android.Manifest.permission.READ_CONTACTS;
  */
 public class ShowRidesActivity extends AppCompatActivity implements FilterDialogFragment.FilterDialogFragmentListener {
 
+
     /**
      * Id to identity READ_CONTACTS permission request.
      */
@@ -119,13 +120,13 @@ public class ShowRidesActivity extends AppCompatActivity implements FilterDialog
 
 
         Ride ride1 = new Ride(1, 2, 200, "Purdue Union", "Chicago", 5, "12 am", "2 pm", "10 pm",
-                "Ride to Chicago airport", false);
+                "Ride to Chicago airport", false, false);
         Ride ride2  = new Ride(1, 3, 100, "Purdue Airport", "Chicago", 5, "12 am", "2 pm", "10 pm",
-                "Ride to Chicago downtown", false);
+                "Ride to Chicago downtown", false, true);
         Ride ride3  = new Ride(1, 2, 200, "Purdue Union", "Indy", 5, "12 am", "2 pm", "10 pm",
-                "Ride to Indy", false);
+                "Ride to Indy", false, false);
         Ride ride4  = new Ride(1, 2, 200, "Purdue Union", "FortWayne", 5, "12 am", "2 pm", "10 pm",
-                "Ride to FortWayne", false);
+                "Ride to FortWayne", false, false);
 
         arrayList.add(ride1);
         arrayList.add(ride2);
