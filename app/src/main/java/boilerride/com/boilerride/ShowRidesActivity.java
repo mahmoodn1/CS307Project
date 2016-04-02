@@ -3,6 +3,8 @@ package boilerride.com.boilerride;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
@@ -12,6 +14,8 @@ import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.FragmentManager;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -24,15 +28,20 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.logging.Filter;
+
 import android.widget.ArrayAdapter;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import static android.Manifest.permission.READ_CONTACTS;
 
 /**
  * A login screen that offers login via email/password.
  */
-public class ShowRidesActivity extends AppCompatActivity{
+public class ShowRidesActivity extends AppCompatActivity implements FilterDialogFragment.FilterDialogFragmentListener {
+
 
     /**
      * Id to identity READ_CONTACTS permission request.
@@ -66,9 +75,21 @@ public class ShowRidesActivity extends AppCompatActivity{
             case R.id.menu_profile:
                 menuSettings();
                 return true;
-            case R.id.menu_offer:
+            case R.id.menu_filter:
                 menuFilter();
                 return true;
+            case R.id.type_all:
+                filter(true, true);
+                return true;
+            case R.id.type_offer:
+                filter(true, false);
+                return true;
+            case R.id.type_search:
+                filter(false, true);
+                return true;
+            //case R.id.menu_offer:
+            //    menuFilter();
+            //    return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -98,20 +119,25 @@ public class ShowRidesActivity extends AppCompatActivity{
 
 
 
+
+
         Ride ride1 = new Ride(1, 2, 200, "Purdue Union", "Chicago", 5, "12 am", "2 pm", "10 pm",
-                "Ride to Chicago airport");
+                "Ride to Chicago airport ORD", false, false);
         Ride ride2  = new Ride(1, 3, 100, "Purdue Airport", "Chicago", 5, "12 am", "2 pm", "10 pm",
-                "Ride to Chicago downtown");
+                "Ride to Chicago downtown", false, true);
         Ride ride3  = new Ride(1, 2, 200, "Purdue Union", "Indy", 5, "12 am", "2 pm", "10 pm",
-                "Ride to Indy");
+                "Ride to Indy", false, false);
         Ride ride4  = new Ride(1, 2, 200, "Purdue Union", "FortWayne", 5, "12 am", "2 pm", "10 pm",
-                "Ride to FortWayne");
+                "Ride to FortWayne", false, false);
+        // next thing you have to do is check if your adapter has changed
+
+
 
         arrayList.add(ride1);
         arrayList.add(ride2);
         arrayList.add(ride3);
         arrayList.add(ride4);
-        // next thing you have to do is check if your adapter has changed
+
         adapter.notifyDataSetChanged();
 
         FloatingActionButton myFab = (FloatingActionButton)  findViewById(R.id.showrides_fab);
@@ -156,25 +182,87 @@ public class ShowRidesActivity extends AppCompatActivity{
     private void menuStatus(){
         Intent intent = new Intent(this, SettingsActivity.class);
         startActivity(intent);
-<<<<<<< HEAD
-      //  finish();
-=======
-       // finish();
->>>>>>> 4d722bd623b7ab202d5b049e2f81bfac5cf9ee32
+
     }
     private void menuSettings(){
         Intent intent = new Intent(this, SettingsActivity.class);
         startActivity(intent);
-<<<<<<< HEAD
-      //  finish();
+
     }
     private void menuFilter() {
-        Intent intent = new Intent(this, SettingsActivity.class);
-        startActivity(intent);
-        //  finish();
-=======
-       // finish();
->>>>>>> 4d722bd623b7ab202d5b049e2f81bfac5cf9ee32
+
+
+        showFilterDialog();
+
+
+        //Intent intent = new Intent(this, SettingsActivity.class);
+        //startActivity(intent);
+
     }
+
+
+
+    private void showFilterDialog() {
+        FragmentManager fm = getSupportFragmentManager();
+        FilterDialogFragment editNameDialog = new FilterDialogFragment();
+
+        editNameDialog.show(fm, "HiHiHifragment_edit_name");
+    }
+
+    @Override
+    public void onFinishFilterDialogFragment(String inputText) {
+        Toast.makeText(this, "Hi, " + inputText, Toast.LENGTH_SHORT).show();
+    }
+
+    private void filter(Boolean offer, Boolean search)
+    {
+        ArrayList arrayList = new ArrayList<Ride>();
+        ArrayList NewArrayList = new ArrayList<Ride>();
+
+
+
+        Ride ride1 = new Ride(1, 2, 200, "Purdue Union", "Chicago", 5, "12 am", "2 pm", "10 pm",
+                "Ride to Chicago airport ORD", false, false);
+        Ride ride2  = new Ride(1, 3, 100, "Purdue Airport", "Chicago", 5, "12 am", "2 pm", "10 pm",
+                "Ride to Chicago downtown", false, true);
+        Ride ride3  = new Ride(1, 2, 200, "Purdue Union", "Indy", 5, "12 am", "2 pm", "10 pm",
+                "Ride to Indy", false, false);
+        Ride ride4  = new Ride(1, 2, 200, "Purdue Union", "FortWayne", 5, "12 am", "2 pm", "10 pm",
+                "Ride to FortWayne", false, false);
+
+        arrayList.add(ride1);
+        arrayList.add(ride2);
+        arrayList.add(ride3);
+        arrayList.add(ride4);
+
+
+        Iterator<Ride> iter = arrayList.iterator();
+        while(iter.hasNext()){
+            Ride item = iter.next();
+
+            Boolean status = true;
+            // Boolean status = item.status;
+
+            if(((status == true) && (offer == true)) || ((status==false) && (search == true)))
+                NewArrayList.add(item);
+
+        }
+
+
+
+        ArrayAdapter adapter = new ArrayAdapter<Ride>(getApplicationContext(), android.R.layout.simple_spinner_item, NewArrayList){
+            @Override
+            public View getView(int position, View convertView, ViewGroup parent) {
+                View view = super.getView(position, convertView, parent);
+                TextView text = (TextView) view.findViewById(android.R.id.text1);
+                text.setTextColor(Color.BLACK);
+                return view;
+            }
+        };
+
+        list.setAdapter(adapter);
+
+    }
+
 }
 

@@ -24,13 +24,23 @@ import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.CompoundButton;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.SeekBar;
 import android.widget.Switch;
 import android.widget.TextView;
+import android.widget.TimePicker;
+
+
+import com.firebase.client.Firebase;
+import com.firebase.client.FirebaseError;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Calendar;
+import java.text.SimpleDateFormat;
+import java.util.HashMap;
+import java.util.Map;
 
 import static android.Manifest.permission.READ_CONTACTS;
 
@@ -55,17 +65,16 @@ public class CreateRideActivity extends AppCompatActivity implements LoaderCallb
     /**
      * Keep track of the login task to ensure we can cancel it if requested.
      */
-    private UserLoginTask mAuthTask = null;
+    private CreateRideTask mAuthTask = null;
 
     // UI references.
     private AutoCompleteTextView mDestView;
-    private EditText mPasswordView1;
-    private EditText mPasswordView2;
-    private EditText mFirstName;
-    private EditText mLastName;
+    private EditText mTitleView;
+    private EditText mOriginView;
     private View mProgressView;
     private View mLoginFormView;
-
+    private Ride ride;
+    private boolean type;
 
     private TextView Tv_price;
     private SeekBar mSeekbar;
@@ -74,11 +83,22 @@ public class CreateRideActivity extends AppCompatActivity implements LoaderCallb
     private TextView Tv_rideSeekers;
     private SeekBar mSeekbar3;
 
+    private Firebase myFirebase;
+    public double passengers = 1;
+    public double fare;
+    public double maxPassengers;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_createride);
+
+        Firebase.setAndroidContext(this);
+        myFirebase  = new Firebase("https://luminous-torch-1510.firebaseio.com/");
+
         // Set up the login form.
+        mTitleView = (EditText) findViewById(R.id.createride_title);
+        mOriginView = (EditText) findViewById(R.id.createride_origin);
         mDestView = (AutoCompleteTextView) findViewById(R.id.createride_destination);
         populateAutoComplete();
 
@@ -96,8 +116,8 @@ public class CreateRideActivity extends AppCompatActivity implements LoaderCallb
 
         mSeekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                double price = ((double) progress) / 100;
-                Tv_price.setText(Double.toString(price) + " USD");
+                fare = ((double) progress) / 100;
+                Tv_price.setText(Double.toString(fare));
             }
 
             public void onStartTrackingTouch(SeekBar seekBar) {
@@ -113,6 +133,7 @@ public class CreateRideActivity extends AppCompatActivity implements LoaderCallb
 
         mSeekbar2.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                maxPassengers = (progress + 1);
                 Tv_passengers.setText(Integer.toString(progress + 1));
             }
 
@@ -129,6 +150,7 @@ public class CreateRideActivity extends AppCompatActivity implements LoaderCallb
 
         mSeekbar3.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                //passengers = (progress + 1);
                 Tv_rideSeekers.setText(Integer.toString(progress + 1));
             }
 
@@ -149,6 +171,7 @@ public class CreateRideActivity extends AppCompatActivity implements LoaderCallb
                 TextView tv2=(TextView) findViewById(R.id.createride_textView2);
                 TextView tv3=(TextView) findViewById(R.id.createride_textView3);
 
+                type = isChecked;
                 if(isChecked)
                 {
                     mSeekbar.setVisibility(View.GONE);
@@ -236,6 +259,14 @@ public class CreateRideActivity extends AppCompatActivity implements LoaderCallb
 
         // Store values at the time of the post attempt.
         String destination = mDestView.getText().toString();
+        String origin = mOriginView.getText().toString();
+        String title = mTitleView.getText().toString();
+        String time = new SimpleDateFormat("yyyyMMdd_HHmmss").format(Calendar.getInstance().getTime());
+        DatePicker dp = (DatePicker) findViewById(R.id.dlgDateTimePickerDate);
+        TimePicker tp = (TimePicker) findViewById(R.id.dlgDateTimePickerTime);
+        Calendar cal = Calendar.getInstance();
+        cal.set(dp.getYear(), dp.getMonth(), dp.getDayOfMonth(), tp.getCurrentHour(), tp.getCurrentMinute());
+        String depart = new SimpleDateFormat("yyyyMMdd_HHmmss").format(cal.getTime());
 
         boolean cancel = false;
         View focusView = null;
@@ -247,6 +278,20 @@ public class CreateRideActivity extends AppCompatActivity implements LoaderCallb
             cancel = true;
         }
 
+        if (TextUtils.isEmpty(origin)) {
+            mDestView.setError(getString(R.string.error_field_required));
+            focusView = mOriginView;
+            cancel = true;
+        }
+
+        if (TextUtils.isEmpty(title)) {
+            mDestView.setError(getString(R.string.error_field_required));
+            focusView = mTitleView;
+            cancel = true;
+        }
+
+
+
         if (cancel) {
             // There was an error; don't attempt login and focus the first
             // form field with an error.
@@ -255,7 +300,8 @@ public class CreateRideActivity extends AppCompatActivity implements LoaderCallb
             // Show a progress spinner, and kick off a background task to
             // perform the user login attempt.
             showProgress(true);
-            mAuthTask = new UserLoginTask(destination, "Chicago");
+            mAuthTask = new CreateRideTask(passengers, fare, 1, origin, destination, maxPassengers, depart, "forever", time,
+                    title, type);
             mAuthTask.execute((Void) null);
         }
     }
@@ -354,40 +400,67 @@ public class CreateRideActivity extends AppCompatActivity implements LoaderCallb
      * Represents an asynchronous login/registration task used to authenticate
      * the user.
      */
-    public class UserLoginTask extends AsyncTask<Void, Void, Boolean> {
+    public class CreateRideTask extends AsyncTask<Void, Void, Boolean> {
+        private boolean type; // 0 = offer 1 = request
+        private double numOfPassengers;
+        private double fare;
+        private double distance;
+        private String origin;
+        private String destination;
+        private double maxPassengers;
+        private String departTime;
+        private String arrivalTime;
+        private String timePosted;
+        private String title;
 
-        private final String mEmail;
-        private final String mPassword;
-
-        UserLoginTask(String email, String password) {
-            mEmail = email;
-            mPassword = password;
+        CreateRideTask(double numOfPassengers, double fare, double distance, String origin, String destination, double maxPassengers, String departTime, String arrivalTime, String timePosted,
+                       String title, boolean type) {
+            this.numOfPassengers = numOfPassengers;
+            this.fare = fare;
+            this.distance = distance;
+            this.origin = origin;
+            this.destination = destination;
+            this.maxPassengers = maxPassengers;
+            this.departTime = departTime;
+            this.arrivalTime = arrivalTime;
+            this.timePosted = timePosted;
+            this.title = title;
+            this.type = type;
         }
 
-        @Override
         protected Boolean doInBackground(Void... params) {
             // TODO: attempt authentication against a network service.
 
             try {
+                Firebase fireRide = myFirebase.child("rides");
+                Map<String, String> ride1 = new HashMap<String, String>();
+                ride1.put("numOfPassengers", String.valueOf(numOfPassengers));
+                ride1.put("fare", String.valueOf(fare));
+                ride1.put("distance", String.valueOf(distance));
+                ride1.put("origin", origin);
+                ride1.put("destination", destination);
+                ride1.put("maxPassengers", String.valueOf(maxPassengers));
+                ride1.put("departTime", departTime);
+                ride1.put("arrivalTime", arrivalTime);
+                ride1.put("timePosted", timePosted);
+                ride1.put("title", title);
+                if (type == false) {
+                    ride1.put("type", "offer");
+                }
+                else
+                    ride1.put("type", "request");
+
+                fireRide.push().setValue(ride1);
                 // Simulate network access.
-                Thread.sleep(2000);
+                Thread.sleep(500);
             } catch (InterruptedException e) {
                 return false;
-            }
-
-            for (String credential : DUMMY_CREDENTIALS) {
-                String[] pieces = credential.split(":");
-                if (pieces[0].equals(mEmail)) {
-                    // Account exists, return true if the password matches.
-                    return pieces[1].equals(mPassword);
-                }
             }
 
             // TODO: register the new account here.
             return true;
         }
 
-        @Override
         protected void onPostExecute(final Boolean success) {
             mAuthTask = null;
             showProgress(false);
@@ -395,12 +468,11 @@ public class CreateRideActivity extends AppCompatActivity implements LoaderCallb
             if (success) {
                 startShowRidesActivity();
             } else {
-                mPasswordView1.setError(getString(R.string.error_incorrect_password));
-                mPasswordView1.requestFocus();
+                mTitleView.setError("Ride could not be created. Try again.");
+                mTitleView.requestFocus();
             }
         }
 
-        @Override
         protected void onCancelled() {
             mAuthTask = null;
             showProgress(false);

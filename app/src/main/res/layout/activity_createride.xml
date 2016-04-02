@@ -59,6 +59,12 @@
             </LinearLayout>
 
             <EditText
+                android:id="@+id/createride_title"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:hint="Title" />
+
+            <EditText
                 android:id="@+id/createride_origin"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
