@@ -28,6 +28,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.firebase.client.Firebase;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -124,7 +126,6 @@ public class StartActivity extends AppCompatActivity{
      * errors are presented and no actual login attempt is made.
      */
     private void startLoginActivity() {
-
         Intent intent = new Intent(this, LoginActivity.class);
         startActivity(intent);
 
