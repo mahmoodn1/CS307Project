@@ -329,6 +329,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                     @Override
                     public void onAuthenticated(AuthData authData) {
                         System.out.println("User ID: " + authData.getUid() + ", Provider: " + authData.getProvider());
+                        CentralData.uid = authData.getUid();
                         CentralData.email = mEmail;
                         onPostExecute(true);
                     }

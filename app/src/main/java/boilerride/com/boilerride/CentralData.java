@@ -5,4 +5,5 @@ package boilerride.com.boilerride;
  */
 public class CentralData {
     public static String email;
+    public static String uid;
 }

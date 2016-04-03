@@ -44,7 +44,6 @@ public class SettingsActivity extends AppCompatActivity {
 
     private Firebase myFirebase = new Firebase("https://luminous-torch-1510.firebaseio.com/users");
 
-    private String Key;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -61,34 +60,23 @@ public class SettingsActivity extends AppCompatActivity {
         tv_newpassword1 = (EditText)findViewById(R.id.newPassword1);
         tv_newpassword2 = (EditText)findViewById(R.id.newPassword2);
 
-
-        Query queryRef = myFirebase.orderByChild("email").equalTo(CentralData.email);
+        Query queryRef = myFirebase.child(CentralData.uid);
 
         queryRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot snapshot) {
                 if (snapshot == null) {
-                    Log.d("SNAPSHOT NULL:", "FUCK YOU");
+                    Log.d("SNAPSHOT NULL:", "ERROR SNAPSHOT DOES NOT EXIST");
                 } else {
-                    Log.d("LETS SEE:", "SI");
-
-                    String a = snapshot.getValue().toString();
-                    System.out.println("TOTAL" + a);
-                    //String email = (String) snapshot.child("email").getValue();
-                    //User logged =snapshot.getValue(User.class);
-                    // System.out.println("SUBSTRING "+a.substring(a.indexOf("phoneNumber=") + "phoneNumber=".length() ,
-                    //       a.indexOf(", firstName")));
-                    System.out.println("Phone number: " + getPhoneNumber(a));
-                    System.out.println("Firstname : " + getFirstName(a));
-                    System.out.println("Lastname : " + getLastname(a));
-                    System.out.println("Email : " + getEmail(a));
-                    System.out.println("Key: " + getKey(a));
-                    old_email = getEmail(a);
-                    tv_firstname.setText(getFirstName(a));
-                    tv_lastname.setText(getLastname(a));
-                    tv_email.setText(getEmail(a));
-                    tv_phone.setText(getPhoneNumber(a));
-                    Key = getKey(a);
+                    Log.d("SNAPSHOT EXISTS:", "YAY");
+                    User user = snapshot.getValue(User.class);
+                    //String email = snapshot.child("email").getValue().toString(); //THIS WORKS TOO
+                    System.out.println("EMAIL IS "+user.getEmail());
+                    old_email = user.getEmail();
+                    tv_firstname.setText(user.getFirstName());
+                    tv_lastname.setText(user.getLastName());
+                    tv_email.setText(user.getEmail());
+                    tv_phone.setText(user.getPhoneNumber());
 
                     Button submitChanges = (Button) findViewById(R.id.submit_profile_changes_button);
                     submitChanges.setOnClickListener(new View.OnClickListener() {
@@ -97,22 +85,15 @@ public class SettingsActivity extends AppCompatActivity {
                             attemptSubmitChanges();
                         }
                     });
-                    /*
-                    Button submitEmail = (Button) findViewById(R.id.changeEmailButton);
-                    submitEmail.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            attemptChangeEmail();
-                        }
-                    });
-                    */
                     Button submitPassword = (Button) findViewById(R.id.changePwdButton);
                     submitPassword.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
                             attemptchangePassword();
                         }
+
                     });
+
                 }
             }
             //{-KByr1nljsb6SOCvUYmo={phoneNumber=jskskd, firstName=jsksks, lastName=hfksks, email=mliuzhan@purdue.edu}}
@@ -129,9 +110,8 @@ public class SettingsActivity extends AppCompatActivity {
         String firstname= tv_firstname.getText().toString();
         String lastname = tv_lastname.getText().toString();
         String phone = tv_phone.getText().toString();
-        //String email = tv_email.getText().toString();
 
-        Firebase node = myFirebase.child(Key);
+        Firebase node = myFirebase.child(CentralData.uid);
         Map<String, Object> newFirstname = new HashMap<String, Object>();
         newFirstname.put("firstName", firstname);
         node.updateChildren(newFirstname);
@@ -153,39 +133,6 @@ public class SettingsActivity extends AppCompatActivity {
         //Firebase changeEmail = new Firebase("https://luminous-torch-1510.firebaseio.com/");
     }
 
-    /*
-    private void attemptChangeEmail(){
-
-        String password= tv_password_mail.getText().toString();
-        final String email = tv_email.getText().toString();
-
-        if(isEmailValid(email)) {
-
-
-            Firebase changeEmail = new Firebase("https://luminous-torch-1510.firebaseio.com/");
-
-            changeEmail.changeEmail(old_email, password, email, new ResultHandler() {
-                @Override
-                public void onSuccess() {
-                    // email changed
-                    Firebase node = myFirebase.child(Key);
-                    Map<String, Object> newEmail = new HashMap<String, Object>();
-                    newEmail.put("email", email);
-                    node.updateChildren(newEmail);
-                    Toast.makeText(getApplicationContext(), "Email changed", Toast.LENGTH_LONG).show();
-                    startSettingsActivity();
-                }
-
-                @Override
-                public void onError(FirebaseError Error) {
-                    Toast.makeText(getApplicationContext(), "Error in changing email", Toast.LENGTH_LONG).show();
-                }
-            });
-        }else{
-            Toast.makeText(getApplicationContext(), "Email is not valid", Toast.LENGTH_LONG).show();
-        }
-    }
-    */
     private void attemptchangePassword(){
         String oldpassword = tv_oldpassword.getText().toString();
         String newpassword1 = tv_newpassword1.getText().toString();
@@ -194,7 +141,6 @@ public class SettingsActivity extends AppCompatActivity {
         System.out.println("NEW PASSWORD1: " + newpassword1);
         System.out.println("NEW PASSWORD2: " + newpassword2);
         if(newpassword1.equals(newpassword2)) {
-            System.out.println("ESTOY DENTRO DEL IF");
             Firebase changePassword = new Firebase("https://luminous-torch-1510.firebaseio.com/");
             changePassword.changePassword(old_email, oldpassword, newpassword1, new Firebase.ResultHandler() {
                 @Override
@@ -210,44 +156,10 @@ public class SettingsActivity extends AppCompatActivity {
                     Toast.makeText(getApplicationContext(), "Error in changing password", Toast.LENGTH_LONG).show();
                     System.out.println("ERROR IN CHANGING PASSWORD");
                 }
-
-
             });
         }else{
             System.out.println("NO ESTOY DENTRO DEL IF");
             Toast.makeText(getApplicationContext(), "Incorrect Password", Toast.LENGTH_LONG).show();
         }
-
     }
-
-    private void startSettingsActivity()
-    {
-        Intent intent = new Intent(this, SettingsActivity.class);
-        startActivity(intent);
-        finish();
-    }
-
-    private String getKey(String text){
-        return text.substring(text.indexOf("{") + "{".length() , text.indexOf("={"));
-    }
-
-    private boolean isEmailValid(String email) {
-        return !TextUtils.isEmpty(email) && android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches() && email.contains("@purdue.edu");
-    }
-    private String getPhoneNumber(String text){
-        return text.substring(text.indexOf("phoneNumber=") + "phoneNumber=".length() , text.indexOf(", firstName"));
-    }
-
-    private String getFirstName(String text){
-        return text.substring(text.indexOf("firstName=") + "firstName=".length() , text.indexOf(", lastName"));
-    }
-
-    private String getLastname(String text){
-        return text.substring(text.indexOf("lastName=") + "lastName=".length() , text.indexOf(", email"));
-    }
-
-    private String getEmail(String text){
-        return text.substring(text.indexOf("email=") + "email=".length() , text.indexOf("}}"));
-    }
-
 }
