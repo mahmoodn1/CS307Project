@@ -65,7 +65,7 @@ public class RideList {
 
 
                         Ride ride = new Ride(numOfPassengers, fare, distance, origin, destination, maxPassengers, departTime, arrivalTime,
-                                timePosted, title, type);
+                                timePosted, title, type, CentralData.uid);
                         listofRides.add(ride);
                     }
                 }

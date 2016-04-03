@@ -33,29 +33,16 @@ import android.widget.TextView;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-<<<<<<< HEAD
 import java.util.Iterator;
 import java.util.logging.Filter;
-=======
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
->>>>>>> nadeem
 
 import android.widget.ArrayAdapter;
 import android.widget.AdapterView;
 import android.view.ViewGroup;
-<<<<<<< HEAD
 import android.widget.Toast;
-
-import static android.Manifest.permission.READ_CONTACTS;
-
-/**
- * A login screen that offers login via email/password.
- */
-public class ShowRidesActivity extends AppCompatActivity implements FilterDialogFragment.FilterDialogFragmentListener {
-
-=======
 import android.widget.AdapterView.OnItemClickListener;
 import android.view.*;
 import android.widget.TimePicker;
@@ -68,23 +55,22 @@ import com.firebase.client.Query;
 
 import static android.Manifest.permission.READ_CONTACTS;
 
-public class ShowRidesActivity extends AppCompatActivity{
->>>>>>> nadeem
+/**
+ * A login screen that offers login via email/password.
+ */
+public class ShowRidesActivity extends AppCompatActivity implements FilterDialogFragment.FilterDialogFragmentListener {
+
 
 
     public Firebase myFirebase;
     private ArrayList<Ride> listofRides = new ArrayList <Ride>();
-    public int counter = 0;
 
     /**
      * Keep track of the login task to ensure we can cancel it if requested.
      */
     private GetRideTask mAuthTask = null;
-    ArrayAdapter adapter;
+    public ArrayAdapter adapter;
 
-    // UI references.
-    private AutoCompleteTextView mDestView;
-    private EditText mTitleView;
 
     private ListView list;
 
@@ -130,7 +116,6 @@ public class ShowRidesActivity extends AppCompatActivity{
         setContentView(R.layout.activity_showrides);
         // Set up the login form.
 
-        counter = 1;
         Firebase.setAndroidContext(this);
         myFirebase  = new Firebase("https://luminous-torch-1510.firebaseio.com/rides");
         attemptPull();
@@ -152,35 +137,7 @@ public class ShowRidesActivity extends AppCompatActivity{
         // Here, you set the data in your ListView
         list.setAdapter(adapter);
 
-        /*Ride ride1 = new Ride(1, 2, 200, "Purdue Union", "Chicago", 5, "12 am", "2 pm", "10 pm",
-                "Ride to Chicago airport", true);
-
-        rides.add(ride1);*/
-        // next thing you have to do is check if your adapter has changed
-
-<<<<<<< HEAD
-
-
-        Ride ride1 = new Ride(1, 2, 200, "Purdue Union", "Chicago", 5, "12 am", "2 pm", "10 pm",
-                "Ride to Chicago airport ORD", false, false);
-        Ride ride2  = new Ride(1, 3, 100, "Purdue Airport", "Chicago", 5, "12 am", "2 pm", "10 pm",
-                "Ride to Chicago downtown", false, true);
-        Ride ride3  = new Ride(1, 2, 200, "Purdue Union", "Indy", 5, "12 am", "2 pm", "10 pm",
-                "Ride to Indy", false, false);
-        Ride ride4  = new Ride(1, 2, 200, "Purdue Union", "FortWayne", 5, "12 am", "2 pm", "10 pm",
-                "Ride to FortWayne", false, false);
-        // next thing you have to do is check if your adapter has changed
-
-
-
-        arrayList.add(ride1);
-        arrayList.add(ride2);
-        arrayList.add(ride3);
-        arrayList.add(ride4);
-
         adapter.notifyDataSetChanged();
-=======
-
         list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapter, View view, int position, long arg) {
@@ -188,8 +145,6 @@ public class ShowRidesActivity extends AppCompatActivity{
                 startActivity(intent);
             }
         });
->>>>>>> nadeem
-
         FloatingActionButton myFab = (FloatingActionButton)  findViewById(R.id.showrides_fab);
         myFab.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -292,38 +247,18 @@ public class ShowRidesActivity extends AppCompatActivity{
     public void onFinishFilterDialogFragment(String inputText) {
         Toast.makeText(this, "Hi, " + inputText, Toast.LENGTH_SHORT).show();
     }
-<<<<<<< HEAD
 
     private void filter(Boolean offer, Boolean search)
     {
-        ArrayList arrayList = new ArrayList<Ride>();
         ArrayList NewArrayList = new ArrayList<Ride>();
 
 
-
-        Ride ride1 = new Ride(1, 2, 200, "Purdue Union", "Chicago", 5, "12 am", "2 pm", "10 pm",
-                "Ride to Chicago airport ORD", false, false);
-        Ride ride2  = new Ride(1, 3, 100, "Purdue Airport", "Chicago", 5, "12 am", "2 pm", "10 pm",
-                "Ride to Chicago downtown", false, true);
-        Ride ride3  = new Ride(1, 2, 200, "Purdue Union", "Indy", 5, "12 am", "2 pm", "10 pm",
-                "Ride to Indy", false, false);
-        Ride ride4  = new Ride(1, 2, 200, "Purdue Union", "FortWayne", 5, "12 am", "2 pm", "10 pm",
-                "Ride to FortWayne", false, false);
-
-        arrayList.add(ride1);
-        arrayList.add(ride2);
-        arrayList.add(ride3);
-        arrayList.add(ride4);
-
-
-        Iterator<Ride> iter = arrayList.iterator();
+        Iterator<Ride> iter = listofRides.iterator();
         while(iter.hasNext()){
             Ride item = iter.next();
+            Boolean status = item.type;
 
-            Boolean status = true;
-            // Boolean status = item.status;
-
-            if(((status == true) && (offer == true)) || ((status==false) && (search == true)))
+            if((offer && !status) || (search && status))
                 NewArrayList.add(item);
 
         }
@@ -344,9 +279,6 @@ public class ShowRidesActivity extends AppCompatActivity{
 
     }
 
-}
-=======
->>>>>>> nadeem
 
     /**
      * Shows the progress UI and hides the login form.
@@ -446,7 +378,7 @@ public class ShowRidesActivity extends AppCompatActivity{
 
 
                             Ride ride = new Ride(numOfPassengers, fare, distance, origin, destination, maxPassengers, departTime, arrivalTime,
-                                    timePosted, title, type);
+                                    timePosted, title, type, CentralData.uid);
                             listofRides.add(ride);
                         }
                         adapter.notifyDataSetChanged();
