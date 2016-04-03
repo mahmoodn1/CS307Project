@@ -86,6 +86,43 @@ public class RideCreatorActivity extends AppCompatActivity {
                 System.out.println("The read failed: " + firebaseError.getMessage());
             }
         });
+
+        /*
+        * The structure should be:
+        * key{
+        *   email
+        *   emailpublic
+        *   firstname
+        *   ...
+        *   comments{
+        *       key{
+        *           comment 1
+        *       }
+        *       key {
+        *           comment 2
+        *       }
+        *   }
+        * }
+        *
+        * */
+        Query queryComments = myFirebase.child(CentralData.uid).child("comments").orderByChild("comment");
+        queryRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot snapshot) {
+                if (snapshot == null) {
+                    Log.d("SNAPSHOT NULL:", "ERROR SNAPSHOT DOES NOT EXIST");
+                } else {
+
+                }
+            }
+
+            @Override
+            public void onCancelled(FirebaseError firebaseError) {
+                System.out.println("The read failed: " + firebaseError.getMessage());
+            }
+        });
+
+
     }
 
 }
