@@ -241,7 +241,7 @@ public class ShowRidesActivity extends AppCompatActivity implements FilterDialog
         if (v.getId()==R.id.showrides_listView) {
             AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo)menuInfo;
             menu.setHeaderTitle("Hello");
-            String[] menuItems = new String[20];
+            String[] menuItems = new String[1   ];
             menuItems[0] = "Edit ride";
             for (int i = 0; i<menuItems.length; i++) {
                 menu.add(Menu.NONE, i, i, menuItems[i]);
@@ -257,8 +257,9 @@ public class ShowRidesActivity extends AppCompatActivity implements FilterDialog
 
 
         // Check if my ride
+        CentralData.RideList=listofRides;
         Intent intent = new Intent(this, CreateRideActivity.class);
-        intent.putExtra("ChangeRide", 2); // Pass ride id
+        intent.putExtra("ChangeRide", listPosition); // Pass ride id
         startActivity(intent);
 
 
@@ -382,27 +383,19 @@ public class ShowRidesActivity extends AppCompatActivity implements FilterDialog
                         System.out.println("There are " + snapshot.getChildrenCount() + " rides");
                         for (DataSnapshot postSnapshot : snapshot.getChildren()) {
                             //Ride ride = postSnapshot.getValue(Ride.class);
-                            String rideString = postSnapshot.getValue().toString();
-                            String[] rideA = rideString.split(",");
-                            String value;
-                            for (int i = 0; i < rideA.length - 1; i++) {
-                                rideA[i] = rideA[i].substring(rideA[i].indexOf("=") + 1);
-                            }
-                            rideA[rideA.length - 1] = rideA[rideA.length - 1].substring(rideA[rideA.length - 1].indexOf("=") + 1);
-                            rideA[rideA.length - 1] = rideA[rideA.length - 1].substring(0, rideA[rideA.length - 1].indexOf("}"));
 
 
-                            double numOfPassengers = Double.valueOf(rideA[8]);
-                            double fare = Double.valueOf(rideA[10]);
-                            double distance = Double.valueOf(rideA[7]);
-                            String origin = rideA[6];
-                            String destination = rideA[2];
-                            double maxPassengers = Double.valueOf(rideA[5]);
-                            String departTime = rideA[3];
-                            String arrivalTime = rideA[0];
-                            String timePosted = rideA[1];
-                            String title = rideA[4];
-                            String type1 = rideA[9];
+                            double numOfPassengers = Double.valueOf(postSnapshot.child("numOfPassengers").getValue().toString());
+                            double fare = Double.valueOf(postSnapshot.child("fare").getValue().toString());
+                            double distance = Double.valueOf(postSnapshot.child("distance").getValue().toString());
+                            String origin = postSnapshot.child("origin").getValue().toString();
+                            String destination = postSnapshot.child("destination").getValue().toString();
+                            double maxPassengers = Double.valueOf(postSnapshot.child("maxPassengers").getValue().toString());
+                            String departTime = postSnapshot.child("departTime").getValue().toString();
+                            String arrivalTime = postSnapshot.child("arrivalTime").getValue().toString();
+                            String timePosted = postSnapshot.child("timePosted").getValue().toString();
+                            String title = postSnapshot.child("title").getValue().toString();
+                            String type1 = postSnapshot.child("type").getValue().toString();
                             boolean type;
                             if (type1.equals("offer"))
                                 type = false;

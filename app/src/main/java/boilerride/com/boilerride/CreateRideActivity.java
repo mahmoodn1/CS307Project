@@ -198,6 +198,33 @@ public class CreateRideActivity extends AppCompatActivity implements LoaderCallb
                 }
             }
         });
+
+
+        Bundle extras = getIntent().getExtras();
+        int rideId;
+
+        if (extras != null) {
+            rideId = extras.getInt("ChangeRide");
+            Ride ride=CentralData.RideList.get(rideId);
+            mTitleView.setText(ride.title);
+            mOriginView.setText(ride.origin);
+            mDestView.setText(ride.destination);
+            sw.setChecked(ride.type);
+
+            if(!ride.type)
+            {
+                int progr=(int)(ride.fare*100);
+                mSeekbar.setProgress(progr);
+                mSeekbar2.setProgress(((int)ride.numOfPassengers)-1);
+            }
+            else
+            {
+                mSeekbar3.setProgress((int)ride.numOfPassengers-1);
+            }
+
+            // and get whatever type user account id is
+        }
+
     }
 
     private void populateAutoComplete() {
