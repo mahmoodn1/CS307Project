@@ -337,13 +337,13 @@ public class SignUpActivity extends AppCompatActivity implements LoaderCallbacks
             try {
                 // Simulate network access.
                 //myFirebase.createUser(email, password, new Firebase.ValueResultHandler<Map<String, Object>>(){
-                myFirebase.createUser(email, "gandu", new Firebase.ValueResultHandler<Map<String, Object>>() {
+                myFirebase.createUser(email, password, new Firebase.ValueResultHandler<Map<String, Object>>() {
                     @Override
                     public void onSuccess(Map<String, Object> result) {
                         //Log.d("CREATE USER SUCCESS:", email + " " + password);
-
+                        /*"1" because user information is public by default, user can change it in profile later*/
                         Firebase fireUser = myFirebase.child("users").child(result.get("uid").toString());
-                        User user2 = new User(firstName, lastName, email, phoneNumber);
+                        User user2 = new User(firstName, lastName, email, phoneNumber, "1", "1", "1", "1");
                         System.out.println("Successfully created user account with uid: " + result.get("uid"));
                         fireUser.setValue(user2);
 

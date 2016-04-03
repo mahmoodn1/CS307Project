@@ -28,7 +28,14 @@
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:text="         email"
             android:id="@+id/email_field" />
+        <CheckBox
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/checkBoxEmail"
+            android:checked="false"
+            android:text="Public?" />
     </LinearLayout>
+
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="wrap_content"
@@ -48,6 +55,13 @@
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:id="@+id/firstname_field"
             android:text="First name" />
+        <CheckBox
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/checkBoxFirstName"
+            android:layout_gravity="right"
+            android:checked="false"
+            android:text="Public?" />
     </LinearLayout>
 
     <LinearLayout
@@ -69,6 +83,13 @@
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="Lastname"
         android:id="@+id/lastname_field" />
+        <CheckBox
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/checkBoxLastName"
+            android:layout_gravity="right"
+            android:checked="false"
+            android:text="Public?" />
     </LinearLayout>
 
     <LinearLayout
@@ -90,6 +111,13 @@
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:text="Phone"
             android:id="@+id/phone_field" />
+        <CheckBox
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/checkBoxPhoneNumber"
+            android:layout_gravity="right"
+            android:checked="false"
+            android:text="Public?" />
     </LinearLayout>
 
 
