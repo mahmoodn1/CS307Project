@@ -283,9 +283,9 @@ public class ShowRidesActivity extends AppCompatActivity{
                 myFirebase.addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot snapshot) {
+                        listofRides.clear();
                         System.out.println("There are " + snapshot.getChildrenCount() + " rides");
                         for (DataSnapshot postSnapshot : snapshot.getChildren()) {
-                            listofRides.clear();
                             //Ride ride = postSnapshot.getValue(Ride.class);
                             String rideString = postSnapshot.getValue().toString();
                             String[] rideA = rideString.split(",");
