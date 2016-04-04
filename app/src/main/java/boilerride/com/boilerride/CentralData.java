@@ -6,4 +6,7 @@ package boilerride.com.boilerride;
 public class CentralData {
     public static String email;
     public static String uid;
+    /*LINK OF THE RIDE REQUESTED*/
+    public static String rideKey;
+
 }

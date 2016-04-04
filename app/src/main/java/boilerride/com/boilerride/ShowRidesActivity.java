@@ -64,7 +64,8 @@ public class ShowRidesActivity extends AppCompatActivity implements FilterDialog
 
     public Firebase myFirebase;
     private ArrayList<Ride> listofRides = new ArrayList <Ride>();
-
+    //ArrayList<Map<String, Ride>>listofRides2 = new ArrayList<Map<String,Ride>>();
+    private ArrayList<String> listofRidesKeys = new ArrayList <String>();
     /**
      * Keep track of the login task to ensure we can cancel it if requested.
      */
@@ -141,6 +142,7 @@ public class ShowRidesActivity extends AppCompatActivity implements FilterDialog
         list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapter, View view, int position, long arg) {
+                CentralData.rideKey = listofRidesKeys.get(position);
                 Intent intent = new Intent(getApplicationContext(), RideActivity.class);
                 startActivity(intent);
             }
@@ -349,37 +351,28 @@ public class ShowRidesActivity extends AppCompatActivity implements FilterDialog
                         System.out.println("There are " + snapshot.getChildrenCount() + " rides");
                         for (DataSnapshot postSnapshot : snapshot.getChildren()) {
                             //Ride ride = postSnapshot.getValue(Ride.class);
-                            String rideString = postSnapshot.getValue().toString();
-                            String[] rideA = rideString.split(",");
-                            String value;
-                            for (int i = 0; i < rideA.length - 1; i++) {
-                                rideA[i] = rideA[i].substring(rideA[i].indexOf("=") + 1);
-                            }
-                            rideA[rideA.length - 1] = rideA[rideA.length - 1].substring(rideA[rideA.length - 1].indexOf("=") + 1);
-                            rideA[rideA.length - 1] = rideA[rideA.length - 1].substring(0, rideA[rideA.length - 1].indexOf("}"));
 
-
-                            double numOfPassengers = Double.valueOf(rideA[8]);
-                            double fare = Double.valueOf(rideA[10]);
-                            double distance = Double.valueOf(rideA[7]);
-                            String origin = rideA[6];
-                            String destination = rideA[2];
-                            double maxPassengers = Double.valueOf(rideA[5]);
-                            String departTime = rideA[3];
-                            String arrivalTime = rideA[0];
-                            String timePosted = rideA[1];
-                            String title = rideA[4];
-                            String type1 = rideA[9];
+                            double numOfPassengers = Double.valueOf(postSnapshot.child("numOfPassengers").getValue().toString());
+                            double fare = Double.valueOf(postSnapshot.child("fare").getValue().toString());
+                            double distance = Double.valueOf(postSnapshot.child("distance").getValue().toString());
+                            String origin = postSnapshot.child("origin").getValue().toString();
+                            String destination = postSnapshot.child("destination").getValue().toString();
+                            double maxPassengers = Double.valueOf(postSnapshot.child("maxPassengers").getValue().toString());
+                            String departTime = postSnapshot.child("departTime").getValue().toString();
+                            String arrivalTime = postSnapshot.child("arrivalTime").getValue().toString();
+                            String timePosted = postSnapshot.child("timePosted").getValue().toString();
+                            String title = postSnapshot.child("title").getValue().toString();
+                            String type1 = postSnapshot.child("type").getValue().toString();
                             boolean type;
                             if (type1.equals("offer"))
                                 type = false;
                             else
                                 type = true;
 
-
                             Ride ride = new Ride(numOfPassengers, fare, distance, origin, destination, maxPassengers, departTime, arrivalTime,
                                     timePosted, title, type, CentralData.uid);
                             listofRides.add(ride);
+                            listofRidesKeys.add(postSnapshot.getKey());
                         }
                         adapter.notifyDataSetChanged();
                     }
