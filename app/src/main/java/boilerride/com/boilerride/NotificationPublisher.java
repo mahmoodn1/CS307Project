@@ -20,7 +20,8 @@ public class NotificationPublisher extends BroadcastReceiver {
 
         Notification notification = intent.getParcelableExtra(NOTIFICATION);
         int id = intent.getIntExtra(NOTIFICATION_ID, 0);
-        notificationManager.notify(id, notification);
+        if ((ShowRidesActivity.content) != null)
+            notificationManager.notify(id, notification);
 
     }
 }

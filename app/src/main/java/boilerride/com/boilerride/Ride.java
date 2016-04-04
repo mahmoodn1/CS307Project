@@ -11,13 +11,13 @@ public class Ride {
     private double fare;
     private double distance;
     private String origin;
-    private String destination;
+    public String destination;
     private double maxPassengers;
     private String departTime;
     private String arrivalTime;
     private String timePosted;
     private String title;
-    private String createdByUser;
+    public String createdByUser;
     private ArrayList<Passenger> listOfPassengers;
 
     public Ride(double numOfPassengers, double fare, double distance, String origin, String destination, double maxPassengers, String departTime, String arrivalTime, String timePosted,

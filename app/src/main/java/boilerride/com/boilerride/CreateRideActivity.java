@@ -301,7 +301,7 @@ public class CreateRideActivity extends AppCompatActivity implements LoaderCallb
             // perform the user login attempt.
             showProgress(true);
             mAuthTask = new CreateRideTask(passengers, fare, 1, origin, destination, maxPassengers, depart, "forever", time,
-                    title, type);
+                    title, type, CentralData.uid);
             mAuthTask.execute((Void) null);
         }
     }
@@ -412,9 +412,10 @@ public class CreateRideActivity extends AppCompatActivity implements LoaderCallb
         private String arrivalTime;
         private String timePosted;
         private String title;
+        private String uid;
 
         CreateRideTask(double numOfPassengers, double fare, double distance, String origin, String destination, double maxPassengers, String departTime, String arrivalTime, String timePosted,
-                       String title, boolean type) {
+                       String title, boolean type, String uid) {
             this.numOfPassengers = numOfPassengers;
             this.fare = fare;
             this.distance = distance;
@@ -426,6 +427,7 @@ public class CreateRideActivity extends AppCompatActivity implements LoaderCallb
             this.timePosted = timePosted;
             this.title = title;
             this.type = type;
+            this.uid = uid;
         }
 
         protected Boolean doInBackground(Void... params) {
@@ -444,6 +446,7 @@ public class CreateRideActivity extends AppCompatActivity implements LoaderCallb
                 ride1.put("arrivalTime", arrivalTime);
                 ride1.put("timePosted", timePosted);
                 ride1.put("title", title);
+                ride1.put("uid", uid);
                 if (type == false) {
                     ride1.put("type", "offer");
                 }
