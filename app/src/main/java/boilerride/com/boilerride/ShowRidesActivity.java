@@ -135,6 +135,7 @@ public class ShowRidesActivity extends AppCompatActivity implements FilterDialog
         attemptPull();
 
         list = (ListView) findViewById(R.id.showrides_listView);
+        registerForContextMenu(list);
 
         // Adapter: You need three parameters 'the context, id of the layout (it will be where the data is shown),
         // and the array that contains the data
@@ -302,6 +303,39 @@ public class ShowRidesActivity extends AppCompatActivity implements FilterDialog
         FilterDialogFragment editNameDialog = new FilterDialogFragment();
 
         editNameDialog.show(fm, "HiHiHifragment_edit_name");
+    }
+
+    @Override
+    public void onCreateContextMenu(ContextMenu menu, View v,
+                                    ContextMenu.ContextMenuInfo menuInfo) {
+        if (v.getId()==R.id.showrides_listView) {
+            AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo)menuInfo;
+            menu.setHeaderTitle("Hello");
+            String[] menuItems = new String[1   ];
+            menuItems[0] = "Edit ride";
+            for (int i = 0; i<menuItems.length; i++) {
+                menu.add(Menu.NONE, i, i, menuItems[i]);
+            }
+        }
+    }
+
+    @Override
+    public boolean onContextItemSelected(MenuItem item) {
+        AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
+        int listPosition = info.position;
+        //myList.get(listPosition).getTitle();//list item title
+
+
+        // Check if my ride
+        CentralData.RideList=listofRides;
+        Intent intent = new Intent(this, CreateRideActivity.class);
+        intent.putExtra("ChangeRide", listPosition); // Pass ride id
+        startActivity(intent);
+
+
+        // Open new Activity
+
+        return true;
     }
 
     @Override

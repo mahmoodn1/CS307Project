@@ -54,6 +54,8 @@ public class CreateRideActivity extends AppCompatActivity implements LoaderCallb
      */
     private static final int REQUEST_READ_CONTACTS = 0;
     Switch sw;
+    TimePicker tp;
+    DatePicker dp;
 
     /**
      * A dummy authentication store containing known user names and passwords.
@@ -150,7 +152,7 @@ public class CreateRideActivity extends AppCompatActivity implements LoaderCallb
 
         mSeekbar3.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                //passengers = (progress + 1);
+                passengers = (progress + 1);
                 Tv_rideSeekers.setText(Integer.toString(progress + 1));
             }
 
@@ -198,6 +200,60 @@ public class CreateRideActivity extends AppCompatActivity implements LoaderCallb
                 }
             }
         });
+
+
+        tp = (TimePicker) findViewById(R.id.dlgDateTimePickerTime);
+        dp = (DatePicker) findViewById(R.id.dlgDateTimePickerDate);
+
+
+        Bundle extras = getIntent().getExtras();
+        int rideId;
+
+        if (extras != null) {
+            rideId = extras.getInt("ChangeRide");
+            Ride ride=CentralData.RideList.get(rideId);
+            mTitleView.setText(ride.title);
+            mOriginView.setText(ride.origin);
+            mDestView.setText(ride.destination);
+            sw.setChecked(ride.type);
+
+            if(!ride.type)
+            {
+                int progr=(int)(ride.fare*100);
+                mSeekbar.setProgress(progr);
+                mSeekbar2.setProgress(((int)ride.maxPassengers)-1);
+            }
+            else
+            {
+                mSeekbar3.setProgress((int)ride.numOfPassengers-1);
+            }
+
+            int pos = ride.departTime.indexOf('_');
+
+            String depart_time=ride.departTime.substring(pos + 1);
+            String depart_date=ride.departTime.substring(0, pos);
+
+            String hour=depart_time.substring(0,2);
+            String minute=depart_time.substring(2,4);
+
+            String Year=depart_date.substring(0,4);
+            String Month=depart_date.substring(4,6);
+            String Day=depart_date.substring(6,8);
+
+            String a = "Hallo";
+
+            tp.setCurrentHour(Integer.parseInt(hour));
+            tp.setCurrentMinute(Integer.parseInt(minute));
+
+            int year=Integer.parseInt(Year);
+            int month=Integer.parseInt(Month);
+            int day=Integer.parseInt(Day);
+
+            dp.updateDate(year, month, day);
+
+            // and get whatever type user account id is
+        }
+
     }
 
     private void populateAutoComplete() {
@@ -262,8 +318,6 @@ public class CreateRideActivity extends AppCompatActivity implements LoaderCallb
         String origin = mOriginView.getText().toString();
         String title = mTitleView.getText().toString();
         String time = new SimpleDateFormat("yyyyMMdd_HHmmss").format(Calendar.getInstance().getTime());
-        DatePicker dp = (DatePicker) findViewById(R.id.dlgDateTimePickerDate);
-        TimePicker tp = (TimePicker) findViewById(R.id.dlgDateTimePickerTime);
         Calendar cal = Calendar.getInstance();
         cal.set(dp.getYear(), dp.getMonth(), dp.getDayOfMonth(), tp.getCurrentHour(), tp.getCurrentMinute());
         String depart = new SimpleDateFormat("yyyyMMdd_HHmmss").format(cal.getTime());
@@ -301,7 +355,7 @@ public class CreateRideActivity extends AppCompatActivity implements LoaderCallb
             // perform the user login attempt.
             showProgress(true);
             mAuthTask = new CreateRideTask(passengers, fare, 1, origin, destination, maxPassengers, depart, "forever", time,
-                    title, type, CentralData.uid);
+                    title, type);
             mAuthTask.execute((Void) null);
         }
     }
@@ -412,10 +466,9 @@ public class CreateRideActivity extends AppCompatActivity implements LoaderCallb
         private String arrivalTime;
         private String timePosted;
         private String title;
-        private String uid;
 
         CreateRideTask(double numOfPassengers, double fare, double distance, String origin, String destination, double maxPassengers, String departTime, String arrivalTime, String timePosted,
-                       String title, boolean type, String uid) {
+                       String title, boolean type) {
             this.numOfPassengers = numOfPassengers;
             this.fare = fare;
             this.distance = distance;
@@ -427,7 +480,6 @@ public class CreateRideActivity extends AppCompatActivity implements LoaderCallb
             this.timePosted = timePosted;
             this.title = title;
             this.type = type;
-            this.uid = uid;
         }
 
         protected Boolean doInBackground(Void... params) {
@@ -446,7 +498,6 @@ public class CreateRideActivity extends AppCompatActivity implements LoaderCallb
                 ride1.put("arrivalTime", arrivalTime);
                 ride1.put("timePosted", timePosted);
                 ride1.put("title", title);
-                ride1.put("uid", uid);
                 if (type == false) {
                     ride1.put("type", "offer");
                 }
