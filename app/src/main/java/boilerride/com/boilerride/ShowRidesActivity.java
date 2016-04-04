@@ -70,7 +70,8 @@ public class ShowRidesActivity extends AppCompatActivity implements FilterDialog
 
 
     public Firebase myFirebase;
-    private static ArrayList<Ride> listofRides = new ArrayList <Ride>();
+    public static ArrayList<Ride> listofRides = new ArrayList <Ride>();
+    public static ArrayList<Ride> matches = new ArrayList<Ride>();
 
     /**
      * Keep track of the login task to ensure we can cancel it if requested.
@@ -79,7 +80,7 @@ public class ShowRidesActivity extends AppCompatActivity implements FilterDialog
     public ArrayAdapter adapter;
 
 
-    private ListView list;
+    public static ListView list;
     public static String content;
 
     @Override
@@ -237,7 +238,7 @@ public class ShowRidesActivity extends AppCompatActivity implements FilterDialog
                         .setContentText(content);
 
         // Creates an explicit intent for an Activity in your app
-        Intent resultIntent = new Intent(this, RideActivity.class);
+        Intent resultIntent = new Intent(this, ShowRidesActivity.class);
 
         // The stack builder object will contain an artificial back stack for the
         // started Activity.
@@ -245,7 +246,7 @@ public class ShowRidesActivity extends AppCompatActivity implements FilterDialog
         // your application to the Home screen.
         TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
         // Adds the back stack for the Intent (but not the Intent itself)
-        stackBuilder.addParentStack(RideActivity.class);
+        stackBuilder.addParentStack(ShowRidesActivity.class);
 
         // Adds the Intent that starts the Activity to the top of the stack
         stackBuilder.addNextIntent(resultIntent);
@@ -273,31 +274,17 @@ public class ShowRidesActivity extends AppCompatActivity implements FilterDialog
             }
         }
 
-        ArrayList<Ride> matches = new ArrayList<Ride>();
+        matches = new ArrayList<Ride>();
         for (Ride ride1 : listofRides) {
             for (Ride ride2 : userRides) {
-                if((ride1.destination).equals((ride2.destination))) {
+                if((ride1.destination).equals((ride2.destination)) && !((ride1.createdByUser).equals(ride2.createdByUser))) {
                     matches.add(ride1);
                 }
             }
         }
 
-        if (matches.size() > 0) {
-            ArrayAdapter adapter = new ArrayAdapter<Ride>(getApplicationContext(), android.R.layout.simple_spinner_item, matches) {
-                @Override
-                public View getView(int position, View convertView, ViewGroup parent) {
-                    View view = super.getView(position, convertView, parent);
-                    TextView text = (TextView) view.findViewById(android.R.id.text1);
-                    text.setTextColor(Color.BLACK);
-                    return view;
-                }
-            };
-            list.setAdapter(adapter);
-        }
-
-
-        if (userRides.size() > 0)
-            return userRides.get(0).destination;
+        if (matches.size() > 0)
+            return matches.get(0).destination;
 
         return null;
     }
