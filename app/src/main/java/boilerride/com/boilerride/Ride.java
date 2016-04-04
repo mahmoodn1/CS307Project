@@ -12,8 +12,8 @@ public class Ride {
     private double distance;
     public String origin;
     public String destination;
-    private double maxPassengers;
-    private String departTime;
+    public double maxPassengers;
+    public String departTime;
     private String arrivalTime;
     private String timePosted;
     public String title;

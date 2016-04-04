@@ -42,7 +42,8 @@
                     android:hint="Purdue email"
                     android:inputType="textEmailAddress"
                     android:maxLines="1"
-                    android:singleLine="true" />
+                    android:singleLine="true"
+                    android:text="mahmoodn@purdue.edu"/>
 
             </android.support.design.widget.TextInputLayout>
 
