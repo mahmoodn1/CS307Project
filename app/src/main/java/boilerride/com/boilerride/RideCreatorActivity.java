@@ -45,7 +45,7 @@ public class RideCreatorActivity extends AppCompatActivity {
         tv_phone=(TextView)findViewById(R.id.rideCreator_phoneF);
 
         /*CHANGE TO RIDE LINK*/
-        Query queryRef = myFirebase.child(CentralData.uid);
+        Query queryRef = myFirebase.child(CentralData.rideCreatorUid);
 
         queryRef.addValueEventListener(new ValueEventListener() {
             @Override

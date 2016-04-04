@@ -272,7 +272,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Ride Creator Profile"
-        android:id="@+id/ride_userprofile" />
+        android:id="@+id/ride_userprofileButton" />
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/payment_fab"
@@ -282,16 +282,5 @@
         android:clickable="true"
         android:src="@drawable/android"/>
 </LinearLayout>
-
-        <android.support.design.widget.FloatingActionButton
-            android:id="@+id/showrides_fab"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom|end"
-            android:clickable="true"
-            android:layout_margin="16dp"
-            android:src="@drawable/ic_add"
-            app:layout_anchor="@id/showrides_listView"
-            app:layout_anchorGravity="bottom|right|end" />
     </android.support.design.widget.CoordinatorLayout>
 </android.support.v4.widget.DrawerLayout>

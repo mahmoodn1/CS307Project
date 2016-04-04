@@ -30,20 +30,18 @@ import org.w3c.dom.Text;
 
 public class RideActivity extends AppCompatActivity {
 
-    /*
-    private TextView tv_;
-    private TextView tv_lastname;
-    private TextView tv_phone;
-    private TextView tv_email;
 
-    private TextView tv_oldpassword;
-    private TextView tv_newpassword1;
-    private TextView tv_newpassword2;
-
-    private CheckBox emailChecked;
-    private CheckBox firstNameChecked;
-    private CheckBox lastNameChecked;
-    private CheckBox phoneChecked;
+    private TextView tv_arrivalTime;
+    private TextView tv_departTime;
+    private TextView tv_destination;
+    private TextView tv_distance;
+    private TextView tv_fare;
+    private TextView tv_maxPassengers;
+    private TextView tv_numOfPassengers;
+    private TextView tv_origin;
+    private TextView tv_timePosted;
+    private TextView tv_title;
+    private TextView tv_type;
 
     private Firebase myFirebase = new Firebase("https://luminous-torch-1510.firebaseio.com/rides");
 
@@ -51,22 +49,29 @@ public class RideActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.activity_settings);
+        setContentView(R.layout.activity_ride);
 
-        //tv_firstname=(EditText)findViewById(R.id.firstname_field);
-        tv_lastname=(EditText)findViewById(R.id.lastname_field);
-        tv_email=(TextView)findViewById(R.id.email_field);
-        tv_phone=(EditText)findViewById(R.id.phone_field);
-        emailChecked = (CheckBox)findViewById(R.id.checkBoxEmail);
-        firstNameChecked = (CheckBox)findViewById(R.id.checkBoxFirstName);
-        lastNameChecked = (CheckBox)findViewById(R.id.checkBoxLastName);
-        phoneChecked = (CheckBox)findViewById(R.id.checkBoxPhoneNumber);
+        tv_arrivalTime=(TextView)findViewById(R.id.ride_arrivalF);
+        tv_departTime=(TextView)findViewById(R.id.ride_departureF);
+        tv_destination=(TextView)findViewById(R.id.ride_destinationF);
+        tv_distance=(TextView)findViewById(R.id.ride_distanceF);
+        tv_fare=(TextView)findViewById(R.id.ride_fareF);
+        tv_maxPassengers=(TextView)findViewById(R.id.ride_maxpassengersF);
+        tv_numOfPassengers=(TextView)findViewById(R.id.ride_numberpassengersF);
+        tv_origin=(TextView)findViewById(R.id.ride_originf);
+        tv_timePosted=(TextView)findViewById(R.id.ride_timepostedF);
+        tv_title=(TextView)findViewById(R.id.ride_titleF);
+        tv_type=(TextView)findViewById(R.id.ride_typeF);
 
-        tv_oldpassword= (EditText)findViewById(R.id.oldPassword);
-        tv_newpassword1 = (EditText)findViewById(R.id.newPassword1);
-        tv_newpassword2 = (EditText)findViewById(R.id.newPassword2);
+        Button userProfileButton = (Button) findViewById(R.id.ride_userprofileButton);
+        userProfileButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                attemptRideCreatorActivity();
+            }
+        });
 
-        Query queryRef = myFirebase.child(CentralData.uid);
+        Query queryRef = myFirebase.child(CentralData.rideKey);
 
         queryRef.addValueEventListener(new ValueEventListener() {
             @Override
@@ -75,58 +80,26 @@ public class RideActivity extends AppCompatActivity {
                     Log.d("SNAPSHOT NULL:", "ERROR SNAPSHOT DOES NOT EXIST");
                 } else {
                     Log.d("SNAPSHOT EXISTS:", "YAY");
-                    User user = snapshot.getValue(User.class);
-                    //String email = snapshot.child("email").getValue().toString(); //THIS WORKS TOO
-                    System.out.println("EMAIL IS "+user.getEmail());
-                    //old_email = user.getEmail();
-                    //tv_firstname.setText(user.getFirstName());
-                    tv_lastname.setText(user.getLastName());
-                    tv_email.setText(user.getEmail());
-                    tv_phone.setText(user.getPhoneNumber());
-
-                    if(user.getEmailPublic().equals("1")){
-                        emailChecked.setChecked(true);
-                    }else{
-                        emailChecked.setChecked(false);
-                    }
-                    if(user.getFirstNamePublic().equals("1")){
-                        firstNameChecked.setChecked(true);
-                    }else{
-                        firstNameChecked.setChecked(false);
-                    }
-                    if(user.getLastNamePublic().equals("1")){
-                        lastNameChecked.setChecked(true);
-                    }else{
-                        lastNameChecked.setChecked(false);
-                    }
-                    if(user.getPhoneNumberPublic().equals("1")){
-                        phoneChecked.setChecked(true);
-                    }else{
-                        phoneChecked.setChecked(false);
-                    }
-
-
-
+                    tv_arrivalTime.setText(snapshot.child("arrivalTime").getValue().toString());
+                    tv_departTime.setText(snapshot.child("departTime").getValue().toString());
+                    tv_destination.setText(snapshot.child("destination").getValue().toString());
+                    tv_distance.setText(snapshot.child("distance").getValue().toString());;
+                    tv_fare.setText(snapshot.child("fare").getValue().toString());
+                    tv_maxPassengers.setText(snapshot.child("maxPassengers").getValue().toString());
+                    tv_numOfPassengers.setText(snapshot.child("numOfPassengers").getValue().toString());
+                    tv_origin.setText(snapshot.child("origin").getValue().toString());
+                    tv_timePosted.setText(snapshot.child("timePosted").getValue().toString());
+                    tv_title.setText(snapshot.child("title").getValue().toString());
+                    tv_type.setText(snapshot.child("type").getValue().toString());
+                    CentralData.rideCreatorUid = snapshot.child("uid").getValue().toString();
                 }
             }
-            //{-KByr1nljsb6SOCvUYmo={phoneNumber=jskskd, firstName=jsksks, lastName=hfksks, email=mliuzhan@purdue.edu}}
 
             @Override
             public void onCancelled(FirebaseError firebaseError) {
                 System.out.println("The read failed: " + firebaseError.getMessage());
             }
         });
-    }
-
-    */
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_ride);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         FloatingActionButton payment = (FloatingActionButton) findViewById(R.id.payment_fab);
         payment.setOnClickListener(new View.OnClickListener() {
@@ -138,6 +111,10 @@ public class RideActivity extends AppCompatActivity {
                 }
             }
         });
+    }
+    private void attemptRideCreatorActivity(){
+        Intent intent = new Intent(this, RideCreatorActivity.class);
+        startActivity(intent);
     }
 
 }

@@ -8,5 +8,6 @@ public class CentralData {
     public static String uid;
     /*LINK OF THE RIDE REQUESTED*/
     public static String rideKey;
+    public static String rideCreatorUid;
 
 }

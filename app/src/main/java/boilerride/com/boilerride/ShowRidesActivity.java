@@ -70,7 +70,7 @@ public class ShowRidesActivity extends AppCompatActivity implements FilterDialog
 
 
     public Firebase myFirebase;
-    
+
     //ArrayList<Map<String, Ride>>listofRides2 = new ArrayList<Map<String,Ride>>();
     private ArrayList<String> listofRidesKeys = new ArrayList <String>();
 
@@ -156,6 +156,7 @@ public class ShowRidesActivity extends AppCompatActivity implements FilterDialog
             @Override
             public void onItemClick(AdapterView<?> adapter, View view, int position, long arg) {
                 CentralData.rideKey = listofRidesKeys.get(position);
+                System.out.println("KEY OF THE RIDE IS " + CentralData.rideKey);
                 Intent intent = new Intent(getApplicationContext(), RideActivity.class);
                 startActivity(intent);
             }

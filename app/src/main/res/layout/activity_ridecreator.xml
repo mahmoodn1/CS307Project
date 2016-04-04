@@ -114,7 +114,7 @@
         android:layout_height="wrap_content"
         android:gravity="left"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="Ride Creator Information\n"
+        android:text="Ride Creator Ratings\n"
         android:textStyle="bold"
         android:id="@+id/rideCreator_commentsTitle" />
     <TextView
