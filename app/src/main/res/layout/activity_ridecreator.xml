@@ -24,6 +24,12 @@
             android:id="@+id/rideCreator_title" />
     </LinearLayout>
 
+    <ImageView android:id="@+id/img_gravatar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="visible"
+        />
+
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="wrap_content"

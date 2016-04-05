@@ -14,5 +14,6 @@ public class CentralData {
     public static String rideKey;
     public static String rideCreatorUid;
     public static ArrayList<Ride> RideList;
+    public static String gravatarURL;
 
 }

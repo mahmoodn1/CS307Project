@@ -1,5 +1,7 @@
 package boilerride.com.boilerride;
 
+import android.Manifest;
+import android.media.Image;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -10,19 +12,28 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.content.Intent;
+import android.net.Uri;
+import android.support.v4.content.ContextCompat;
+import android.support.v4.app.ActivityCompat;
+import android.content.pm.PackageManager;
 
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
 import com.firebase.client.Query;
 import com.firebase.client.ValueEventListener;
+import com.squareup.picasso.Picasso;
 
 import org.w3c.dom.Text;
 
 import java.util.HashMap;
 import java.util.Map;
+
+import fr.tkeunebr.gravatar.Gravatar;
 
 public class RideCreatorActivity extends AppCompatActivity {
 
@@ -39,10 +50,15 @@ public class RideCreatorActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_ridecreator);
 
+        ImageView gravatarImage = (ImageView)findViewById(R.id.img_gravatar);
+        CentralData.gravatarURL= Gravatar.init().with(CentralData.email).size(400).build();
+        Picasso.with(getApplicationContext()).load(CentralData.gravatarURL).into(gravatarImage);
+
         tv_firstname=(TextView)findViewById(R.id.rideCreator_firstnameF);
         tv_lastname=(TextView)findViewById(R.id.rideCreator_lastnameF);
         tv_email=(TextView)findViewById(R.id.rideCreator_emailF);
         tv_phone=(TextView)findViewById(R.id.rideCreator_phoneF);
+
 
         /*CHANGE TO RIDE LINK*/
         Query queryRef = myFirebase.child(CentralData.rideCreatorUid);
@@ -84,6 +100,29 @@ public class RideCreatorActivity extends AppCompatActivity {
             @Override
             public void onCancelled(FirebaseError firebaseError) {
                 System.out.println("The read failed: " + firebaseError.getMessage());
+            }
+        });
+
+        if ( ContextCompat.checkSelfPermission(this, Manifest.permission.CALL_PHONE ) != PackageManager.PERMISSION_GRANTED) {
+
+            ActivityCompat.requestPermissions(this, new String[] {  Manifest.permission.CALL_PHONE  },
+                    1);
+        }
+
+        tv_phone.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View arg0) {
+                // TODO Auto-generated method stub
+                String phone_no = tv_phone.getText().toString().replaceAll("-", "");
+                Intent callIntent = new Intent(Intent.ACTION_DIAL);
+                callIntent.setData(Uri.parse("tel:" + phone_no));
+                callIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                try {
+                    startActivity(callIntent);
+                } catch(SecurityException se) {
+
+                }
             }
         });
 
