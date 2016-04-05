@@ -24,7 +24,9 @@ import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.TaskStackBuilder;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -78,11 +80,16 @@ public class ShowRidesActivity extends AppCompatActivity implements FilterDialog
     public static ArrayList<Ride> matches = new ArrayList<Ride>();
 
 
+    public static ArrayList<Ride> listofRidesFiltered = new ArrayList <Ride>();
+    private ArrayList<String> listofRidesKeysFiltered = new ArrayList <String>();
+
     /**
      * Keep track of the login task to ensure we can cancel it if requested.
      */
     private GetRideTask mAuthTask = null;
     public ArrayAdapter adapter;
+
+    public EditText etSearch;
 
 
     public static ListView list;
@@ -137,9 +144,12 @@ public class ShowRidesActivity extends AppCompatActivity implements FilterDialog
         list = (ListView) findViewById(R.id.showrides_listView);
         registerForContextMenu(list);
 
+        listofRidesFiltered=(ArrayList)listofRides.clone();
+        listofRidesKeysFiltered=(ArrayList)listofRidesKeys.clone();
+
         // Adapter: You need three parameters 'the context, id of the layout (it will be where the data is shown),
         // and the array that contains the data
-        adapter = new ArrayAdapter<Ride>(getApplicationContext(), android.R.layout.simple_spinner_item, listofRides) {
+        adapter = new ArrayAdapter<Ride>(getApplicationContext(), android.R.layout.simple_spinner_item, listofRidesFiltered) {
             @Override
             public View getView(int position, View convertView, ViewGroup parent) {
                 View view = super.getView(position, convertView, parent);
@@ -156,7 +166,7 @@ public class ShowRidesActivity extends AppCompatActivity implements FilterDialog
         list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapter, View view, int position, long arg) {
-                CentralData.rideKey = listofRidesKeys.get(position);
+                CentralData.rideKey = listofRidesKeysFiltered.get(position);
                 System.out.println("KEY OF THE RIDE IS " + CentralData.rideKey);
                 Intent intent = new Intent(getApplicationContext(), RideActivity.class);
                 startActivity(intent);
@@ -167,6 +177,36 @@ public class ShowRidesActivity extends AppCompatActivity implements FilterDialog
             public void onClick(View v) {
                 startCreateRideActivity();
             }
+        });
+
+        etSearch = (EditText) findViewById(R.id.showrides_search);
+
+        etSearch.addTextChangedListener(new TextWatcher() {
+
+            public void afterTextChanged(Editable s) {
+
+                // you can call or do what you want with your EditText here
+                String a = "Hello";
+
+                listofRidesFiltered.clear();
+                listofRidesKeysFiltered.clear();
+
+
+                for(int i = 0; i<listofRides.size();i++)
+                {
+                    if(listofRides.get(i).title.toLowerCase().contains(s.toString().toLowerCase()))
+                    {
+                        listofRidesFiltered.add(listofRides.get(i));
+                        listofRidesKeysFiltered.add(listofRidesKeys.get(i));
+                    }
+                }
+                adapter.notifyDataSetChanged();
+
+            }
+
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+
+            public void onTextChanged(CharSequence s, int start, int before, int count) {}
         });
 
         scheduleNotification(1000);
@@ -208,6 +248,26 @@ public class ShowRidesActivity extends AppCompatActivity implements FilterDialog
     {
         Intent intent = new Intent(this, CreateRideActivity.class);
         startActivity(intent);
+    }
+
+    private void UpdateArrayAdapter()
+    {
+
+        // Adapter: You need three parameters 'the context, id of the layout (it will be where the data is shown),
+        // and the array that contains the data
+        adapter = new ArrayAdapter<Ride>(getApplicationContext(), android.R.layout.simple_spinner_item, listofRidesFiltered) {
+            @Override
+            public View getView(int position, View convertView, ViewGroup parent) {
+                View view = super.getView(position, convertView, parent);
+                TextView text = (TextView) view.findViewById(android.R.id.text1);
+                text.setTextColor(Color.BLACK);
+                return view;
+            }
+        };
+
+        list.setAdapter(adapter);
+
+        adapter.notifyDataSetChanged();
     }
 
 
@@ -276,14 +336,14 @@ public class ShowRidesActivity extends AppCompatActivity implements FilterDialog
     public String findMatches() {
         ArrayList<Ride> userRides = new ArrayList<Ride>();
         String user = CentralData.uid;
-        for (Ride r : listofRides) {
+        for (Ride r : listofRidesFiltered) {
             if((r.createdByUser).equals(CentralData.uid)) {
                 userRides.add(r);
             }
         }
 
         matches = new ArrayList<Ride>();
-        for (Ride ride1 : listofRides) {
+        for (Ride ride1 : listofRidesFiltered) {
             for (Ride ride2 : userRides) {
                 if((ride1.destination).equals((ride2.destination)) && !((ride1.createdByUser).equals(ride2.createdByUser))) {
                     matches.add(ride1);
@@ -327,7 +387,7 @@ public class ShowRidesActivity extends AppCompatActivity implements FilterDialog
 
 
         // Check if my ride
-        CentralData.RideList=listofRides;
+        CentralData.RideList=(ArrayList)listofRidesFiltered.clone();
         Intent intent = new Intent(this, CreateRideActivity.class);
         intent.putExtra("ChangeRide", listPosition); // Pass ride id
         startActivity(intent);
@@ -348,7 +408,7 @@ public class ShowRidesActivity extends AppCompatActivity implements FilterDialog
         ArrayList NewArrayList = new ArrayList<Ride>();
 
 
-        Iterator<Ride> iter = listofRides.iterator();
+        Iterator<Ride> iter = listofRidesFiltered.iterator();
         while(iter.hasNext()){
             Ride item = iter.next();
             Boolean status = item.type;
@@ -469,7 +529,9 @@ public class ShowRidesActivity extends AppCompatActivity implements FilterDialog
                             listofRides.add(ride);
                             listofRidesKeys.add(postSnapshot.getKey());
                         }
-                        adapter.notifyDataSetChanged();
+                        listofRidesFiltered=(ArrayList)listofRides.clone();
+                        listofRidesKeysFiltered=(ArrayList)listofRidesKeys.clone();
+                        UpdateArrayAdapter();
                     }
 
                     @Override
