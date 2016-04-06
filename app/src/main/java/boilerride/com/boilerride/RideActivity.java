@@ -18,6 +18,7 @@ import android.os.SystemClock;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.firebase.client.DataSnapshot;
@@ -83,7 +84,8 @@ public class RideActivity extends AppCompatActivity {
                     tv_arrivalTime.setText(snapshot.child("arrivalTime").getValue().toString());
                     tv_departTime.setText(snapshot.child("departTime").getValue().toString());
                     tv_destination.setText(snapshot.child("destination").getValue().toString());
-                    tv_distance.setText(snapshot.child("distance").getValue().toString());;
+                    tv_distance.setText(snapshot.child("distance").getValue().toString());
+                    ;
                     tv_fare.setText(snapshot.child("fare").getValue().toString());
                     tv_maxPassengers.setText(snapshot.child("maxPassengers").getValue().toString());
                     tv_numOfPassengers.setText(snapshot.child("numOfPassengers").getValue().toString());
@@ -92,6 +94,10 @@ public class RideActivity extends AppCompatActivity {
                     tv_title.setText(snapshot.child("title").getValue().toString());
                     tv_type.setText(snapshot.child("type").getValue().toString());
                     CentralData.rideCreatorUid = snapshot.child("uid").getValue().toString();
+
+                    CentralData.origin = snapshot.child("origin").getValue().toString();
+                    CentralData.destination = snapshot.child("destination").getValue().toString();
+
                 }
             }
 
@@ -101,8 +107,26 @@ public class RideActivity extends AppCompatActivity {
             }
         });
 
-        FloatingActionButton payment = (FloatingActionButton) findViewById(R.id.payment_fab);
-        payment.setOnClickListener(new View.OnClickListener() {
+        Button map = (Button)findViewById(R.id.mapbutton1);
+        map.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                attemptMapActivity();
+            }
+        });
+
+        ImageButton androidPay = (ImageButton)findViewById(R.id.payment1_fab);
+        androidPay.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                String packageName = "com.google.android.apps.walletnfcrel";
+                Intent intent = getPackageManager().getLaunchIntentForPackage(packageName);
+                if (intent != null) {
+                    startActivity(intent);
+                }
+            }
+        });
+
+        ImageButton venmo = (ImageButton)findViewById(R.id.payment2_fab);
+        venmo.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 String packageName = "com.venmo";
                 Intent intent = getPackageManager().getLaunchIntentForPackage(packageName);
@@ -111,9 +135,25 @@ public class RideActivity extends AppCompatActivity {
                 }
             }
         });
+        ImageButton chase = (ImageButton)findViewById(R.id.payment3_fab);
+        chase.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                String packageName = "com.chase.sig.android";
+                Intent intent = getPackageManager().getLaunchIntentForPackage(packageName);
+                if (intent != null) {
+                    startActivity(intent);
+                }
+            }
+        });
     }
+
     private void attemptRideCreatorActivity(){
         Intent intent = new Intent(this, RideCreatorActivity.class);
+        startActivity(intent);
+    }
+
+    private void attemptMapActivity(){
+        Intent intent = new Intent(this, MapsActivity.class);
         startActivity(intent);
     }
 

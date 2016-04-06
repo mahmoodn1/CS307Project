@@ -37,7 +37,7 @@ public class NotificationPublisher extends BroadcastReceiver {
             };
             ShowRidesActivity.list.setAdapter(adapter);
         }
-        if ((ShowRidesActivity.content) != null)
+        if ((ShowRidesActivity.content) != null && CentralData.notifications)
             notificationManager.notify(id, notification);
 
     }

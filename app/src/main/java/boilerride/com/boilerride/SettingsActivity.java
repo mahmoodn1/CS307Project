@@ -54,16 +54,16 @@ public class SettingsActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_settings);
 
-        tv_firstname=(EditText)findViewById(R.id.firstname_field);
-        tv_lastname=(EditText)findViewById(R.id.lastname_field);
-        tv_email=(TextView)findViewById(R.id.email_field);
-        tv_phone=(EditText)findViewById(R.id.phone_field);
+        tv_firstname = (EditText)findViewById(R.id.firstname_field);
+        tv_lastname = (EditText)findViewById(R.id.lastname_field);
+        tv_email = (TextView)findViewById(R.id.email_field);
+        tv_phone = (EditText)findViewById(R.id.phone_field);
         emailChecked = (CheckBox)findViewById(R.id.checkBoxEmail);
         firstNameChecked = (CheckBox)findViewById(R.id.checkBoxFirstName);
         lastNameChecked = (CheckBox)findViewById(R.id.checkBoxLastName);
         phoneChecked = (CheckBox)findViewById(R.id.checkBoxPhoneNumber);
 
-        tv_oldpassword= (EditText)findViewById(R.id.oldPassword);
+        tv_oldpassword = (EditText)findViewById(R.id.oldPassword);
         tv_newpassword1 = (EditText)findViewById(R.id.newPassword1);
         tv_newpassword2 = (EditText)findViewById(R.id.newPassword2);
 

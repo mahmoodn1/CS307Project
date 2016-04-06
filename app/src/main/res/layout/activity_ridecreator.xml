@@ -24,11 +24,30 @@
             android:id="@+id/rideCreator_title" />
     </LinearLayout>
 
-    <ImageView android:id="@+id/img_gravatar"
-        android:layout_width="wrap_content"
+
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:visibility="visible"
-        />
+        android:orientation="vertical"> // Only works inside a RelativeLayout
+        <ImageView android:id="@+id/img_gravatar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="visible"
+            />
+
+        <TextView
+            android:id="@+id/gravatarLink"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/img_gravatar"
+            android:layout_alignTop="@+id/img_gravatar"
+            android:layout_alignRight="@+id/img_gravatar"
+            android:layout_alignBottom="@+id/img_gravatar"
+            android:layout_margin="1dp"
+            android:gravity="center"
+            android:textColor="#000000" />
+
+    </RelativeLayout>
 
     <LinearLayout
         android:orientation="horizontal"
@@ -50,6 +69,13 @@
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:text="         email"
             android:id="@+id/rideCreator_emailF" />
+        <ImageButton
+            android:id="@+id/email_fab"
+            android:layout_width="68dp"
+            android:layout_height="68dp"
+            android:layout_gravity="center"
+            android:clickable="true"
+            android:background="@drawable/email"/>
     </LinearLayout>
 
     <LinearLayout
@@ -103,7 +129,7 @@
             android:layout_width="wrap_content"
             android:layout_weight="50"
             android:layout_height="wrap_content"
-            android:gravity="left"
+            android:gravity="start"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:text="Phone:         "
             android:id="@+id/rideCreator_phone" />
@@ -113,6 +139,21 @@
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:text="Phone"
             android:id="@+id/rideCreator_phoneF" />
+        <ImageButton
+            android:id="@+id/phone_fab"
+            android:layout_width="68dp"
+            android:layout_height="68dp"
+            android:layout_gravity="center"
+            android:clickable="true"
+            android:background="@drawable/phone"/>
+        <ImageButton
+            android:id="@+id/text_fab"
+            android:layout_width="68dp"
+            android:layout_height="68dp"
+            android:layout_weight="1"
+            android:layout_gravity="end"
+            android:clickable="true"
+            android:background="@drawable/texting"/>
     </LinearLayout>
 
     <TextView

@@ -144,7 +144,7 @@
             android:layout_height="wrap_content"
             android:gravity="left"
             android:textAppearance="?android:attr/textAppearanceMedium"
-            android:text="Current password:         "
+            android:text="Current Password:         "
             android:id="@+id/pwdold_field_text" />
     <EditText
         android:hint="@string/prompt_password"
@@ -171,7 +171,7 @@
             android:layout_height="wrap_content"
             android:gravity="left"
             android:textAppearance="?android:attr/textAppearanceMedium"
-            android:text="New password:              "
+            android:text="New Password:              "
             android:id="@+id/pwdnew1_field_text" />
     <EditText
         android:hint="@string/prompt_password"
@@ -197,7 +197,7 @@
             android:layout_height="wrap_content"
             android:gravity="left"
             android:textAppearance="?android:attr/textAppearanceMedium"
-            android:text="Repeat password:         "
+            android:text="Confirm Password:         "
             android:id="@+id/pwdnew2_field_text" />
     <EditText
         android:hint="@string/prompt_password"

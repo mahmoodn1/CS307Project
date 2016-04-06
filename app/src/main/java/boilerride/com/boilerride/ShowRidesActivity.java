@@ -106,11 +106,14 @@ public class ShowRidesActivity extends AppCompatActivity implements FilterDialog
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle item selection
         switch (item.getItemId()) {
-            case R.id.menustatus:
-                menuStatus();
-                return true;
-            case R.id.menu_profile:
+            case R.id.menuProfile:
                 menuSettings();
+                return true;
+            case R.id.not_on:
+                menuNotifications(true);
+                return true;
+            case R.id.not_off:
+                menuNotifications(false);
                 return true;
             case R.id.menu_filter:
                 menuFilter();
@@ -209,7 +212,7 @@ public class ShowRidesActivity extends AppCompatActivity implements FilterDialog
             public void onTextChanged(CharSequence s, int start, int before, int count) {}
         });
 
-        scheduleNotification(1000);
+        scheduleNotification(30000);
     }
 
     @Override
@@ -271,16 +274,15 @@ public class ShowRidesActivity extends AppCompatActivity implements FilterDialog
     }
 
 
-    private void menuStatus(){
-        Intent intent = new Intent(this, SettingsActivity.class);
-        startActivity(intent);
-
-    }
     private void menuSettings(){
         Intent intent = new Intent(this, SettingsActivity.class);
         startActivity(intent);
-
     }
+
+    private void menuNotifications(boolean status) {
+        CentralData.notifications = status;
+    }
+
     private void menuFilter() {
         showFilterDialog();
     }
@@ -335,7 +337,6 @@ public class ShowRidesActivity extends AppCompatActivity implements FilterDialog
 
     public String findMatches() {
         ArrayList<Ride> userRides = new ArrayList<Ride>();
-        String user = CentralData.uid;
         for (Ride r : listofRidesFiltered) {
             if((r.createdByUser).equals(CentralData.uid)) {
                 userRides.add(r);
@@ -356,7 +357,6 @@ public class ShowRidesActivity extends AppCompatActivity implements FilterDialog
 
         return null;
     }
-
 
     private void showFilterDialog() {
         FragmentManager fm = getSupportFragmentManager();

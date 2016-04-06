@@ -41,6 +41,9 @@ public class RideCreatorActivity extends AppCompatActivity {
     private TextView tv_lastname;
     private TextView tv_phone;
     private TextView tv_email;
+    private ImageView iv_phone;
+    private ImageView iv_texting;
+    private ImageView iv_email;
 
     private Firebase myFirebase = new Firebase("https://luminous-torch-1510.firebaseio.com/users");
 
@@ -50,9 +53,7 @@ public class RideCreatorActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_ridecreator);
 
-        ImageView gravatarImage = (ImageView)findViewById(R.id.img_gravatar);
-        CentralData.gravatarURL= Gravatar.init().with(CentralData.email).size(400).build();
-        Picasso.with(getApplicationContext()).load(CentralData.gravatarURL).into(gravatarImage);
+        Firebase.setAndroidContext(getApplicationContext());
 
         tv_firstname=(TextView)findViewById(R.id.rideCreator_firstnameF);
         tv_lastname=(TextView)findViewById(R.id.rideCreator_lastnameF);
@@ -94,6 +95,28 @@ public class RideCreatorActivity extends AppCompatActivity {
                     }else{
                         tv_phone.setText("Not available");
                     }
+
+                    ImageView gravatarImage = (ImageView)findViewById(R.id.img_gravatar);
+                    String userGravLink = Gravatar.init().with(user.getEmail()).size(400).build();
+                    Picasso.with(getApplicationContext()).load(userGravLink).into(gravatarImage);
+                    if (userGravLink.equals("http://www.gravatar.com/avatar/67f9aac2bf854f0624076502a264dc44?&size=400")) {
+                        TextView tv = (TextView)findViewById(R.id.gravatarLink);
+                        tv.setText("Click here to create profile and add image.");
+                        tv.setOnClickListener(new View.OnClickListener() {
+                            public void onClick(View v) {
+                                Intent intent = new Intent();
+                                intent.setAction(Intent.ACTION_VIEW);
+                                intent.addCategory(Intent.CATEGORY_BROWSABLE);
+                                intent.setData(Uri.parse("https://signup.wordpress.com/signup/?ref" +
+                                        "=oauth2&oauth2_redirect=c54a14df6102768de438a353709921c1%40https%3A%2F%" +
+                                        "2Fpublic-api.wordpress.com%2Foauth2%2Fauthorize%2F%3Fclient_id%3D1854%26response_type%" +
+                                        "3Dcode%26blog_id%3D0%26state%3Df2737a23f225bfff6b9ca503643d4cac4a2835bd6a65fe26e5c2fde249347eeb" +
+                                        "%26redirect_uri%3Dhttps%253A%252F%252Fen.gravatar.com%252Fconnect%252F%253Faction%" +
+                                        "253Drequest_access_token%26jetpack-code%26jetpack-user-id%3D0%26action%3Doauth2-login&wpcom_connect=1"));
+                                startActivity(intent);
+                            }
+                        });
+                    }
                 }
             }
 
@@ -103,14 +126,10 @@ public class RideCreatorActivity extends AppCompatActivity {
             }
         });
 
-        if ( ContextCompat.checkSelfPermission(this, Manifest.permission.CALL_PHONE ) != PackageManager.PERMISSION_GRANTED) {
-
-            ActivityCompat.requestPermissions(this, new String[] {  Manifest.permission.CALL_PHONE  },
-                    1);
-        }
-
-        tv_phone.setOnClickListener(new View.OnClickListener() {
-
+        iv_phone = (ImageView)findViewById(R.id.phone_fab);
+        iv_texting = (ImageView)findViewById(R.id.text_fab);
+        iv_email = (ImageView)findViewById(R.id.email_fab);
+        iv_phone.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View arg0) {
                 // TODO Auto-generated method stub
@@ -126,24 +145,38 @@ public class RideCreatorActivity extends AppCompatActivity {
             }
         });
 
-        /*
-        * The structure should be:
-        * key{
-        *   email
-        *   emailpublic
-        *   firstname
-        *   ...
-        *   comments{
-        *       key{
-        *           comment 1
-        *       }
-        *       key {
-        *           comment 2
-        *       }
-        *   }
-        * }
-        *
-        * */
+        iv_texting.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View arg0) {
+                // TODO Auto-generated method stub
+                String phone_no = tv_phone.getText().toString().replaceAll("-", "");
+                Intent sendIntent = new Intent(Intent.ACTION_VIEW);
+                sendIntent.setData(Uri.parse("sms:" + phone_no));
+                sendIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                try {
+                    startActivity(sendIntent);
+                } catch(SecurityException se) {
+
+                }
+            }
+        });
+
+        iv_email.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View arg0) {
+                // TODO Auto-generated method stub
+                String email = tv_email.getText().toString();
+                Intent sendIntent = new Intent(Intent.ACTION_VIEW);
+                sendIntent.setData(Uri.parse("mailto:" + email));
+                sendIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                try {
+                    startActivity(sendIntent);
+                } catch(SecurityException se) {
+
+                }
+            }
+        });
+
         Query queryComments = myFirebase.child(CentralData.uid).child("comments").orderByChild("comment");
         queryRef.addValueEventListener(new ValueEventListener() {
             @Override

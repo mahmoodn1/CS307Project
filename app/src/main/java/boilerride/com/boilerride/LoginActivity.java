@@ -36,6 +36,8 @@ import com.firebase.client.FirebaseError;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 import static android.Manifest.permission.READ_CONTACTS;
 
@@ -324,6 +326,8 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             // TODO: attempt authentication against a network service.
 
             try {
+
+
                 // Simulate network access.
                 myFirebase.authWithPassword(mEmail, mPassword, new Firebase.AuthResultHandler() {
                     @Override
@@ -331,6 +335,12 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                         System.out.println("User ID: " + authData.getUid() + ", Provider: " + authData.getProvider());
                         CentralData.uid = authData.getUid();
                         CentralData.email = mEmail;
+                        /*Map<String, String> map = new HashMap<String, String>();
+                        map.put("provider", authData.getProvider());
+                        if(authData.getProviderData().containsKey("displayName")) {
+                            map.put("displayName", authData.getProviderData().get("displayName").toString());
+                        }
+                        myFirebase.child("users").child(authData.getUid()).setValue(map);*/
                         onPostExecute(true);
                     }
 
