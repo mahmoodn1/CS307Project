@@ -321,6 +321,20 @@
         </LinearLayout>
 
     <Button
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Join Ride"
+        android:id="@+id/ride_joinButton" />
+
+    <Button
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Leave Ride"
+        android:id="@+id/ride_leaveButton" />
+
+    <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="End Ride"

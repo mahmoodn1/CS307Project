@@ -38,6 +38,7 @@ import org.w3c.dom.Text;
 
 public class RideActivity extends AppCompatActivity {
 
+    private ArrayList<String> peopleInRides = new ArrayList<String>();
     private TextView tv_completed;
     private TextView tv_arrivalTime;
     private TextView tv_departTime;
@@ -135,6 +136,21 @@ public class RideActivity extends AppCompatActivity {
             }
         });
 
+        Button joinRideButton = (Button) findViewById(R.id.ride_joinButton);
+        joinRideButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                attemptJoinRide();
+            }
+        });
+
+        Button leaveRideButton = (Button) findViewById(R.id.ride_leaveButton);
+        leaveRideButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                attemptLeaveRide();
+            }
+        });
     }
 
     private void attemptPull() {
@@ -157,6 +173,66 @@ public class RideActivity extends AppCompatActivity {
         }
     }
 
+    private void attemptJoinRide() {
+
+        Firebase myFirebase2 = new Firebase("https://luminous-torch-1510.firebaseio.com/peopleInRides");
+        Firebase rideUsers = myFirebase2.child(CentralData.rideKey);
+        if (!CentralData.uid.equals(CentralData.rideCreatorUid)) { //not the creator so he can join
+            if(!peopleInRides.contains(CentralData.uid)){
+                Firebase node = myFirebase.child(CentralData.rideKey);
+                double numPassengers = Double.parseDouble((tv_numOfPassengers.getText().toString()));
+                double maxPassengers = Double.parseDouble((tv_maxPassengers.getText().toString()));
+                if (numPassengers < maxPassengers) { //there are space for this ride
+                    Map<String, Object> newNumPassengers = new HashMap<String, Object>();
+                    numPassengers++;
+                    String newPassengers = String.valueOf(numPassengers);
+                    newNumPassengers.put("numOfPassengers", newPassengers);
+                    node.updateChildren(newNumPassengers);
+                    rideUsers.child(CentralData.uid).setValue(CentralData.uid);
+                    System.out.println("Everything perfect");
+                    Toast.makeText(getApplicationContext(), "Joined", Toast.LENGTH_LONG).show();
+                }else{
+                    System.out.println("Ride is full so you can't join");
+                    Toast.makeText(getApplicationContext(), "Ride is full so you can't join", Toast.LENGTH_LONG).show();
+                }
+
+            }else{
+                System.out.println("You already joined this ride");
+                Toast.makeText(getApplicationContext(), "You already joined this ride", Toast.LENGTH_LONG).show();
+            }
+
+        } else { //Check if the user is trying to join twice. - it won't matter because in the database it is added in the same link
+            System.out.println("YOU CAN'T JOIN YOUR OWN RIDE");
+            Toast.makeText(getApplicationContext(), "You can't join this ride", Toast.LENGTH_LONG).show();
+        }
+    }
+
+    private void attemptLeaveRide(){
+        if(peopleInRides.contains(CentralData.uid)) {
+            /*Update Database - People in ride*/
+            Firebase myFirebase2 = new Firebase("https://luminous-torch-1510.firebaseio.com/peopleInRides");
+            Firebase rideUsers = myFirebase2.child(CentralData.rideKey);
+            rideUsers.child(CentralData.uid).removeValue();
+
+            /*Update Database - Ride*/
+            Firebase node = myFirebase.child(CentralData.rideKey);
+            double numPassengers = Double.parseDouble((tv_numOfPassengers.getText().toString()));
+            double maxPassengers = Double.parseDouble((tv_maxPassengers.getText().toString()));
+            Map<String, Object> newNumPassengers = new HashMap<String, Object>();
+            numPassengers--;
+            String newPassengers = String.valueOf(numPassengers);
+            newNumPassengers.put("numOfPassengers", newPassengers);
+            node.updateChildren(newNumPassengers);
+
+            peopleInRides.remove((CentralData.uid));
+            System.out.println("RIDE LEFT");
+            Toast.makeText(getApplicationContext(), "LEFT", Toast.LENGTH_LONG).show();
+        }else{
+            System.out.println("");
+            Toast.makeText(getApplicationContext(), "You are not in this ride", Toast.LENGTH_LONG).show();
+        }
+
+    }
 
     /**
      * Represents an asynchronous login/registration task used to authenticate
@@ -221,6 +297,39 @@ public class RideActivity extends AppCompatActivity {
                         System.out.println("The read failed: " + firebaseError.getMessage());
                     }
                 });
+                Firebase people = new Firebase("https://luminous-torch-1510.firebaseio.com/peopleInRides");
+                Query queryRef2 = people.child(CentralData.rideKey);
+                queryRef2.addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot snapshot) {
+                        if (snapshot == null) {
+                            Log.d("SNAPSHOT NULL:", "ERROR SNAPSHOT DOES NOT EXIST");
+                        } else {
+                            Log.d("SNAPSHOT EXISTS:", "YAY2");
+                            for (DataSnapshot postSnapshot : snapshot.getChildren()) {
+                                System.out.println("POSTSNAPSHOT IS " + postSnapshot.getValue());
+                                System.out.println("THE KEY IS " + postSnapshot.getKey());
+                                String aux = postSnapshot.getKey().toString();
+                                System.out.println(aux);
+                                peopleInRides.add(aux);
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(FirebaseError firebaseError) {
+                        System.out.println("The read failed: " + firebaseError.getMessage());
+                    }
+                });
+
+                if(peopleInRides.isEmpty()){
+                    System.out.println("This is so shitty peopleInRides is empty");
+                }else{
+                    System.out.println("This is not shitty peopleInRides is NOT empty");
+                    for(String i : peopleInRides){
+                        System.out.println("THE USER IN THIS RIDE IS " + i);
+                    }
+                }
                 // Simulate network access.
                 Thread.sleep(500);
             } catch (InterruptedException e) {
