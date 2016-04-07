@@ -387,11 +387,15 @@ public class ShowRidesActivity extends AppCompatActivity implements FilterDialog
 
 
         // Check if my ride
-        CentralData.RideList=(ArrayList)listofRidesFiltered.clone();
-        Intent intent = new Intent(this, CreateRideActivity.class);
-        intent.putExtra("ChangeRide", listPosition); // Pass ride id
-        CentralData.rideKey=listofRidesKeysFiltered.get(listPosition).toString();
-        startActivity(intent);
+        if(CentralData.uid==listofRidesFiltered.get(listPosition).createdByUser) {
+            CentralData.RideList = (ArrayList) listofRidesFiltered.clone();
+            Intent intent = new Intent(this, CreateRideActivity.class);
+            intent.putExtra("ChangeRide", listPosition); // Pass ride id
+            CentralData.rideKey = listofRidesKeysFiltered.get(listPosition).toString();
+            startActivity(intent);
+        }
+        else
+            Toast.makeText(this, "The ride is not your ride.", Toast.LENGTH_LONG).show();
 
 
         // Open new Activity
