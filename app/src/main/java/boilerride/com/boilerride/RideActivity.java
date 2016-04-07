@@ -83,7 +83,10 @@ public class RideActivity extends AppCompatActivity {
         userProfileButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                attemptRideCreatorActivity();
+                if((CentralData.uid).equals((CentralData.rideCreatorUid))){
+                    attemptRidePassengersActivity();
+                }else
+                    attemptRideCreatorActivity();
             }
         });
 
@@ -380,7 +383,10 @@ public class RideActivity extends AppCompatActivity {
         Intent intent = new Intent(this, RideCreatorActivity.class);
         startActivity(intent);
     }
-
+    private void attemptRidePassengersActivity(){
+        Intent intent = new Intent(this, RidePassengerListActivity.class);
+        startActivity(intent);
+    }
     private void attemptMapActivity(){
         Intent intent = new Intent(this, MapsActivity.class);
         startActivity(intent);

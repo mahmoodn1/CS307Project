@@ -20,5 +20,6 @@
     <string name="title_activity_ride">RideActivity</string>
     <string name="title_activity_rate_driver">RateDriverActivity</string>
     <string name="title_activity_rate_passenger">RatePassengerActivity</string>
-
+    <string name="rate_passenger_list">RidePassengerListActivity</string>
+    <string name="rate_passenger_profile">RidePassengerProfileActivity</string>
 </resources>

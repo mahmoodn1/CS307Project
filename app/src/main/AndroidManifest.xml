@@ -80,6 +80,14 @@
             android:name=".RatePassengerActivity"
             android:label="@string/title_activity_rate_passenger"
             android:theme="@style/AppTheme.NoActionBar"></activity>
+        <activity
+            android:name=".RidePassengerListActivity"
+            android:label="@string/rate_passenger_list"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
+        <activity
+            android:name=".RidePassengerProfileActivity"
+            android:label="@string/rate_passenger_profile"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>
