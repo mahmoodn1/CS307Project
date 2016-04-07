@@ -52,7 +52,9 @@ public class RideActivity extends AppCompatActivity {
     private TextView tv_title;
     private TextView tv_type;
     private Button endRide;
-
+    private Button joinRideButton;
+    private Button leaveRideButton;
+    private Button rateUserButton;
     private Firebase myFirebase = new Firebase("https://luminous-torch-1510.firebaseio.com/rides");
 
     private GetRideTask mAuthTask = null;
@@ -136,7 +138,7 @@ public class RideActivity extends AppCompatActivity {
             }
         });
 
-        Button joinRideButton = (Button) findViewById(R.id.ride_joinButton);
+        joinRideButton = (Button) findViewById(R.id.ride_joinButton);
         joinRideButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -144,11 +146,22 @@ public class RideActivity extends AppCompatActivity {
             }
         });
 
-        Button leaveRideButton = (Button) findViewById(R.id.ride_leaveButton);
+        leaveRideButton = (Button) findViewById(R.id.ride_leaveButton);
         leaveRideButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 attemptLeaveRide();
+            }
+        });
+
+        rateUserButton = (Button) findViewById(R.id.ride_rateUser);
+        rateUserButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if((CentralData.uid).equals((CentralData.rideCreatorUid))){
+                    attemptRatePassengersActivity();
+                }else
+                    attemptRateDriverActivityActivity();
             }
         });
     }
@@ -277,6 +290,8 @@ public class RideActivity extends AppCompatActivity {
                             if((CentralData.uid).equals((CentralData.rideCreatorUid)) &&
                                     completed.equals("false")) {
                                 endRide.setVisibility(View.VISIBLE);
+                                joinRideButton.setVisibility(View.GONE);
+                                leaveRideButton.setVisibility(View.GONE);
 
                             }
                             else
@@ -284,11 +299,15 @@ public class RideActivity extends AppCompatActivity {
 
                             if(completed.equals("true")) {
                                 tv_completed.setVisibility(View.VISIBLE);
-
+                                joinRideButton.setVisibility(View.GONE);
+                                leaveRideButton.setVisibility(View.GONE);
+                                //rateUsersButton.setVisibility(View.VISIBLE);
                             }
                             else
                                 tv_completed.setVisibility((View.GONE));
-
+                                //joinRideButton.setVisibility(View.VISIBLE);
+                                //leaveRideButton.setVisibility(View.VISIBLE);
+                                //rateUsersButton.setVisibility(View.GONE);
                         }
                     }
 
@@ -356,6 +375,15 @@ public class RideActivity extends AppCompatActivity {
 
     private void attemptMapActivity(){
         Intent intent = new Intent(this, MapsActivity.class);
+        startActivity(intent);
+    }
+
+    private void attemptRatePassengersActivity(){
+        Intent intent = new Intent(this, RatePassengerActivity.class);
+        startActivity(intent);
+    }
+    private void attemptRateDriverActivityActivity(){
+        Intent intent = new Intent(this, RateDriverActivity.class);
         startActivity(intent);
     }
 

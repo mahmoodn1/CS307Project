@@ -319,7 +319,11 @@
         android:clickable="true"
         android:background="@drawable/chase"/>
         </LinearLayout>
-
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:weightSum="100">
     <Button
         style="?android:attr/buttonStyleSmall"
         android:layout_width="wrap_content"
@@ -333,14 +337,26 @@
         android:layout_height="wrap_content"
         android:text="Leave Ride"
         android:id="@+id/ride_leaveButton" />
-
+    </LinearLayout>
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="End Ride"
         android:id="@+id/end_fab" />
 
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:weightSum="100">
+        <Button
+            style="?android:attr/buttonStyleSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Rate User"
+            android:id="@+id/ride_rateUser" />
 
+    </LinearLayout>
 </LinearLayout>
     </android.support.design.widget.CoordinatorLayout>
 </android.support.v4.widget.DrawerLayout>

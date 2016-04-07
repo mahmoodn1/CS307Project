@@ -18,5 +18,7 @@
     <string name="title_activity_reset_pwd">ResetPwdActivity</string>
     <string name="title_activity_ride_creator">RideCreatorActivity</string>
     <string name="title_activity_ride">RideActivity</string>
+    <string name="title_activity_rate_driver">RateDriverActivity</string>
+    <string name="title_activity_rate_passenger">RatePassengerActivity</string>
 
 </resources>
