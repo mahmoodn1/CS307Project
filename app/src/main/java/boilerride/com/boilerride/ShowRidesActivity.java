@@ -390,6 +390,7 @@ public class ShowRidesActivity extends AppCompatActivity implements FilterDialog
         CentralData.RideList=(ArrayList)listofRidesFiltered.clone();
         Intent intent = new Intent(this, CreateRideActivity.class);
         intent.putExtra("ChangeRide", listPosition); // Pass ride id
+        CentralData.rideKey=listofRidesKeysFiltered.get(listPosition).toString();
         startActivity(intent);
 
 

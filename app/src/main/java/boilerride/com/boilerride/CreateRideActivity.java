@@ -487,6 +487,11 @@ public class CreateRideActivity extends AppCompatActivity implements LoaderCallb
         protected Boolean doInBackground(Void... params) {
             // TODO: attempt authentication against a network service.
 
+
+            Bundle extras = getIntent().getExtras();
+
+            if (extras == null) {
+
             try {
                 Firebase fireRide = myFirebase.child("rides");
                 Map<String, String> ride1 = new HashMap<String, String>();
@@ -514,6 +519,62 @@ public class CreateRideActivity extends AppCompatActivity implements LoaderCallb
             } catch (InterruptedException e) {
                 return false;
             }
+
+
+
+
+            }
+
+            else
+            {
+
+                myFirebase  = new Firebase("https://luminous-torch-1510.firebaseio.com/rides");
+
+                Firebase node = myFirebase.child(CentralData.rideKey);
+
+
+                Map<String, Object> newTitle = new HashMap<String, Object>();
+                newTitle.put("title", title);
+                node.updateChildren(newTitle);
+
+                Map<String, Object> newOrigin = new HashMap<String, Object>();
+                newOrigin.put("origin", origin);
+                node.updateChildren(newOrigin);
+
+                Map<String, Object> newNumOfPassengers = new HashMap<String, Object>();
+                newNumOfPassengers.put("numOfPassengers", numOfPassengers);
+                node.updateChildren(newNumOfPassengers);
+
+                Map<String, Object> newFare = new HashMap<String, Object>();
+                newFare.put("fare", fare);
+                node.updateChildren(newFare);
+
+                Map<String, Object> newDistance = new HashMap<String, Object>();
+                newDistance.put("distance", distance);
+                node.updateChildren(newDistance);
+
+                Map<String, Object> newDestination = new HashMap<String, Object>();
+                newDestination.put("origin", origin);
+                node.updateChildren(newDestination);
+
+                Map<String, Object> newMaxPassengers = new HashMap<String, Object>();
+                newMaxPassengers.put("maxPassengers", maxPassengers);
+                node.updateChildren(newMaxPassengers);
+
+                Map<String, Object> newDepartTime = new HashMap<String, Object>();
+                newDepartTime.put("departTime", departTime);
+                node.updateChildren(newDepartTime);
+
+                Map<String, Object> newArrivalTime = new HashMap<String, Object>();
+                newArrivalTime.put("arrivalTime", arrivalTime);
+                node.updateChildren(newArrivalTime);
+
+
+
+            }
+
+
+
 
             // TODO: register the new account here.
             return true;
