@@ -169,7 +169,7 @@ public class ShowRidesActivity extends AppCompatActivity implements FilterDialog
         list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapter, View view, int position, long arg) {
-                CentralData.rideKey = listofRidesKeysFiltered.get(position);
+                CentralData.rideKey = listofRidesKeysFiltered.get(position).toString();
                 System.out.println("KEY OF THE RIDE IS " + CentralData.rideKey);
                 Intent intent = new Intent(getApplicationContext(), RideActivity.class);
                 startActivity(intent);
