@@ -77,7 +77,7 @@
             android:label="@string/title_activity_rate_driver"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".RatePassengerActivity"
+            android:name=".PassengerProfileActivity"
             android:label="@string/title_activity_rate_passenger"
             android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>

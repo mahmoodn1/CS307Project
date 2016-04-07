@@ -3,24 +3,11 @@ package boilerride.com.boilerride;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
-import android.app.NotificationManager;
-import android.app.Notification;
-import android.support.v4.app.*;
-import android.content.Context;
-import android.app.PendingIntent;
-import android.app.AlarmManager;
-import android.os.SystemClock;
 import android.widget.Button;
-import android.widget.CheckBox;
-import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -33,8 +20,6 @@ import com.firebase.client.ValueEventListener;
 import java.util.ArrayList;
 import java.util.Map;
 import java.util.HashMap;
-
-import org.w3c.dom.Text;
 
 public class RideActivity extends AppCompatActivity {
 
@@ -83,7 +68,11 @@ public class RideActivity extends AppCompatActivity {
         userProfileButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                attemptRideCreatorActivity();
+
+                if((CentralData.uid).equals((CentralData.rideCreatorUid))){
+                    attemptRideCreatorActivity();
+                }else
+                    attemptPassengerProfileActivity();
             }
         });
 
@@ -372,13 +361,18 @@ public class RideActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    private void attemptPassengerProfileActivity(){
+        Intent intent = new Intent(this, PassengerProfileActivity.class);
+        startActivity(intent);
+    }
+
     private void attemptMapActivity(){
         Intent intent = new Intent(this, MapsActivity.class);
         startActivity(intent);
     }
 
     private void attemptRatePassengersActivity(){
-        Intent intent = new Intent(this, RatePassengerActivity.class);
+        Intent intent = new Intent(this, PassengerProfileActivity.class);
         startActivity(intent);
     }
     private void attemptRateDriverActivityActivity(){
