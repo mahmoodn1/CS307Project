@@ -20,16 +20,18 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <ProgressBar
-        style="?android:attr/progressBarStyleHorizontal"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/progressBar" />
-
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"></LinearLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="THIS RIDE HAS BEEN COMPLETED."
+        android:id="@+id/completed" />
 
     <LinearLayout
         android:orientation="horizontal"
@@ -317,6 +319,12 @@
         android:clickable="true"
         android:background="@drawable/chase"/>
         </LinearLayout>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="End Ride"
+        android:id="@+id/end_fab" />
 
 
 </LinearLayout>

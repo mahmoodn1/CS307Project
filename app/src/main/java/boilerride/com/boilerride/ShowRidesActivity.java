@@ -517,15 +517,21 @@ public class ShowRidesActivity extends AppCompatActivity implements FilterDialog
                             String title = postSnapshot.child("title").getValue().toString();
                             String type1 = postSnapshot.child("type").getValue().toString();
                             String uid = postSnapshot.child("uid").getValue().toString();
-
+                            String completed1 = postSnapshot.child("completed").getValue().toString();
                             boolean type;
                             if (type1.equals("offer"))
                                 type = false;
                             else
                                 type = true;
 
+                            boolean completed;
+                            if (completed1.equals("false"))
+                                completed = false;
+                            else
+                                completed = true;
+
                             Ride ride = new Ride(numOfPassengers, fare, distance, origin, destination, maxPassengers, departTime, arrivalTime,
-                                    timePosted, title, type, uid);
+                                    timePosted, title, type, uid, completed);
                             listofRides.add(ride);
                             listofRidesKeys.add(postSnapshot.getKey());
                         }

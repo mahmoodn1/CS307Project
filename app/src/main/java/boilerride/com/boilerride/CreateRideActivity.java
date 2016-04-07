@@ -501,6 +501,7 @@ public class CreateRideActivity extends AppCompatActivity implements LoaderCallb
                 ride1.put("timePosted", timePosted);
                 ride1.put("title", title);
                 ride1.put("uid", uid);
+                ride1.put("completed", "false");
                 if (type == false) {
                     ride1.put("type", "offer");
                 }
