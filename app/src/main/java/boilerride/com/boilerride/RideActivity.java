@@ -135,6 +135,7 @@ public class RideActivity extends AppCompatActivity {
                 rideRef.updateChildren(currentRide);
                 Toast.makeText(getApplicationContext(), "This ride has been ended.",
                         Toast.LENGTH_LONG).show();
+
             }
         });
 
@@ -290,9 +291,6 @@ public class RideActivity extends AppCompatActivity {
                             if((CentralData.uid).equals((CentralData.rideCreatorUid)) &&
                                     completed.equals("false")) {
                                 endRide.setVisibility(View.VISIBLE);
-                                joinRideButton.setVisibility(View.GONE);
-                                leaveRideButton.setVisibility(View.GONE);
-
                             }
                             else
                                 endRide.setVisibility((View.GONE));
@@ -305,6 +303,7 @@ public class RideActivity extends AppCompatActivity {
                             }
                             else
                                 tv_completed.setVisibility((View.GONE));
+
                                 //joinRideButton.setVisibility(View.VISIBLE);
                                 //leaveRideButton.setVisibility(View.VISIBLE);
                                 //rateUsersButton.setVisibility(View.GONE);
