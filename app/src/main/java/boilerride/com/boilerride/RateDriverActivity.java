@@ -66,6 +66,8 @@ public class RateDriverActivity extends AppCompatActivity {
                 Firebase userComments = myFirebase.child(CentralData.rideCreatorUid);
                 String comment = tv_textview.getText().toString();
                 Map<String, String> post1 = new HashMap<String, String>();
+                post1.put("reviewer", CentralData.uid);
+                post1.put("reviewed", CentralData.rideCreatorUid);
                 post1.put("rate", String.valueOf(score));
                 post1.put("comment", comment);
                 userComments.push().setValue(post1);

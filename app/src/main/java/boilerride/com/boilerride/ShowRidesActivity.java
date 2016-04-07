@@ -346,7 +346,7 @@ public class ShowRidesActivity extends AppCompatActivity implements FilterDialog
         matches = new ArrayList<Ride>();
         for (Ride ride1 : listofRidesFiltered) {
             for (Ride ride2 : userRides) {
-                if((ride1.destination).equals((ride2.destination)) && !((ride1.createdByUser).equals(ride2.createdByUser))) {
+                if((ride1.destination.toLowerCase()).equals((ride2.destination.toLowerCase())) && !((ride1.createdByUser).equals(ride2.createdByUser))) {
                     matches.add(ride1);
                 }
             }
