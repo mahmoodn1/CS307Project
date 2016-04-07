@@ -17,4 +17,6 @@ public class CentralData {
     public static boolean notifications = true;
     public static String gravatarURL;
 
+    public static String passengerKey;
+
 }

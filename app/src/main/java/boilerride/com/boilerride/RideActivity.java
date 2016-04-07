@@ -70,9 +70,9 @@ public class RideActivity extends AppCompatActivity {
             public void onClick(View view) {
 
                 if((CentralData.uid).equals((CentralData.rideCreatorUid))){
-                    attemptRideCreatorActivity();
-                }else
                     attemptPassengerProfileActivity();
+                }else
+                    attemptRideCreatorActivity();
             }
         });
 
@@ -362,7 +362,7 @@ public class RideActivity extends AppCompatActivity {
     }
 
     private void attemptPassengerProfileActivity(){
-        Intent intent = new Intent(this, PassengerProfileActivity.class);
+        Intent intent = new Intent(this, RidePassengerListActivity.class);
         startActivity(intent);
     }
 
@@ -372,7 +372,7 @@ public class RideActivity extends AppCompatActivity {
     }
 
     private void attemptRatePassengersActivity(){
-        Intent intent = new Intent(this, PassengerProfileActivity.class);
+        Intent intent = new Intent(this, RidePassengerListActivity.class);
         startActivity(intent);
     }
     private void attemptRateDriverActivityActivity(){
