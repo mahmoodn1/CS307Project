@@ -441,7 +441,10 @@ public class MapsActivity extends FragmentActivity implements
         // Executes in UI thread, after the parsing process
         @Override
         protected void onPostExecute(List<List<HashMap<String, String>>> result) {
+            TextView map1,map2;
+            map2=(TextView)findViewById(R.id.maptime);
 
+            map1=(TextView)findViewById(R.id.mapdistance);
             ArrayList<LatLng> points = null;
             PolylineOptions lineOptions = null;
             MarkerOptions markerOptions = new MarkerOptions();
@@ -489,7 +492,8 @@ public class MapsActivity extends FragmentActivity implements
             System.out.println("Distance:"+distance + ", Duration:"+duration);
 
 
-
+            map1.setText("Distance:"+distance);
+            map2.setText("Duration:"+duration);
 
             // Drawing polyline in the Google Map for the i-th route
 
