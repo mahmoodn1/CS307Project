@@ -387,7 +387,7 @@ public class ShowRidesActivity extends AppCompatActivity implements FilterDialog
 
 
         // Check if my ride
-        if(CentralData.uid==listofRidesFiltered.get(listPosition).createdByUser) {
+        if(CentralData.uid.equals(listofRidesFiltered.get(listPosition).createdByUser)) {
             CentralData.RideList = (ArrayList) listofRidesFiltered.clone();
             Intent intent = new Intent(this, CreateRideActivity.class);
             intent.putExtra("ChangeRide", listPosition); // Pass ride id
