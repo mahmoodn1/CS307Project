@@ -38,7 +38,6 @@ import org.w3c.dom.Text;
 
 public class RideActivity extends AppCompatActivity {
 
-    private ArrayList<String> peopleInRides = new ArrayList<String>();
     private TextView tv_completed;
     private TextView tv_arrivalTime;
     private TextView tv_departTime;
@@ -161,7 +160,7 @@ public class RideActivity extends AppCompatActivity {
                 if((CentralData.uid).equals((CentralData.rideCreatorUid))){
                     attemptRatePassengersActivity();
                 }else
-                    attemptRateDriverActivityActivity();
+                    attemptRateDriverActivity();
             }
         });
     }
@@ -191,7 +190,7 @@ public class RideActivity extends AppCompatActivity {
         Firebase myFirebase2 = new Firebase("https://luminous-torch-1510.firebaseio.com/peopleInRides");
         Firebase rideUsers = myFirebase2.child(CentralData.rideKey);
         if (!CentralData.uid.equals(CentralData.rideCreatorUid)) { //not the creator so he can join
-            if(!peopleInRides.contains(CentralData.uid)){
+            if(!CentralData.peopleInRides.contains(CentralData.uid)){
                 Firebase node = myFirebase.child(CentralData.rideKey);
                 double numPassengers = Double.parseDouble((tv_numOfPassengers.getText().toString()));
                 double maxPassengers = Double.parseDouble((tv_maxPassengers.getText().toString()));
@@ -221,7 +220,7 @@ public class RideActivity extends AppCompatActivity {
     }
 
     private void attemptLeaveRide(){
-        if(peopleInRides.contains(CentralData.uid)) {
+        if(CentralData.peopleInRides.contains(CentralData.uid)) {
             /*Update Database - People in ride*/
             Firebase myFirebase2 = new Firebase("https://luminous-torch-1510.firebaseio.com/peopleInRides");
             Firebase rideUsers = myFirebase2.child(CentralData.rideKey);
@@ -237,7 +236,7 @@ public class RideActivity extends AppCompatActivity {
             newNumPassengers.put("numOfPassengers", newPassengers);
             node.updateChildren(newNumPassengers);
 
-            peopleInRides.remove((CentralData.uid));
+            CentralData.peopleInRides.remove((CentralData.uid));
             System.out.println("RIDE LEFT");
             Toast.makeText(getApplicationContext(), "LEFT", Toast.LENGTH_LONG).show();
         }else{
@@ -309,6 +308,13 @@ public class RideActivity extends AppCompatActivity {
                                 //leaveRideButton.setVisibility(View.VISIBLE);
                                 //rateUsersButton.setVisibility(View.GONE);
                         }
+
+                        if(CentralData.peopleInRides.contains(CentralData.uid)) {
+                            rateUserButton.setVisibility(View.VISIBLE);
+                        }
+                        else {
+                            rateUserButton.setVisibility(View.GONE);
+                        }
                     }
 
                     @Override
@@ -330,7 +336,8 @@ public class RideActivity extends AppCompatActivity {
                                 System.out.println("THE KEY IS " + postSnapshot.getKey());
                                 String aux = postSnapshot.getKey().toString();
                                 System.out.println(aux);
-                                peopleInRides.add(aux);
+                                CentralData.peopleInRides.clear();
+                                CentralData.peopleInRides.add(aux);
                             }
                         }
                     }
@@ -341,11 +348,11 @@ public class RideActivity extends AppCompatActivity {
                     }
                 });
 
-                if(peopleInRides.isEmpty()){
+                if(CentralData.peopleInRides.isEmpty()){
                     System.out.println("This is so shitty peopleInRides is empty");
                 }else{
                     System.out.println("This is not shitty peopleInRides is NOT empty");
-                    for(String i : peopleInRides){
+                    for(String i : CentralData.peopleInRides){
                         System.out.println("THE USER IN THIS RIDE IS " + i);
                     }
                 }
@@ -382,7 +389,7 @@ public class RideActivity extends AppCompatActivity {
         Intent intent = new Intent(this, RatePassengerActivity.class);
         startActivity(intent);
     }
-    private void attemptRateDriverActivityActivity(){
+    private void attemptRateDriverActivity(){
         Intent intent = new Intent(this, RateDriverActivity.class);
         startActivity(intent);
     }
