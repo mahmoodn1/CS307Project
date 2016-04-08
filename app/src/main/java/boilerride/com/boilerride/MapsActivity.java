@@ -376,7 +376,7 @@ public class MapsActivity extends FragmentActivity implements
             br.close();
 
         }catch(Exception e){
-            Log.d("Exception while downloading url", e.toString());
+            Log.d("Downloading", e.toString());
         }finally{
             iStream.close();
             urlConnection.disconnect();
@@ -448,8 +448,8 @@ public class MapsActivity extends FragmentActivity implements
             ArrayList<LatLng> points = null;
             PolylineOptions lineOptions = null;
             MarkerOptions markerOptions = new MarkerOptions();
-            String distance = "";
-            String duration = "";
+            CentralData.distance = "";
+            CentralData.duration = "";
 
             if(result.size()<1){
                 Toast.makeText(getBaseContext(), "No Points", Toast.LENGTH_SHORT).show();
@@ -469,10 +469,10 @@ public class MapsActivity extends FragmentActivity implements
                     HashMap<String,String> point = path.get(j);
 
                     if(j==0){    // Get distance from the list
-                        distance = (String)point.get("distance");
+                        CentralData.distance = (String)point.get("distance");
                         continue;
                     }else if(j==1){ // Get duration from the list
-                        duration = (String)point.get("duration");
+                        CentralData.duration = (String)point.get("duration");
                         continue;
                     }
 
@@ -489,11 +489,11 @@ public class MapsActivity extends FragmentActivity implements
                 lineOptions.color(Color.RED);
             }
 
-            System.out.println("Distance:"+distance + ", Duration:"+duration);
+            System.out.println("Distance:"+ CentralData.distance + ", Duration:"+ CentralData.duration);
 
 
-            map1.setText("Distance:"+distance);
-            map2.setText("Duration:"+duration);
+            map1.setText("Distance:"+ CentralData.distance);
+            map2.setText("Duration:"+ CentralData.duration);
 
             // Drawing polyline in the Google Map for the i-th route
 
