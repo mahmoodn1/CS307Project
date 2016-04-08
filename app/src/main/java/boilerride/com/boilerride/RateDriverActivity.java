@@ -37,7 +37,7 @@ public class RateDriverActivity extends AppCompatActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_rate_driver);
-
+        tv_textview = (EditText)findViewById(R.id.rate_driver123);
         addListenerOnRatingBar();
         addListenerOnButton();
 
@@ -53,7 +53,7 @@ public class RateDriverActivity extends AppCompatActivity {
         ratingBar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
             public void onRatingChanged(RatingBar ratingBar, float rating,
                                         boolean fromUser) {
-
+                score = rating;
                 txtRatingValue.setText(String.valueOf(rating));
 
             }
@@ -78,10 +78,8 @@ public class RateDriverActivity extends AppCompatActivity {
                 post1.put("rate", String.valueOf(score));
                 post1.put("comment", comment);
                 userComments.push().setValue(post1);
-                /*
-                Toast.makeText(RateDriverActivity.this,
-                        String.valueOf(ratingBar.getRating()),
-                        Toast.LENGTH_SHORT).show();*/
+
+                Toast.makeText(RateDriverActivity.this, String.valueOf(ratingBar.getRating()), Toast.LENGTH_SHORT).show();
 
             }
 
