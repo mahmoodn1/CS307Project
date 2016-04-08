@@ -169,7 +169,7 @@ public class ShowRidesActivity extends AppCompatActivity implements FilterDialog
         list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapter, View view, int position, long arg) {
-                CentralData.rideKey = listofRidesKeysFiltered.get(position);
+                CentralData.rideKey = listofRidesKeysFiltered.get(position).toString();
                 System.out.println("KEY OF THE RIDE IS " + CentralData.rideKey);
                 Intent intent = new Intent(getApplicationContext(), RideActivity.class);
                 startActivity(intent);
@@ -346,7 +346,7 @@ public class ShowRidesActivity extends AppCompatActivity implements FilterDialog
         matches = new ArrayList<Ride>();
         for (Ride ride1 : listofRidesFiltered) {
             for (Ride ride2 : userRides) {
-                if((ride1.destination).equals((ride2.destination)) && !((ride1.createdByUser).equals(ride2.createdByUser))) {
+                if((ride1.destination.toLowerCase()).equals((ride2.destination.toLowerCase())) && !((ride1.createdByUser).equals(ride2.createdByUser))) {
                     matches.add(ride1);
                 }
             }
@@ -387,10 +387,15 @@ public class ShowRidesActivity extends AppCompatActivity implements FilterDialog
 
 
         // Check if my ride
-        CentralData.RideList=(ArrayList)listofRidesFiltered.clone();
-        Intent intent = new Intent(this, CreateRideActivity.class);
-        intent.putExtra("ChangeRide", listPosition); // Pass ride id
-        startActivity(intent);
+        if(CentralData.uid.equals(listofRidesFiltered.get(listPosition).createdByUser)) {
+            CentralData.RideList = (ArrayList) listofRidesFiltered.clone();
+            Intent intent = new Intent(this, CreateRideActivity.class);
+            intent.putExtra("ChangeRide", listPosition); // Pass ride id
+            CentralData.rideKey = listofRidesKeysFiltered.get(listPosition).toString();
+            startActivity(intent);
+        }
+        else
+            Toast.makeText(this, "The ride is not your ride.", Toast.LENGTH_LONG).show();
 
 
         // Open new Activity
@@ -406,17 +411,24 @@ public class ShowRidesActivity extends AppCompatActivity implements FilterDialog
     private void filter(Boolean offer, Boolean search)
     {
         ArrayList NewArrayList = new ArrayList<Ride>();
+        ArrayList NewArrayList2 = new ArrayList<String>();
 
 
-        Iterator<Ride> iter = listofRidesFiltered.iterator();
+        Iterator<Ride> iter = listofRides.iterator();
+        int i = 0;
         while(iter.hasNext()){
             Ride item = iter.next();
             Boolean status = item.type;
 
-            if((offer && !status) || (search && status))
+            if((offer && !status) || (search && status)) {
                 NewArrayList.add(item);
+                NewArrayList2.add(listofRidesKeys.get(i));
+            }
+            i = i+1;
 
         }
+
+
 
 
 
@@ -431,6 +443,10 @@ public class ShowRidesActivity extends AppCompatActivity implements FilterDialog
         };
 
         list.setAdapter(adapter);
+
+
+        listofRidesFiltered=(ArrayList)NewArrayList.clone();
+        listofRidesKeysFiltered=(ArrayList)NewArrayList2.clone();
 
     }
 

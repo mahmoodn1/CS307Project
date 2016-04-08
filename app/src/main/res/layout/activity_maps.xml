@@ -6,4 +6,23 @@
     class="com.google.android.gms.maps.SupportMapFragment"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="edu.purdue.kteja.mapi.MapsActivity" />
+    tools:context="edu.purdue.kteja.mapi.MapsActivity" >
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="right|top"
+
+        android:padding="10dp"
+        android:id="@+id/mapdistance"
+        android:layout_marginTop="20dp"
+        android:paddingRight="10dp"/>
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="left|top"
+
+        android:padding="10dp"
+        android:id="@+id/maptime"
+        android:layout_marginTop="20dp"
+        android:paddingLeft="10dp"/>
+    </fragment>

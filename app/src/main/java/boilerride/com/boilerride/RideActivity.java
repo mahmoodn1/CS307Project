@@ -23,7 +23,6 @@ import java.util.Map;
 
 public class RideActivity extends AppCompatActivity {
 
-    private ArrayList<String> peopleInRides = new ArrayList<String>();
     private TextView tv_completed;
     private TextView tv_arrivalTime;
     private TextView tv_departTime;
@@ -41,6 +40,7 @@ public class RideActivity extends AppCompatActivity {
     private Button joinRideButton;
     private Button leaveRideButton;
     private Button rateUserButton;
+    private String completed;
     private Firebase myFirebase = new Firebase("https://luminous-torch-1510.firebaseio.com/rides");
 
     private GetRideTask mAuthTask = null;
@@ -70,7 +70,10 @@ public class RideActivity extends AppCompatActivity {
         userProfileButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                attemptRideCreatorActivity();
+                if((CentralData.uid).equals((CentralData.rideCreatorUid))){
+                    attemptRidePassengersActivity();
+                }else
+                    attemptRideCreatorActivity();
             }
         });
 
@@ -148,7 +151,7 @@ public class RideActivity extends AppCompatActivity {
                 if((CentralData.uid).equals((CentralData.rideCreatorUid))){
                     attemptRatePassengersActivity();
                 }else
-                    attemptRateDriverActivityActivity();
+                    attemptRateDriverActivity();
             }
         });
     }
@@ -178,7 +181,7 @@ public class RideActivity extends AppCompatActivity {
         Firebase myFirebase2 = new Firebase("https://luminous-torch-1510.firebaseio.com/peopleInRides");
         Firebase rideUsers = myFirebase2.child(CentralData.rideKey);
         if (!CentralData.uid.equals(CentralData.rideCreatorUid)) { //not the creator so he can join
-            if(!peopleInRides.contains(CentralData.uid)){
+            if(!CentralData.peopleInRides.contains(CentralData.uid)){
                 Firebase node = myFirebase.child(CentralData.rideKey);
                 double numPassengers = Double.parseDouble((tv_numOfPassengers.getText().toString()));
                 double maxPassengers = Double.parseDouble((tv_maxPassengers.getText().toString()));
@@ -208,7 +211,7 @@ public class RideActivity extends AppCompatActivity {
     }
 
     private void attemptLeaveRide(){
-        if(peopleInRides.contains(CentralData.uid)) {
+        if(CentralData.peopleInRides.contains(CentralData.uid)) {
             /*Update Database - People in ride*/
             Firebase myFirebase2 = new Firebase("https://luminous-torch-1510.firebaseio.com/peopleInRides");
             Firebase rideUsers = myFirebase2.child(CentralData.rideKey);
@@ -224,7 +227,7 @@ public class RideActivity extends AppCompatActivity {
             newNumPassengers.put("numOfPassengers", newPassengers);
             node.updateChildren(newNumPassengers);
 
-            peopleInRides.remove((CentralData.uid));
+            CentralData.peopleInRides.remove((CentralData.uid));
             System.out.println("RIDE LEFT");
             Toast.makeText(getApplicationContext(), "LEFT", Toast.LENGTH_LONG).show();
         }else{
@@ -269,10 +272,9 @@ public class RideActivity extends AppCompatActivity {
                             tv_title.setText(snapshot.child("title").getValue().toString());
                             tv_type.setText(snapshot.child("type").getValue().toString());
                             CentralData.rideCreatorUid = snapshot.child("uid").getValue().toString();
-
                             CentralData.origin = snapshot.child("origin").getValue().toString();
                             CentralData.destination = snapshot.child("destination").getValue().toString();
-                            String completed = snapshot.child("completed").getValue().toString();
+                            completed = snapshot.child("completed").getValue().toString();
 
                             if((CentralData.uid).equals((CentralData.rideCreatorUid)) &&
                                     completed.equals("false")) {
@@ -303,6 +305,7 @@ public class RideActivity extends AppCompatActivity {
                         System.out.println("The read failed: " + firebaseError.getMessage());
                     }
                 });
+
                 Firebase people = new Firebase("https://luminous-torch-1510.firebaseio.com/peopleInRides");
                 Query queryRef2 = people.child(CentralData.rideKey);
                 queryRef2.addValueEventListener(new ValueEventListener() {
@@ -312,12 +315,20 @@ public class RideActivity extends AppCompatActivity {
                             Log.d("SNAPSHOT NULL:", "ERROR SNAPSHOT DOES NOT EXIST");
                         } else {
                             Log.d("SNAPSHOT EXISTS:", "YAY2");
+                            CentralData.peopleInRides.clear();
                             for (DataSnapshot postSnapshot : snapshot.getChildren()) {
                                 System.out.println("POSTSNAPSHOT IS " + postSnapshot.getValue());
                                 System.out.println("THE KEY IS " + postSnapshot.getKey());
                                 String aux = postSnapshot.getKey().toString();
                                 System.out.println(aux);
-                                peopleInRides.add(aux);
+                                CentralData.peopleInRides.add(aux);
+                            }
+                            if((CentralData.peopleInRides.contains(CentralData.uid) || (CentralData.uid).equals(CentralData.rideCreatorUid)) &&
+                                    completed.equals("true")) {
+                                rateUserButton.setVisibility(View.VISIBLE);
+                            }
+                            else {
+                                rateUserButton.setVisibility(View.GONE);
                             }
                         }
                     }
@@ -328,11 +339,11 @@ public class RideActivity extends AppCompatActivity {
                     }
                 });
 
-                if(peopleInRides.isEmpty()){
+                if(CentralData.peopleInRides.isEmpty()){
                     System.out.println("This is so shitty peopleInRides is empty");
                 }else{
                     System.out.println("This is not shitty peopleInRides is NOT empty");
-                    for(String i : peopleInRides){
+                    for(String i : CentralData.peopleInRides){
                         System.out.println("THE USER IN THIS RIDE IS " + i);
                     }
                 }
@@ -359,7 +370,10 @@ public class RideActivity extends AppCompatActivity {
         Intent intent = new Intent(this, RideCreatorActivity.class);
         startActivity(intent);
     }
-
+    private void attemptRidePassengersActivity(){
+        Intent intent = new Intent(this, RidePassengerListActivity.class);
+        startActivity(intent);
+    }
     private void attemptMapActivity(){
         Intent intent = new Intent(this, MapsActivity.class);
         startActivity(intent);
@@ -369,7 +383,7 @@ public class RideActivity extends AppCompatActivity {
         Intent intent = new Intent(this, RatePassengerActivity.class);
         startActivity(intent);
     }
-    private void attemptRateDriverActivityActivity(){
+    private void attemptRateDriverActivity(){
         Intent intent = new Intent(this, RateDriverActivity.class);
         startActivity(intent);
     }

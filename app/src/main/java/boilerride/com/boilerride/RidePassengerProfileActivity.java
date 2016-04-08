@@ -1,30 +1,18 @@
 package boilerride.com.boilerride;
 
-import android.Manifest;
+import android.content.Intent;
 import android.graphics.Color;
-import android.media.Image;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.CheckBox;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
-import android.content.Intent;
-import android.net.Uri;
-import android.support.v4.content.ContextCompat;
-import android.support.v4.app.ActivityCompat;
-import android.content.pm.PackageManager;
 
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
@@ -33,16 +21,11 @@ import com.firebase.client.Query;
 import com.firebase.client.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
-import org.w3c.dom.Text;
-
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 
 import fr.tkeunebr.gravatar.Gravatar;
 
-public class RideCreatorActivity extends AppCompatActivity {
+public class RidePassengerProfileActivity extends AppCompatActivity {
 
     private TextView tv_firstname;
     private TextView tv_lastname;
@@ -184,7 +167,7 @@ public class RideCreatorActivity extends AppCompatActivity {
                 //Query queryRef = myFirebase.orderByChild("timePosted");
                 // Attach an listener to read the data at our rides reference
                         /*CHANGE TO RIDE LINK*/
-                Query queryRef = myFirebase.child("users").child(CentralData.rideCreatorUid);
+                Query queryRef = myFirebase.child("users").child(CentralData.passengerKey);
 
                 queryRef.addValueEventListener(new ValueEventListener() {
                     @Override
@@ -250,7 +233,7 @@ public class RideCreatorActivity extends AppCompatActivity {
 
 
 
-                Query queryComments = myFirebase.child("ratings").child(CentralData.rideCreatorUid);
+                Query queryComments = myFirebase.child("ratings").child(CentralData.passengerKey);
                 queryComments.addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot snapshot) {
