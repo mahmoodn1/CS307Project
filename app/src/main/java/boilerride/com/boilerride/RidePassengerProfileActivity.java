@@ -167,7 +167,7 @@ public class RidePassengerProfileActivity extends AppCompatActivity {
                 //Query queryRef = myFirebase.orderByChild("timePosted");
                 // Attach an listener to read the data at our rides reference
                         /*CHANGE TO RIDE LINK*/
-                Query queryRef = myFirebase.child("users").child(CentralData.rideCreatorUid);
+                Query queryRef = myFirebase.child("users").child(CentralData.passengerKey);
 
                 queryRef.addValueEventListener(new ValueEventListener() {
                     @Override
@@ -233,7 +233,7 @@ public class RidePassengerProfileActivity extends AppCompatActivity {
 
 
 
-                Query queryComments = myFirebase.child("ratings").child(CentralData.rideCreatorUid);
+                Query queryComments = myFirebase.child("ratings").child(CentralData.passengerKey);
                 queryComments.addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot snapshot) {
