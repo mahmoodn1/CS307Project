@@ -411,17 +411,24 @@ public class ShowRidesActivity extends AppCompatActivity implements FilterDialog
     private void filter(Boolean offer, Boolean search)
     {
         ArrayList NewArrayList = new ArrayList<Ride>();
+        ArrayList NewArrayList2 = new ArrayList<String>();
 
 
-        Iterator<Ride> iter = listofRidesFiltered.iterator();
+        Iterator<Ride> iter = listofRides.iterator();
+        int i = 0;
         while(iter.hasNext()){
             Ride item = iter.next();
             Boolean status = item.type;
 
-            if((offer && !status) || (search && status))
+            if((offer && !status) || (search && status)) {
                 NewArrayList.add(item);
+                NewArrayList2.add(listofRidesKeys.get(i));
+            }
+            i = i+1;
 
         }
+
+
 
 
 
@@ -436,6 +443,10 @@ public class ShowRidesActivity extends AppCompatActivity implements FilterDialog
         };
 
         list.setAdapter(adapter);
+
+
+        listofRidesFiltered=(ArrayList)NewArrayList.clone();
+        listofRidesKeysFiltered=(ArrayList)NewArrayList2.clone();
 
     }
 
