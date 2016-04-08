@@ -517,6 +517,7 @@ public class ShowRidesActivity extends AppCompatActivity implements FilterDialog
                     @Override
                     public void onDataChange(DataSnapshot snapshot) {
                         listofRides.clear();
+                        CentralData.userRides.clear();
                         System.out.println("There are " + snapshot.getChildrenCount() + " rides");
                         for (DataSnapshot postSnapshot : snapshot.getChildren()) {
                             //Ride ride = postSnapshot.getValue(Ride.class);
@@ -550,6 +551,10 @@ public class ShowRidesActivity extends AppCompatActivity implements FilterDialog
                                     timePosted, title, type, uid, completed);
                             listofRides.add(ride);
                             listofRidesKeys.add(postSnapshot.getKey());
+
+                            if (uid.equals(CentralData.uid)) {
+                                CentralData.userRides.add(postSnapshot.getKey());
+                            }
                         }
                         listofRidesFiltered=(ArrayList)listofRides.clone();
                         listofRidesKeysFiltered=(ArrayList)listofRidesKeys.clone();

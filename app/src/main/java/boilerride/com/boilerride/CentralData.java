@@ -18,5 +18,8 @@ public class CentralData {
     public static boolean notifications = true;
     public static String gravatarURL;
     public static String passengerKey;
+    public static String distance;
+    public static String duration;
+    public static ArrayList<String> userRides = new ArrayList<>();
 
 }
