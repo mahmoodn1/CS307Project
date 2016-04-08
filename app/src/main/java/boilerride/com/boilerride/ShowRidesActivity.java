@@ -115,9 +115,6 @@ public class ShowRidesActivity extends AppCompatActivity implements FilterDialog
             case R.id.not_off:
                 menuNotifications(false);
                 return true;
-            case R.id.menu_filter:
-                menuFilter();
-                return true;
             case R.id.type_all:
                 filter(true, true);
                 return true;
@@ -127,7 +124,8 @@ public class ShowRidesActivity extends AppCompatActivity implements FilterDialog
             case R.id.type_search:
                 filter(false, true);
                 return true;
-            //case R.id.menu_offer:
+            case R.id.order_by_price:
+                filterByPrice();
             //    menuFilter();
             //    return true;
             default:
@@ -283,9 +281,11 @@ public class ShowRidesActivity extends AppCompatActivity implements FilterDialog
         CentralData.notifications = status;
     }
 
+    /*
     private void menuFilter() {
         showFilterDialog();
     }
+    */
 
     private void scheduleNotification(int delay) {
         Notification notification = getNotification();
@@ -428,10 +428,6 @@ public class ShowRidesActivity extends AppCompatActivity implements FilterDialog
 
         }
 
-
-
-
-
         ArrayAdapter adapter = new ArrayAdapter<Ride>(getApplicationContext(), android.R.layout.simple_spinner_item, NewArrayList){
             @Override
             public View getView(int position, View convertView, ViewGroup parent) {
@@ -443,13 +439,50 @@ public class ShowRidesActivity extends AppCompatActivity implements FilterDialog
         };
 
         list.setAdapter(adapter);
-
-
         listofRidesFiltered=(ArrayList)NewArrayList.clone();
         listofRidesKeysFiltered=(ArrayList)NewArrayList2.clone();
-
     }
 
+    private void filterByPrice(){
+        ArrayList NewArrayList = new ArrayList<Ride>();
+        ArrayList NewArrayList2 = new ArrayList<String>();
+
+        ArrayList<Ride> auxList = new ArrayList <Ride>();
+        ArrayList<String> auxKeyList = new ArrayList <String>();
+        auxList = (ArrayList)listofRides.clone();
+        auxKeyList = (ArrayList)listofRidesKeys.clone();
+
+        while(!auxList.isEmpty()){
+            double price = 0;
+            Ride add = null;
+            int index = 0;
+            /*Get the ride with the highest price*/
+            for ( Ride aux : auxList ){
+                if (aux.fare >= price){
+                    add = aux;
+                    price = aux.fare;
+                    index = auxList.indexOf(aux);
+                }
+            }
+            NewArrayList.add(add);
+            NewArrayList2.add(auxKeyList.get(index));
+            auxList.remove(index);
+            auxKeyList.remove(index);
+        }
+
+        ArrayAdapter adapter = new ArrayAdapter<Ride>(getApplicationContext(), android.R.layout.simple_spinner_item, NewArrayList){
+            @Override
+            public View getView(int position, View convertView, ViewGroup parent) {
+                View view = super.getView(position, convertView, parent);
+                TextView text = (TextView) view.findViewById(android.R.id.text1);
+                text.setTextColor(Color.BLACK);
+                return view;
+            }
+        };
+        list.setAdapter(adapter);
+        listofRidesFiltered=(ArrayList)NewArrayList.clone();
+        listofRidesKeysFiltered=(ArrayList)NewArrayList2.clone();
+    }
 
     /**
      * Shows the progress UI and hides the login form.

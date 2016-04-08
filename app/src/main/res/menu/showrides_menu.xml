@@ -29,6 +29,10 @@
             </item>
             <item android:id="@+id/menu_filter"
                 android:title="More filters" >
+                <menu>
+                    <item android:id="@+id/order_by_price"
+                        android:title="Sort by price - Descending" />
+                </menu>
                 <!-- "file" submenu
                 <menu>
                     <item android:id="@+id/menu_price"
