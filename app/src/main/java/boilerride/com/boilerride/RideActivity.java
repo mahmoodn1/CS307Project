@@ -3,24 +3,11 @@ package boilerride.com.boilerride;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
-import android.app.NotificationManager;
-import android.app.Notification;
-import android.support.v4.app.*;
-import android.content.Context;
-import android.app.PendingIntent;
-import android.app.AlarmManager;
-import android.os.SystemClock;
 import android.widget.Button;
-import android.widget.CheckBox;
-import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -31,10 +18,8 @@ import com.firebase.client.Query;
 import com.firebase.client.ValueEventListener;
 
 import java.util.ArrayList;
-import java.util.Map;
 import java.util.HashMap;
-
-import org.w3c.dom.Text;
+import java.util.Map;
 
 public class RideActivity extends AppCompatActivity {
 
@@ -45,6 +30,7 @@ public class RideActivity extends AppCompatActivity {
     private TextView tv_destination;
     private TextView tv_distance;
     private TextView tv_fare;
+    private TextView tv_estfare;
     private TextView tv_maxPassengers;
     private TextView tv_numOfPassengers;
     private TextView tv_origin;
@@ -71,6 +57,7 @@ public class RideActivity extends AppCompatActivity {
         tv_destination=(TextView)findViewById(R.id.ride_destinationF);
         tv_distance=(TextView)findViewById(R.id.ride_distanceF);
         tv_fare=(TextView)findViewById(R.id.ride_fareF);
+        tv_estfare=(TextView)findViewById(R.id.ride_estfareF);
         tv_maxPassengers=(TextView)findViewById(R.id.ride_maxpassengersF);
         tv_numOfPassengers=(TextView)findViewById(R.id.ride_numberpassengersF);
         tv_origin=(TextView)findViewById(R.id.ride_originf);

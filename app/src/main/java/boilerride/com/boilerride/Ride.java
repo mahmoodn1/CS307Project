@@ -1,6 +1,5 @@
 package boilerride.com.boilerride;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 /**
  * Created by nadeemmahmood on 3/2/16.
@@ -9,6 +8,7 @@ public class Ride {
     public boolean type; // 0 = offer 1 = request
     public double numOfPassengers;
     public double fare;
+    //public double estfare;
     public double distance;
     public String origin;
     public String destination;
@@ -25,6 +25,7 @@ public class Ride {
                 String title, boolean type, String createdByUser, boolean completed) {
         this.numOfPassengers = numOfPassengers;
         this.fare = fare;
+        //this.estfare=estfare;
         this.distance = distance;
         this.origin = origin;
         this.destination = destination;
