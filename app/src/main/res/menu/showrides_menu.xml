@@ -29,15 +29,7 @@
             </item>
             <item android:id="@+id/menu_filter"
                 android:title="More filters" >
-<<<<<<< HEAD
-                <!-- "file" submenu-->
-=======
-                <menu>
-                    <item android:id="@+id/order_by_price"
-                        android:title="Sort by price - Descending" />
-                </menu>
-                <!-- "file" submenu
->>>>>>> 7ce673cbffc4b380a0f0f5834e7e81d912ac2075
+                <!-- "file" submenu -->
                 <menu>
                     <item android:id="@+id/menu_price"
                         android:title="Data" />

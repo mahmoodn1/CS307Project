@@ -124,17 +124,14 @@ public class ShowRidesActivity extends AppCompatActivity implements FilterDialog
             case R.id.type_search:
                 filter(false, true);
                 return true;
-<<<<<<< HEAD
             case R.id.menu_offer:
                 menuFilter();
                 return true;
-=======
-            case R.id.order_by_price:
-                filterByPrice();
+            //case R.id.order_by_price:
+            //    filterByPrice();
             //case R.id.menu_offer:
             //    menuFilter();
             //    return true;
->>>>>>> 7ce673cbffc4b380a0f0f5834e7e81d912ac2075
             default:
                 return super.onOptionsItemSelected(item);
         }
