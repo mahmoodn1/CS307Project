@@ -10,6 +10,9 @@ public class CentralData {
     public static String uid;
     public static String origin;
     public static String destination;
+    public static String dist;
+    public static String origin1;
+    public static String destination1;
     /*LINK OF THE RIDE REQUESTED*/
     public static String rideKey;
     public static String rideCreatorUid;

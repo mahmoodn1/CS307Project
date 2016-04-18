@@ -1,6 +1,9 @@
 package boilerride.com.boilerride;
 
 import android.content.Intent;
+import android.location.Address;
+import android.location.Geocoder;
+import android.location.Location;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -17,8 +20,11 @@ import com.firebase.client.FirebaseError;
 import com.firebase.client.Query;
 import com.firebase.client.ValueEventListener;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 public class RideActivity extends AppCompatActivity {
@@ -47,6 +53,7 @@ public class RideActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_ride);
@@ -262,9 +269,21 @@ public class RideActivity extends AppCompatActivity {
                             tv_arrivalTime.setText(snapshot.child("arrivalTime").getValue().toString());
                             tv_departTime.setText(snapshot.child("departTime").getValue().toString());
                             tv_destination.setText(snapshot.child("destination").getValue().toString());
-                            tv_distance.setText(snapshot.child("distance").getValue().toString());
-                            ;
-                            tv_fare.setText(snapshot.child("fare").getValue().toString());
+                            CentralData.origin1=snapshot.child("origin").getValue().toString();
+                            CentralData.destination1=(snapshot.child("destination").getValue().toString());
+
+                            double lat1, lat2, long1, long2;
+                            lat1 = get_lat(CentralData.origin1);
+                            long1 = get_loc(CentralData.origin1);
+                            lat2 = get_lat(CentralData.destination1);
+                            long2 = get_loc(CentralData.destination1);
+
+                            tv_distance.setText(String.valueOf(calculateDistance(lat1, long1, lat2, long2)));
+
+                            double fare1 = Double.parseDouble(snapshot.child("fare").getValue().toString());
+                            fare1 = fare1 *calculateDistance(lat1, long1, lat2, long2);
+                            fare1 = round(fare1,2);
+                            tv_fare.setText(String.valueOf(fare1));
                             tv_maxPassengers.setText(snapshot.child("maxPassengers").getValue().toString());
                             tv_numOfPassengers.setText(snapshot.child("numOfPassengers").getValue().toString());
                             tv_origin.setText(snapshot.child("origin").getValue().toString());
@@ -294,9 +313,9 @@ public class RideActivity extends AppCompatActivity {
                             }
                             else
                                 tv_completed.setVisibility((View.GONE));
-                                //joinRideButton.setVisibility(View.VISIBLE);
-                                //leaveRideButton.setVisibility(View.VISIBLE);
-                                //rateUsersButton.setVisibility(View.GONE);
+                            //joinRideButton.setVisibility(View.VISIBLE);
+                            //leaveRideButton.setVisibility(View.VISIBLE);
+                            //rateUsersButton.setVisibility(View.GONE);
                         }
                     }
 
@@ -386,6 +405,67 @@ public class RideActivity extends AppCompatActivity {
     private void attemptRateDriverActivity(){
         Intent intent = new Intent(this, RateDriverActivity.class);
         startActivity(intent);
+    }
+    public double get_loc( String  myLocation) {
+        Geocoder geocoder = new Geocoder(this, Locale.getDefault());
+
+
+        List<Address> addresses = null;
+        try {
+            addresses = geocoder.getFromLocationName(myLocation, 1);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        Address address = addresses.get(0);
+        if (addresses.size() > 0) {
+
+            double longitude = addresses.get(0).getLongitude();
+
+            return longitude;
+        }
+        return 0;
+    }
+    public double get_lat( String  myLocation) {
+        Geocoder geocoder = new Geocoder(this, Locale.getDefault());
+
+
+        List<Address> addresses = null;
+        try {
+            addresses = geocoder.getFromLocationName(myLocation, 1);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        Address address = addresses.get(0);
+        if (addresses.size() > 0) {
+            double latitude = addresses.get(0).getLatitude();
+
+
+            return latitude;
+        }
+        return 0;
+    }
+    public double calculateDistance(double lat1, double long1, double lat2, double long2) {
+
+        Location locA = new Location("locA");
+        locA.setLatitude(lat1);
+        locA.setLongitude(long1);
+        Location locB = new Location("locB");
+        locB.setLatitude(lat2);
+        locB.setLongitude(long2);
+
+        double distance  = locA.distanceTo(locB);
+        Log.i("Distance in meters: ", distance + "");
+        distance = distance/1600;
+        distance=round(distance,2);
+        return distance;
+    }
+    public static double round(double value, int places) {
+        if (places < 0) throw new IllegalArgumentException();
+
+        long factor = (long) Math.pow(10, places);
+        value = value * factor;
+        long tmp = Math.round(value);
+        return (double) tmp / factor;
     }
 
 }

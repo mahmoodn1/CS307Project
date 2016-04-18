@@ -115,9 +115,6 @@ public class ShowRidesActivity extends AppCompatActivity implements FilterDialog
             case R.id.not_off:
                 menuNotifications(false);
                 return true;
-            case R.id.menu_filter:
-                menuFilter();
-                return true;
             case R.id.type_all:
                 filter(true, true);
                 return true;
@@ -127,9 +124,17 @@ public class ShowRidesActivity extends AppCompatActivity implements FilterDialog
             case R.id.type_search:
                 filter(false, true);
                 return true;
+<<<<<<< HEAD
             case R.id.menu_offer:
                 menuFilter();
                 return true;
+=======
+            case R.id.order_by_price:
+                filterByPrice();
+            //case R.id.menu_offer:
+            //    menuFilter();
+            //    return true;
+>>>>>>> 7ce673cbffc4b380a0f0f5834e7e81d912ac2075
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -428,10 +433,6 @@ public class ShowRidesActivity extends AppCompatActivity implements FilterDialog
 
         }
 
-
-
-
-
         ArrayAdapter adapter = new ArrayAdapter<Ride>(getApplicationContext(), android.R.layout.simple_spinner_item, NewArrayList){
             @Override
             public View getView(int position, View convertView, ViewGroup parent) {
@@ -448,6 +449,53 @@ public class ShowRidesActivity extends AppCompatActivity implements FilterDialog
         listofRidesFiltered=(ArrayList)NewArrayList.clone();
         listofRidesKeysFiltered=(ArrayList)NewArrayList2.clone();
 
+    }
+
+    private void filterByPrice(){
+        ArrayList NewArrayList = new ArrayList<Ride>();
+        ArrayList NewArrayList2 = new ArrayList<String>();
+
+        ArrayList<Ride> auxList = new ArrayList <Ride>();
+        ArrayList<String> auxKeyList = new ArrayList <String>();
+        if(listofRidesFiltered.isEmpty()){
+            auxList = (ArrayList)listofRides.clone();
+            auxKeyList = (ArrayList)listofRidesKeys.clone();
+        }else{
+            auxList = (ArrayList)listofRidesFiltered.clone();
+            auxKeyList = (ArrayList)listofRidesKeysFiltered.clone();
+        }
+
+
+        while(!auxList.isEmpty()){
+            double price = 0;
+            Ride add = null;
+            int index = 0;
+            /*Get the ride with the highest price*/
+            for ( Ride aux : auxList ){
+                if (aux.fare >= price){
+                    add = aux;
+                    price = aux.fare;
+                    index = auxList.indexOf(aux);
+                }
+            }
+            NewArrayList.add(add);
+            NewArrayList2.add(auxKeyList.get(index));
+            auxList.remove(index);
+            auxKeyList.remove(index);
+        }
+
+        ArrayAdapter adapter = new ArrayAdapter<Ride>(getApplicationContext(), android.R.layout.simple_spinner_item, NewArrayList){
+            @Override
+            public View getView(int position, View convertView, ViewGroup parent) {
+                View view = super.getView(position, convertView, parent);
+                TextView text = (TextView) view.findViewById(android.R.id.text1);
+                text.setTextColor(Color.BLACK);
+                return view;
+            }
+        };
+        list.setAdapter(adapter);
+        listofRidesFiltered=(ArrayList)NewArrayList.clone();
+        listofRidesKeysFiltered=(ArrayList)NewArrayList2.clone();
     }
 
 
