@@ -21,5 +21,6 @@ public class CentralData {
     public static String distance;
     public static String duration;
     public static ArrayList<String> userRides = new ArrayList<>();
+    public static ArrayList<String> myRides = new ArrayList<String>();
 
 }

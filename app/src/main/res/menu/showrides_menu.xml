@@ -29,16 +29,16 @@
             </item>
             <item android:id="@+id/menu_filter"
                 android:title="More filters" >
-                <!-- "file" submenu
+                <!-- "file" submenu-->
                 <menu>
                     <item android:id="@+id/menu_price"
-                        android:title="Price" />
+                        android:title="Data" />
                     <item android:id="@+id/menu_distance"
-                        android:title="Distance" />
+                        android:title="Time Posted" />
                     <item android:id="@+id/menu_offer"
-                        android:title="Offer" />
+                        android:title="Destination" />
                     <item android:id="@+id/menu_search"
-                        android:title="Search" />
-                </menu>-->
+                        android:title="Distance" />
+                </menu>
             </item>
         </menu>

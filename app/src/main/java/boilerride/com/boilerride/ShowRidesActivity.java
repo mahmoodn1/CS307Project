@@ -127,9 +127,9 @@ public class ShowRidesActivity extends AppCompatActivity implements FilterDialog
             case R.id.type_search:
                 filter(false, true);
                 return true;
-            //case R.id.menu_offer:
-            //    menuFilter();
-            //    return true;
+            case R.id.menu_offer:
+                menuFilter();
+                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -139,6 +139,8 @@ public class ShowRidesActivity extends AppCompatActivity implements FilterDialog
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_showrides);
         // Set up the login form.
+
+        //scheduleNotification(30000);
 
         Firebase.setAndroidContext(this);
         myFirebase  = new Firebase("https://luminous-torch-1510.firebaseio.com/rides");
@@ -195,10 +197,8 @@ public class ShowRidesActivity extends AppCompatActivity implements FilterDialog
                 listofRidesKeysFiltered.clear();
 
 
-                for(int i = 0; i<listofRides.size();i++)
-                {
-                    if(listofRides.get(i).title.toLowerCase().contains(s.toString().toLowerCase()))
-                    {
+                for (int i = 0; i < listofRides.size(); i++) {
+                    if (listofRides.get(i).title.toLowerCase().contains(s.toString().toLowerCase())) {
                         listofRidesFiltered.add(listofRides.get(i));
                         listofRidesKeysFiltered.add(listofRidesKeys.get(i));
                     }
@@ -207,17 +207,28 @@ public class ShowRidesActivity extends AppCompatActivity implements FilterDialog
 
             }
 
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
 
             public void onTextChanged(CharSequence s, int start, int before, int count) {}
         });
-
-        scheduleNotification(30000);
     }
 
     @Override
     protected void onResume() {
         super.onResume();
+    }
+
+    private void scheduleNotification(int delay) {
+        //Notification notification = getNotification();
+        Intent notificationIntent = new Intent(this, NotificationPublisher.class);
+        notificationIntent.putExtra(NotificationPublisher.NOTIFICATION_ID, 1);
+        //notificationIntent.putExtra(NotificationPublisher.NOTIFICATION, notification);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 0, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+        long futureInMillis = SystemClock.elapsedRealtime() + delay;
+        AlarmManager alarmManager = (AlarmManager)getSystemService(Context.ALARM_SERVICE);
+        alarmManager.set(AlarmManager.ELAPSED_REALTIME_WAKEUP, futureInMillis, pendingIntent);
     }
 
 
@@ -226,7 +237,7 @@ public class ShowRidesActivity extends AppCompatActivity implements FilterDialog
      * If there are form errors (invalid email, missing fields, etc.), the
      * errors are presented and no actual post attempt is made.
      */
-    private void attemptPull() {
+    public void attemptPull() {
         if (mAuthTask != null) {
             return;
         }
@@ -241,7 +252,7 @@ public class ShowRidesActivity extends AppCompatActivity implements FilterDialog
         } else {
             // Show a progress spinner, and kick off a background task to
             // perform the user login attempt.
-            showProgress(true);
+            //showProgress(true);
             mAuthTask = new GetRideTask();
             mAuthTask.execute((Void) null);
         }
@@ -287,19 +298,8 @@ public class ShowRidesActivity extends AppCompatActivity implements FilterDialog
         showFilterDialog();
     }
 
-    private void scheduleNotification(int delay) {
-        Notification notification = getNotification();
-        Intent notificationIntent = new Intent(this, NotificationPublisher.class);
-        notificationIntent.putExtra(NotificationPublisher.NOTIFICATION_ID, 1);
-        notificationIntent.putExtra(NotificationPublisher.NOTIFICATION, notification);
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 0, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 
-        long futureInMillis = SystemClock.elapsedRealtime() + delay;
-        AlarmManager alarmManager = (AlarmManager)getSystemService(Context.ALARM_SERVICE);
-        alarmManager.set(AlarmManager.ELAPSED_REALTIME_WAKEUP, futureInMillis, pendingIntent);
-    }
-
-    private Notification getNotification() {
+    public Notification getNotification() {
         content = findMatches();
         NotificationCompat.Builder mBuilder =
                 new NotificationCompat.Builder(this)
@@ -335,7 +335,7 @@ public class ShowRidesActivity extends AppCompatActivity implements FilterDialog
         return mBuilder.build();
     }
 
-    public String findMatches() {
+    public static String findMatches() {
         ArrayList<Ride> userRides = new ArrayList<Ride>();
         for (Ride r : listofRidesFiltered) {
             if((r.createdByUser).equals(CentralData.uid)) {
@@ -395,7 +395,7 @@ public class ShowRidesActivity extends AppCompatActivity implements FilterDialog
             startActivity(intent);
         }
         else
-            Toast.makeText(this, "The ride is not your ride.", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "This ride is not your ride.", Toast.LENGTH_LONG).show();
 
 
         // Open new Activity
@@ -492,17 +492,6 @@ public class ShowRidesActivity extends AppCompatActivity implements FilterDialog
      * the user.
      */
     public class GetRideTask extends AsyncTask<Void, Void, Boolean> {
-        private boolean type; // 0 = offer 1 = request
-        private double numOfPassengers;
-        private double fare;
-        private double distance;
-        private String origin;
-        private String destination;
-        private double maxPassengers;
-        private String departTime;
-        private String arrivalTime;
-        private String timePosted;
-        private String title;
 
         public GetRideTask() {
         }
@@ -511,6 +500,28 @@ public class ShowRidesActivity extends AppCompatActivity implements FilterDialog
             // TODO: attempt authentication against a network service.
 
             try {
+                Query ridesQ = myFirebase.child("peopleInRides");
+                ridesQ.addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot snapshot) {
+                        CentralData.myRides.clear();
+                        for (DataSnapshot postSnapshot : snapshot.getChildren()) {
+                            String key1 = postSnapshot.getKey();
+                            String value = postSnapshot.toString();
+                            boolean inRide = value.toLowerCase().contains(CentralData.uid.toLowerCase());
+                            if (inRide) {
+                                CentralData.myRides.add(key1);
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(FirebaseError firebaseError) {
+                        System.out.println("The read failed: " + firebaseError.getMessage());
+                    }
+                });
+
+
                 //Query queryRef = myFirebase.orderByChild("timePosted");
                 // Attach an listener to read the data at our rides reference
                 myFirebase.addValueEventListener(new ValueEventListener() {

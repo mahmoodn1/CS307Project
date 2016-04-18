@@ -196,7 +196,7 @@ public class RideActivity extends AppCompatActivity {
                     Toast.makeText(getApplicationContext(), "Joined", Toast.LENGTH_LONG).show();
                 }else{
                     System.out.println("Ride is full so you can't join");
-                    Toast.makeText(getApplicationContext(), "Ride is full so you can't join", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(), "Ride is full. Unable to join", Toast.LENGTH_LONG).show();
                 }
 
             }else{
