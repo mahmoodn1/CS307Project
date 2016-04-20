@@ -145,7 +145,7 @@ public class ShowRidesActivity extends AppCompatActivity implements FilterDialog
         //scheduleNotification(30000);
 
         Firebase.setAndroidContext(this);
-        myFirebase  = new Firebase("https://luminous-torch-1510.firebaseio.com/rides");
+        myFirebase  = new Firebase("https://luminous-torch-1510.firebaseio.com/");
         attemptPull();
 
         list = (ListView) findViewById(R.id.showrides_listView);
@@ -569,7 +569,8 @@ public class ShowRidesActivity extends AppCompatActivity implements FilterDialog
 
                 //Query queryRef = myFirebase.orderByChild("timePosted");
                 // Attach an listener to read the data at our rides reference
-                myFirebase.addValueEventListener(new ValueEventListener() {
+                Query ridesQ1 = myFirebase.child("rides");
+                ridesQ1.addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot snapshot) {
                         listofRides.clear();
