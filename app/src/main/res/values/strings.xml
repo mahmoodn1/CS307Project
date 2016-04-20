@@ -14,7 +14,7 @@
     <string name="permission_rationale">"Contacts permissions are needed for providing email
         completions."
     </string>
-    <string name="message_welcome">Welcome to BoilerRide, the ride share app for Purdue students! Please select:</string>
+    <string name="message_welcome">Welcome to BoilerRide</string>
     <string name="title_activity_reset_pwd">ResetPwdActivity</string>
     <string name="title_activity_ride_creator">RideCreatorActivity</string>
     <string name="title_activity_ride">RideActivity</string>
