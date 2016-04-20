@@ -191,16 +191,17 @@ public class ShowRidesActivity extends AppCompatActivity implements FilterDialog
         etSearch.addTextChangedListener(new TextWatcher() {
 
             public void afterTextChanged(Editable s) {
-
                 // you can call or do what you want with your EditText here
                 String a = "Hello";
 
                 listofRidesFiltered.clear();
                 listofRidesKeysFiltered.clear();
 
-
+                String formattedDate = s.toString().replaceAll("/", "");
                 for (int i = 0; i < listofRides.size(); i++) {
-                    if (listofRides.get(i).title.toLowerCase().contains(s.toString().toLowerCase()) || listofRides.get(i).destination.toLowerCase().contains(s.toString().toLowerCase())) {
+                    if (listofRides.get(i).title.toLowerCase().contains(s.toString().toLowerCase()) ||
+                            listofRides.get(i).destination.toLowerCase().contains(s.toString().toLowerCase()) ||
+                            listofRides.get(i).timePosted.toLowerCase().contains(formattedDate)) {
                         listofRidesFiltered.add(listofRides.get(i));
                         listofRidesKeysFiltered.add(listofRidesKeys.get(i));
                     }

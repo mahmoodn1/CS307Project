@@ -27,7 +27,7 @@
                 android:id="@+id/showrides_search"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:hint="Search" />
+                android:hint="@string/edittext_hint" />
 
             <ListView
                 android:layout_width="fill_parent"
