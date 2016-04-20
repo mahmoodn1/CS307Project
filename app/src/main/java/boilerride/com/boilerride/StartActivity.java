@@ -251,7 +251,7 @@ public class StartActivity extends AppCompatActivity{
                         String key = snapshot.getKey();
 
                         if (CentralData.myRides.contains(key))
-                                content = "A ride you're part of was modified or cancelled. Check now!";
+                                content = "A ride you're part of was modified. Check now!";
 
                             NotificationManager notificationManager = (NotificationManager)context.getSystemService(Context.NOTIFICATION_SERVICE);
 
@@ -275,8 +275,29 @@ public class StartActivity extends AppCompatActivity{
 
                     @Override
                     public void onChildRemoved(DataSnapshot snapshot) {
-                        //String title = (String) snapshot.child("title").getValue();
-                        //System.out.println("The blog post titled " + title + " has been deleted");
+                        String key = snapshot.getKey();
+
+                        if (CentralData.myRides.contains(key))
+                            content = "A ride you're part of was cancelled. Check now!";
+
+                        NotificationManager notificationManager = (NotificationManager)context.getSystemService(Context.NOTIFICATION_SERVICE);
+
+                        int id = 1;
+                        if (ShowRidesActivity.matches.size() > 0) {
+                            adapter = new ArrayAdapter<Ride>(context, android.R.layout.simple_spinner_item, ShowRidesActivity.matches) {
+                                @Override
+                                public View getView(int position, View convertView, ViewGroup parent) {
+                                    View view = super.getView(position, convertView, parent);
+                                    TextView text = (TextView) view.findViewById(android.R.id.text1);
+                                    text.setTextColor(Color.BLACK);
+                                    return view;
+                                }
+                            };
+                        }
+
+                        Notification notification = getNotification(type);
+                        if (content != null && CentralData.notifications)
+                            notificationManager.notify(id, notification);
                     }
 
                     @Override
@@ -299,10 +320,29 @@ public class StartActivity extends AppCompatActivity{
                     // Retrieve new posts as they are added to the database
                     @Override
                     public void onChildAdded(DataSnapshot snapshot, String previousChildKey) {
-                        //String key = snapshot.getKey();
-                        //if (CentralData.userRides.contains(key)) {
-                            //type = 2;
-                        //}
+                        String key = snapshot.getKey();
+                        if (CentralData.userRides.contains(key)) {
+                            content = "Someone joined your ride! Check now!";
+
+                            NotificationManager notificationManager = (NotificationManager)context.getSystemService(Context.NOTIFICATION_SERVICE);
+
+                            int id = 1;
+                            if (ShowRidesActivity.matches.size() > 0) {
+                                adapter = new ArrayAdapter<Ride>(context, android.R.layout.simple_spinner_item, ShowRidesActivity.matches) {
+                                    @Override
+                                    public View getView(int position, View convertView, ViewGroup parent) {
+                                        View view = super.getView(position, convertView, parent);
+                                        TextView text = (TextView) view.findViewById(android.R.id.text1);
+                                        text.setTextColor(Color.BLACK);
+                                        return view;
+                                    }
+                                };
+                            }
+
+                            Notification notification = getNotification(type);
+                            if (content != null && CentralData.notifications)
+                                notificationManager.notify(id, notification);
+                        }
                     }
 
                     @Override
@@ -336,7 +376,26 @@ public class StartActivity extends AppCompatActivity{
                     public void onChildRemoved(DataSnapshot snapshot) {
                         String key = snapshot.getKey();
                         if (CentralData.userRides.contains(key)) {
-                            type = 1;
+                            content = "Someone left your ride! Check now!";
+
+                            NotificationManager notificationManager = (NotificationManager)context.getSystemService(Context.NOTIFICATION_SERVICE);
+
+                            int id = 1;
+                            if (ShowRidesActivity.matches.size() > 0) {
+                                adapter = new ArrayAdapter<Ride>(context, android.R.layout.simple_spinner_item, ShowRidesActivity.matches) {
+                                    @Override
+                                    public View getView(int position, View convertView, ViewGroup parent) {
+                                        View view = super.getView(position, convertView, parent);
+                                        TextView text = (TextView) view.findViewById(android.R.id.text1);
+                                        text.setTextColor(Color.BLACK);
+                                        return view;
+                                    }
+                                };
+                            }
+
+                            Notification notification = getNotification(type);
+                            if (content != null && CentralData.notifications)
+                                notificationManager.notify(id, notification);
                         }
                     }
 
