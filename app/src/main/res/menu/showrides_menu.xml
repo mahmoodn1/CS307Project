@@ -41,4 +41,8 @@
                         android:title="Distance" />
                 </menu>
             </item>
+            <item android:id="@+id/logoutProfile"
+                android:title="LogOut" >
+                <!-- "file" submenu -->
+            </item>
         </menu>
