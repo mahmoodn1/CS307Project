@@ -127,6 +127,9 @@ public class ShowRidesActivity extends AppCompatActivity implements FilterDialog
             case R.id.menu_offer:
                 menuFilter();
                 return true;
+            case R.id.logout:
+                menulogout();
+                return true;
             //case R.id.order_by_price:
             //    filterByPrice();
             //case R.id.menu_offer:
@@ -216,6 +219,15 @@ public class ShowRidesActivity extends AppCompatActivity implements FilterDialog
             public void onTextChanged(CharSequence s, int start, int before, int count) {}
         });
     }
+    private void menulogout(){
+              //  Intent intent = new Intent(this, SettingsActivity.class);
+            //   startActivity(intent);
+          //  finish();
+        Intent intent = new Intent(getApplicationContext(),StartActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(intent);
+            }
 
     @Override
     protected void onResume() {

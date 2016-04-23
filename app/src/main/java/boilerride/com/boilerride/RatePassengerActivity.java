@@ -44,7 +44,7 @@ public class RatePassengerActivity extends AppCompatActivity {
 
         tv_textview = (EditText)findViewById(R.id.rate_passenger);
 
-        list = (ListView) findViewById(R.id.passenger_listView);
+       // list = (ListView) findViewById(R.id.passenger_listView);
         adapter = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_spinner_item, CentralData.peopleInRides) {
             @Override
             public View getView(int position, View convertView, ViewGroup parent) {
