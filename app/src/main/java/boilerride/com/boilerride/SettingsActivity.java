@@ -1,41 +1,34 @@
 package boilerride.com.boilerride;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
-import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ExpandableListView;
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
-import android.view.View;
 import android.widget.ExpandableListAdapter;
-import android.widget.ExpandableListView;
-import android.widget.Toast;
 
 
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
-import com.firebase.client.Firebase.ResultHandler;
 import com.firebase.client.FirebaseError;
 import com.firebase.client.Query;
 import com.firebase.client.ValueEventListener;
-
-import org.w3c.dom.Text;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import fr.tkeunebr.gravatar.Gravatar;
 
 public class SettingsActivity extends AppCompatActivity {
 
@@ -51,74 +44,25 @@ public class SettingsActivity extends AppCompatActivity {
     private EditText tv_newpassword2;
 
     private CheckBox emailChecked;
-    private CheckBox firstNameChecked;
-    private CheckBox lastNameChecked;
+    private CheckBox nameChecked;
     private CheckBox phoneChecked;
-
-    ExpandableListView expandableListView;
-    ExpandableListAdapter expandableListAdapter;
-
-    List<String> expandableListTitle = new ArrayList<String>();
-    HashMap<String, List<String>> expandableListDetail = new HashMap<String, List<String>>();
 
     private Firebase myFirebase = new Firebase("https://luminous-torch-1510.firebaseio.com/users");
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_settings);
-
-        expandableListView = (ExpandableListView)findViewById(R.id.expandableListView);
-        expandableListDetail.put("My Rides", CentralData.userRides);
-        expandableListTitle.add("My Rides");
-
-        expandableListAdapter = new CustomExpandableListAdapter(this, expandableListTitle, expandableListDetail);
-        expandableListView.setAdapter(expandableListAdapter);
-        expandableListView.setOnGroupExpandListener(new ExpandableListView.OnGroupExpandListener() {
-
-            @Override
-            public void onGroupExpand(int groupPosition) {
-                Toast.makeText(getApplicationContext(),
-                        expandableListTitle.get(groupPosition) + " List Expanded.",
-                        Toast.LENGTH_SHORT).show();
-            }
-        });
-
-        expandableListView.setOnGroupCollapseListener(new ExpandableListView.OnGroupCollapseListener() {
-
-            @Override
-            public void onGroupCollapse(int groupPosition) {
-                Toast.makeText(getApplicationContext(),
-                        expandableListTitle.get(groupPosition) + " List Collapsed.",
-                        Toast.LENGTH_SHORT).show();
-
-            }
-        });
-
-        expandableListView.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
-            @Override
-            public boolean onChildClick(ExpandableListView parent, View v,
-                                        int groupPosition, int childPosition, long id) {
-                Toast.makeText(
-                        getApplicationContext(),
-                        expandableListTitle.get(groupPosition)
-                                + " -> "
-                                + expandableListDetail.get(
-                                expandableListTitle.get(groupPosition)).get(
-                                childPosition), Toast.LENGTH_SHORT
-                ).show();
-                return false;
-            }
-        });
-
+        setContentView(R.layout.activity_scrolling);
 
         tv_firstname = (EditText)findViewById(R.id.firstname_field);
         tv_lastname = (EditText)findViewById(R.id.lastname_field);
+
         tv_email = (TextView)findViewById(R.id.email_field);
         tv_phone = (EditText)findViewById(R.id.phone_field);
         emailChecked = (CheckBox)findViewById(R.id.checkBoxEmail);
-        firstNameChecked = (CheckBox)findViewById(R.id.checkBoxFirstName);
-        lastNameChecked = (CheckBox)findViewById(R.id.checkBoxLastName);
+        nameChecked = (CheckBox)findViewById(R.id.checkBoxName);
+        //firstNameChecked = (CheckBox)findViewById(R.id.checkBoxFirstName);
+        //lastNameChecked = (CheckBox)findViewById(R.id.checkBoxLastName);
         phoneChecked = (CheckBox)findViewById(R.id.checkBoxPhoneNumber);
 
         tv_oldpassword = (EditText)findViewById(R.id.oldPassword);
@@ -138,8 +82,10 @@ public class SettingsActivity extends AppCompatActivity {
                     //String email = snapshot.child("email").getValue().toString(); //THIS WORKS TOO
                     System.out.println("EMAIL IS "+user.getEmail());
                     old_email = user.getEmail();
+                    String fullname = user.getFirstName() +" " +user.getLastName();
                     tv_firstname.setText(user.getFirstName());
                     tv_lastname.setText(user.getLastName());
+
                     tv_email.setText(user.getEmail());
                     tv_phone.setText(user.getPhoneNumber());
 
@@ -149,15 +95,44 @@ public class SettingsActivity extends AppCompatActivity {
                         emailChecked.setChecked(false);
                     }
                     if(user.getFirstNamePublic().equals("1")){
+                        nameChecked.setChecked(true);
+                    }else{
+                        nameChecked.setChecked(false);
+                    }
+                    ImageView gravatarImage = (ImageView)findViewById(R.id.img_gravatar);
+                    String userGravLink = Gravatar.init().with(user.getEmail()).size(400).build();
+                    Picasso.with(getApplicationContext()).load(userGravLink).into(gravatarImage);
+                    if (userGravLink.equals("http://www.gravatar.com/avatar/67f9aac2bf854f0624076502a264dc44?&size=400")) {
+                        TextView tv = (TextView)findViewById(R.id.gravatarLink);
+                        tv.setText("Click here to create profile and add image.");
+                        tv.setOnClickListener(new View.OnClickListener() {
+                            public void onClick(View v) {
+                                Intent intent = new Intent();
+                                intent.setAction(Intent.ACTION_VIEW);
+                                intent.addCategory(Intent.CATEGORY_BROWSABLE);
+                                intent.setData(Uri.parse("https://signup.wordpress.com/signup/?ref" +
+                                        "=oauth2&oauth2_redirect=c54a14df6102768de438a353709921c1%40https%3A%2F%" +
+                                        "2Fpublic-api.wordpress.com%2Foauth2%2Fauthorize%2F%3Fclient_id%3D1854%26response_type%" +
+                                        "3Dcode%26blog_id%3D0%26state%3Df2737a23f225bfff6b9ca503643d4cac4a2835bd6a65fe26e5c2fde249347eeb" +
+                                        "%26redirect_uri%3Dhttps%253A%252F%252Fen.gravatar.com%252Fconnect%252F%253Faction%" +
+                                        "253Drequest_access_token%26jetpack-code%26jetpack-user-id%3D0%26action%3Doauth2-login&wpcom_connect=1"));
+                                startActivity(intent);
+                            }
+                        });
+                    }
+                    /*
+                    if(user.getFirstNamePublic().equals("1")){
                         firstNameChecked.setChecked(true);
                     }else{
                         firstNameChecked.setChecked(false);
                     }
+                    /*
                     if(user.getLastNamePublic().equals("1")){
                         lastNameChecked.setChecked(true);
                     }else{
                         lastNameChecked.setChecked(false);
                     }
+                    */
                     if(user.getPhoneNumberPublic().equals("1")){
                         phoneChecked.setChecked(true);
                     }else{
@@ -224,16 +199,22 @@ public class SettingsActivity extends AppCompatActivity {
             node.updateChildren(newEmailPublic);
         }
 
-        if (firstNameChecked.isChecked()){
+        if (nameChecked.isChecked()){
             Map<String, Object> newFirstNamePublic = new HashMap<String, Object>();
             newFirstNamePublic.put("firstNamePublic", trueValue);
             node.updateChildren(newFirstNamePublic);
+            Map<String, Object> newLastNamePublic = new HashMap<String, Object>();
+            newLastNamePublic.put("lastNamePublic", trueValue);
+            node.updateChildren(newLastNamePublic);
         }else{
             Map<String, Object> newFirstNamePublic = new HashMap<String, Object>();
             newFirstNamePublic.put("firstNamePublic", falseValue);
             node.updateChildren(newFirstNamePublic);
+            Map<String, Object> newLastNamePublic = new HashMap<String, Object>();
+            newLastNamePublic.put("lastNamePublic", falseValue);
+            node.updateChildren(newLastNamePublic);
         }
-
+        /*
         if (lastNameChecked.isChecked()){
             Map<String, Object> newLastNamePublic = new HashMap<String, Object>();
             newLastNamePublic.put("lastNamePublic", trueValue);
@@ -243,7 +224,7 @@ public class SettingsActivity extends AppCompatActivity {
             newLastNamePublic.put("lastNamePublic", falseValue);
             node.updateChildren(newLastNamePublic);
         }
-
+        */
         if (phoneChecked.isChecked()){
             Map<String, Object> newPhonePublic = new HashMap<String, Object>();
             newPhonePublic.put("phoneNumberPublic", trueValue);
