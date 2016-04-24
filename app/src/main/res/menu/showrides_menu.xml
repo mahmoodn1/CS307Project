@@ -25,6 +25,8 @@
                         android:title="Offered" />
                     <item android:id="@+id/type_search"
                         android:title="Searched" />
+                    <item android:id="@+id/type_nonCompleted"
+                        android:title="Non-Completed" />
                 </menu>
             </item>
             <item android:id="@+id/menu_filter"

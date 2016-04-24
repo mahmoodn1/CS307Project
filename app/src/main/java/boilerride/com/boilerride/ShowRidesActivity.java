@@ -124,6 +124,9 @@ public class ShowRidesActivity extends AppCompatActivity implements FilterDialog
             case R.id.type_search:
                 filter(false, true);
                 return true;
+            case R.id.type_nonCompleted:
+                filterNonCompleted();
+                return true;
             case R.id.menu_offer:
                 menuFilter();
                 return true;
@@ -195,7 +198,7 @@ public class ShowRidesActivity extends AppCompatActivity implements FilterDialog
 
             public void afterTextChanged(Editable s) {
                 // you can call or do what you want with your EditText here
-                String a = "Hello";
+                String a = "Ride";
 
                 listofRidesFiltered.clear();
                 listofRidesKeysFiltered.clear();
@@ -385,7 +388,7 @@ public class ShowRidesActivity extends AppCompatActivity implements FilterDialog
                                     ContextMenu.ContextMenuInfo menuInfo) {
         if (v.getId()==R.id.showrides_listView) {
             AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo)menuInfo;
-            menu.setHeaderTitle("Hello");
+            menu.setHeaderTitle("Ride");
             String[] menuItems = new String[1   ];
             menuItems[0] = "Edit ride";
             for (int i = 0; i<menuItems.length; i++) {
@@ -422,6 +425,46 @@ public class ShowRidesActivity extends AppCompatActivity implements FilterDialog
     public void onFinishFilterDialogFragment(String inputText) {
         Toast.makeText(this, "Hi, " + inputText, Toast.LENGTH_SHORT).show();
     }
+
+
+    private void filterNonCompleted()
+    {
+        ArrayList NewArrayList = new ArrayList<Ride>();
+        ArrayList NewArrayList2 = new ArrayList<String>();
+
+
+        Iterator<Ride> iter = listofRides.iterator();
+        int i = 0;
+        while(iter.hasNext()){
+            Ride item = iter.next();
+            Boolean status = item.type;
+
+            if(item.completed==false) {
+                NewArrayList.add(item);
+                NewArrayList2.add(listofRidesKeys.get(i));
+            }
+            i = i+1;
+
+        }
+
+        ArrayAdapter adapter = new ArrayAdapter<Ride>(getApplicationContext(), android.R.layout.simple_spinner_item, NewArrayList){
+            @Override
+            public View getView(int position, View convertView, ViewGroup parent) {
+                View view = super.getView(position, convertView, parent);
+                TextView text = (TextView) view.findViewById(android.R.id.text1);
+                text.setTextColor(Color.BLACK);
+                return view;
+            }
+        };
+
+        list.setAdapter(adapter);
+
+
+        listofRidesFiltered=(ArrayList)NewArrayList.clone();
+        listofRidesKeysFiltered=(ArrayList)NewArrayList2.clone();
+
+    }
+
 
     private void filter(Boolean offer, Boolean search)
     {
