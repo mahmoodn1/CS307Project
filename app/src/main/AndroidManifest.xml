@@ -54,13 +54,11 @@
         </activity>
         <activity
             android:name=".ResetPwdActivity"
-            android:label="@string/title_activity_reset_pwd"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:label="@string/title_activity_reset_pwd" />
         <activity
             android:name=".RideActivity"
             android:label="@string/title_activity_ride"
-            android:parentActivityName=".ShowRidesActivity"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:parentActivityName=".ShowRidesActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="boilerride.com.boilerride.ShowRidesActivity" />
