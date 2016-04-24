@@ -34,6 +34,9 @@ public class RidePassengerListActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_passenger_list);
+
+        getSupportActionBar().setTitle("People in ride");
+
         list = (ListView) findViewById(R.id.rate_passenger_listView);
         attemptPull();
 

@@ -56,6 +56,8 @@ public class RideActivity extends AppCompatActivity {
 
         super.onCreate(savedInstanceState);
 
+        getSupportActionBar().setTitle("Ride");
+
         setContentView(R.layout.activity_ride);
 
         tv_completed=(TextView)findViewById(R.id.completed);
