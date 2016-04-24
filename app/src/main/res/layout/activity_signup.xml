@@ -60,7 +60,9 @@
                     android:hint="Purdue email"
                     android:inputType="textEmailAddress"
                     android:maxLines="1"
-                    android:singleLine="true" />
+                    android:singleLine="true"
+                    android:textColorHint="#ffffffff"
+                    android:textColor="#ffffffff" />
 
             </android.support.design.widget.TextInputLayout>
 
@@ -78,7 +80,9 @@
                     android:imeOptions="actionUnspecified"
                     android:inputType="text"
                     android:maxLines="1"
-                    android:singleLine="true" />
+                    android:singleLine="true"
+                    android:textColorHint="#ffffffff"
+                    android:textColor="#ffffffff" />
 
             </android.support.design.widget.TextInputLayout>
 
@@ -92,6 +96,7 @@
                 android:layout_height="wrap_content"
                 android:hint="Last name"
                 android:textColor="#ffffffff"
+                android:textColorHint="#ffffffff"
                 android:imeActionId="@+id/login"
                 android:imeActionLabel="Sign up"
                 android:imeOptions="actionUnspecified"
@@ -107,6 +112,7 @@
                 android:layout_height="wrap_content"
                 android:hint="Phone Number"
                 android:textColor="#ffffffff"
+                android:textColorHint="#ffffffff"
                 android:imeActionId="@+id/login"
                 android:imeActionLabel="Sign up"
                 android:imeOptions="actionUnspecified"
