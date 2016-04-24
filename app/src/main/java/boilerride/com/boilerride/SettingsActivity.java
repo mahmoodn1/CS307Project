@@ -12,8 +12,6 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.widget.ExpandableListView;
-import android.widget.ExpandableListAdapter;
 
 
 import com.firebase.client.DataSnapshot;
@@ -23,9 +21,7 @@ import com.firebase.client.Query;
 import com.firebase.client.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import fr.tkeunebr.gravatar.Gravatar;
@@ -52,7 +48,7 @@ public class SettingsActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_scrolling);
+        setContentView(R.layout.activity_settings);
 
         tv_firstname = (EditText)findViewById(R.id.firstname_field);
         tv_lastname = (EditText)findViewById(R.id.lastname_field);
@@ -157,7 +153,6 @@ public class SettingsActivity extends AppCompatActivity {
 
                 }
             }
-            //{-KByr1nljsb6SOCvUYmo={phoneNumber=jskskd, firstName=jsksks, lastName=hfksks, email=mliuzhan@purdue.edu}}
 
             @Override
             public void onCancelled(FirebaseError firebaseError) {
@@ -214,17 +209,7 @@ public class SettingsActivity extends AppCompatActivity {
             newLastNamePublic.put("lastNamePublic", falseValue);
             node.updateChildren(newLastNamePublic);
         }
-        /*
-        if (lastNameChecked.isChecked()){
-            Map<String, Object> newLastNamePublic = new HashMap<String, Object>();
-            newLastNamePublic.put("lastNamePublic", trueValue);
-            node.updateChildren(newLastNamePublic);
-        }else{
-            Map<String, Object> newLastNamePublic = new HashMap<String, Object>();
-            newLastNamePublic.put("lastNamePublic", falseValue);
-            node.updateChildren(newLastNamePublic);
-        }
-        */
+
         if (phoneChecked.isChecked()){
             Map<String, Object> newPhonePublic = new HashMap<String, Object>();
             newPhonePublic.put("phoneNumberPublic", trueValue);
@@ -235,14 +220,7 @@ public class SettingsActivity extends AppCompatActivity {
             node.updateChildren(newEmailPublic);
         }
 
-
         Toast.makeText(getApplicationContext(), "Information saved", Toast.LENGTH_LONG).show();
-        /*
-        Map<String, Object> newEmail = new HashMap<String, Object>();
-        newFirstname.put("email", email);
-        node.updateChildren(newEmail);
-        */
-        //Firebase changeEmail = new Firebase("https://luminous-torch-1510.firebaseio.com/");
     }
 
     private void attemptchangePassword(){
