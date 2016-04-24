@@ -115,7 +115,7 @@ public class CreateRideActivity extends AppCompatActivity{
         mDestView = (EditText)findViewById(R.id.createride_destination);
 
 
-        Button DelButton = (Button) findViewById(R.id.createride_BtnDate);
+        Button DelButton = (Button) findViewById(R.id.createride_BtnDelete);
         DelButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -325,6 +325,15 @@ public class CreateRideActivity extends AppCompatActivity{
 
     private void DeleteRide()
     {
+
+
+        myFirebase  = new Firebase("https://luminous-torch-1510.firebaseio.com/rides");
+
+        Firebase node = myFirebase.child(CentralData.rideKey);
+        node.setValue(null);
+        // node.removeValue()
+
+        finish();
 
     }
 
