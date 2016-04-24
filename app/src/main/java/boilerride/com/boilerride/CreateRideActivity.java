@@ -3,7 +3,10 @@ package boilerride.com.boilerride;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
+import android.app.DatePickerDialog;
+import android.app.Dialog;
 import android.app.LoaderManager.LoaderCallbacks;
+import android.app.TimePickerDialog;
 import android.content.CursorLoader;
 import android.content.Intent;
 import android.content.Loader;
@@ -36,11 +39,14 @@ import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Calendar;
 import java.text.SimpleDateFormat;
 import java.util.HashMap;
 import java.util.Map;
+import java.lang.Object;
+import java.util.TimeZone;
 
 import static android.Manifest.permission.READ_CONTACTS;
 
@@ -54,8 +60,8 @@ public class CreateRideActivity extends AppCompatActivity{
      */
     private static final int REQUEST_READ_CONTACTS = 0;
     Switch sw;
-    TimePicker tp;
-    DatePicker dp;
+   // TimePicker tp;
+  //  DatePicker dp;
 
     /**
      * A dummy authentication store containing known user names and passwords.
@@ -86,6 +92,9 @@ public class CreateRideActivity extends AppCompatActivity{
     private TextView Tv_rideSeekers;
     private SeekBar mSeekbar3;
 
+    private Button DateButton;
+    private Button TimeButton;
+
     private Firebase myFirebase;
     public double passengers = 1;
     public double fare;
@@ -105,6 +114,7 @@ public class CreateRideActivity extends AppCompatActivity{
         mDestView = (EditText)findViewById(R.id.createride_destination);
 
 
+
         Button PostButton = (Button) findViewById(R.id.createride_post);
         PostButton.setOnClickListener(new OnClickListener() {
             @Override
@@ -112,6 +122,39 @@ public class CreateRideActivity extends AppCompatActivity{
                 attemptPost();
             }
         });
+
+        DateButton = (Button) findViewById(R.id.createride_BtnDate);
+        DateButton.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                showDialog(999);
+            }
+        });
+
+        TimeButton = (Button) findViewById(R.id.createride_BtnTime);
+        TimeButton.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                showDialog(998);
+            }
+        });
+
+        Calendar calendar = Calendar.getInstance(TimeZone.getDefault());
+        year=calendar.get(Calendar.YEAR);
+        month=calendar.get(Calendar.MONTH);
+        day=calendar.get(Calendar.DAY_OF_MONTH);
+
+        Date dt = new Date();
+        //year = dt.getYear();
+        //month = dt.getMonth();
+        //day = dt.getDay();
+
+        hour = dt.getHours();
+        minute = dt.getMinutes();
+
+
+
+
 
         Tv_price = (TextView) findViewById(R.id.createride_tv_price);
         mSeekbar = (SeekBar) findViewById(R.id.createride_seekBar);
@@ -202,8 +245,8 @@ public class CreateRideActivity extends AppCompatActivity{
         });
 
 
-        tp = (TimePicker) findViewById(R.id.dlgDateTimePickerTime);
-        dp = (DatePicker) findViewById(R.id.dlgDateTimePickerDate);
+      //  tp = (TimePicker) findViewById(R.id.dlgDateTimePickerTime);
+      //  dp = (DatePicker) findViewById(R.id.dlgDateTimePickerDate);
 
 
         Bundle extras = getIntent().getExtras();
@@ -233,8 +276,8 @@ public class CreateRideActivity extends AppCompatActivity{
             String depart_time=ride.departTime.substring(pos + 1);
             String depart_date=ride.departTime.substring(0, pos);
 
-            String hour=depart_time.substring(0,2);
-            String minute=depart_time.substring(2,4);
+            String Hour=depart_time.substring(0,2);
+            String Minute=depart_time.substring(2,4);
 
             String Year=depart_date.substring(0,4);
             String Month=depart_date.substring(4,6);
@@ -242,19 +285,74 @@ public class CreateRideActivity extends AppCompatActivity{
 
             String a = "Hallo";
 
-            tp.setCurrentHour(Integer.parseInt(hour));
-            tp.setCurrentMinute(Integer.parseInt(minute));
+           // tp.setCurrentHour(Integer.parseInt(hour));
+           // tp.setCurrentMinute(Integer.parseInt(minute));
 
-            int year=Integer.parseInt(Year);
-            int month=Integer.parseInt(Month);
-            int day=Integer.parseInt(Day);
+            year=Integer.parseInt(Year);
+            month=Integer.parseInt(Month);
+            day=Integer.parseInt(Day);
 
-            dp.updateDate(year, month, day);
+            hour=Integer.parseInt(Hour);
+            minute=Integer.parseInt(Minute);
+
+           // dp.updateDate(year, month, day);
 
             // and get whatever type user account id is
         }
 
+
+        DateButton.setText("Date: " + String.valueOf(month) + "/" + String.valueOf(day) + "/" + String.valueOf(year));
+        TimeButton.setText("Time: " + String.valueOf(hour) + ":" + String.valueOf(minute));
+
     }
+
+
+
+    int year = 2016;
+    int month = 6;
+    int day = 2;
+
+    @Override
+    protected Dialog onCreateDialog(int id) {
+        // TODO Auto-generated method stub
+        if (id == 999) {
+            return new DatePickerDialog(this, myDateListener, year, month, day);
+        }
+        if (id == 998) {
+            return new TimePickerDialog(this, myTimeListener, hour, minute, true);
+        }
+        return null;
+    }
+
+    private DatePickerDialog.OnDateSetListener myDateListener = new DatePickerDialog.OnDateSetListener() {
+        @Override
+        public void onDateSet(DatePicker arg0, int arg1, int arg2, int arg3) {
+            // arg1 = year
+            // arg2 = month
+            // arg3 = day
+            year = arg1;
+            month = arg2;
+            day = arg3;
+
+            DateButton.setText("Date: " + String.valueOf(month) + "/" + String.valueOf(day) + "/" + String.valueOf(year));
+        }
+    };
+
+    int hour = 18;
+    int minute = 30;
+
+    private TimePickerDialog.OnTimeSetListener myTimeListener = new TimePickerDialog.OnTimeSetListener() {
+        @Override
+        public void onTimeSet(TimePicker view, int hourOfDay, int minuteOfHour) {
+            // arg1 = year
+            // arg2 = month
+            // arg3 = day
+            hour = hourOfDay;
+            minute = minuteOfHour;
+
+            TimeButton.setText("Time: " + String.valueOf(hour) + ":" + String.valueOf(minute));
+        }
+    };
 
     /**
      * Attempts to post ride specified by the login form.
@@ -275,7 +373,7 @@ public class CreateRideActivity extends AppCompatActivity{
         String title = mTitleView.getText().toString();
         String time = new SimpleDateFormat("yyyyMMdd_HHmmss").format(Calendar.getInstance().getTime());
         Calendar cal = Calendar.getInstance();
-        cal.set(dp.getYear(), dp.getMonth(), dp.getDayOfMonth(), tp.getCurrentHour(), tp.getCurrentMinute());
+        cal.set(year, month, day, hour, minute);
         String depart = new SimpleDateFormat("yyyyMMdd_HHmmss").format(cal.getTime());
 
         boolean cancel = false;

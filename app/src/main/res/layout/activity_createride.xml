@@ -101,17 +101,24 @@
                 android:weightSum="100"
                 android:layout_gravity="center_horizontal">
 
-                <DatePicker
-                    android:id="@+id/dlgDateTimePickerDate"
-                    android:layout_width="wrap_content"
-                    android:layout_weight="50"
-                    android:layout_height="wrap_content"/>
+                <Button
+                    android:id="@+id/createride_BtnDate"
+                    style="?android:textAppearanceSmall"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:text="Date"
+                    android:textStyle="bold" />
 
-                <TimePicker
-                    android:id="@+id/dlgDateTimePickerTime"
-                    android:layout_weight="50"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
+                <Button
+                    android:id="@+id/createride_BtnTime"
+                    style="?android:textAppearanceSmall"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:text="Time"
+                    android:textStyle="bold" />
+
             </LinearLayout>
             <TextView
                 android:layout_width="wrap_content"
