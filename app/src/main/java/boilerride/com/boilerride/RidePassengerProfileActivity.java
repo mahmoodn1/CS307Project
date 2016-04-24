@@ -183,22 +183,26 @@ public class RidePassengerProfileActivity extends AppCompatActivity {
                             if (user.getEmailPublic().equals("1")) {
                                 tv_email.setText(user.getEmail());
                             } else {
-                                tv_email.setText("Not available");
+                                tv_email.setText("Email not available");
                             }
                             if (user.getFirstNamePublic().equals("1")){
                                 tv_firstname.setText(user.getFirstName());
+                                tv_lastname.setText(user.getLastName());
                             }else{
-                                tv_firstname.setText("Not available");
+                                tv_firstname.setText("Name not available");
+                                tv_lastname.setText("");
                             }
+                            /**
                             if(user.getLastNamePublic().equals("1")){
                                 tv_lastname.setText(user.getLastName());
                             }else{
                                 tv_lastname.setText("Not available");
                             }
+                             */
                             if(user.getPhoneNumberPublic().equals("1")){
                                 tv_phone.setText(user.getPhoneNumber());
                             }else{
-                                tv_phone.setText("Not available");
+                                tv_phone.setText("Phone not available");
                             }
 
                             ImageView gravatarImage = (ImageView)findViewById(R.id.img_gravatar);
