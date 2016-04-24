@@ -92,6 +92,7 @@ public class CreateRideActivity extends AppCompatActivity{
     private TextView Tv_rideSeekers;
     private SeekBar mSeekbar3;
 
+    private Button DelButton;
     private Button DateButton;
     private Button TimeButton;
 
@@ -113,6 +114,14 @@ public class CreateRideActivity extends AppCompatActivity{
         mOriginView = (EditText) findViewById(R.id.createride_origin);
         mDestView = (EditText)findViewById(R.id.createride_destination);
 
+
+        Button DelButton = (Button) findViewById(R.id.createride_BtnDate);
+        DelButton.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                DeleteRide();
+            }
+        });
 
 
         Button PostButton = (Button) findViewById(R.id.createride_post);
@@ -253,6 +262,8 @@ public class CreateRideActivity extends AppCompatActivity{
         int rideId;
 
         if (extras != null) {
+            getSupportActionBar().setTitle("Edit ride");
+
             rideId = extras.getInt("ChangeRide");
             Ride ride=CentralData.RideList.get(rideId);
             mTitleView.setText(ride.title);
@@ -299,10 +310,21 @@ public class CreateRideActivity extends AppCompatActivity{
 
             // and get whatever type user account id is
         }
+        else {
+            //DelButton.setVisibility(View.GONE);
+            View b = findViewById(R.id.createride_BtnDelete);
+            b.setVisibility(View.GONE);
+        }
+
 
 
         DateButton.setText("Date: " + String.valueOf(month) + "/" + String.valueOf(day) + "/" + String.valueOf(year));
         TimeButton.setText("Time: " + String.valueOf(hour) + ":" + String.valueOf(minute));
+
+    }
+
+    private void DeleteRide()
+    {
 
     }
 
