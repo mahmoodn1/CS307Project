@@ -416,7 +416,7 @@ public class CreateRideActivity extends AppCompatActivity{
 
         Calendar cal = Calendar.getInstance();
         cal.set(year, month, day, hour, minute);
-        String depart = new SimpleDateFormat("yyyyMMdd_HHmmss").format(cal.getTime());
+        String depart = new SimpleDateFormat("h:mm a ,d MMM yyyy").format(cal.getTime());
 
         boolean cancel = false;
         View focusView = null;
@@ -460,6 +460,7 @@ public class CreateRideActivity extends AppCompatActivity{
             double fare1 = fare;
             fare1 = fare1 *distance;
             fare1 = round(fare1, 2);
+            String distanced;
             showProgress(true);
             mAuthTask = new CreateRideTask(passengers, fare1, distance, origin, destination, maxPassengers, depart, "forever", time,
                     title, type, CentralData.uid);
