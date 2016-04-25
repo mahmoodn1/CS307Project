@@ -288,19 +288,56 @@ public class CreateRideActivity extends AppCompatActivity{
                 mSeekbar3.setProgress((int)ride.numOfPassengers-1);
             }
 
-            int pos = ride.departTime.indexOf('_');
+            int pos = ride.departTime.indexOf(' ');
 
-            String depart_time=ride.departTime.substring(pos + 1);
-            String depart_date=ride.departTime.substring(0, pos);
+            String depart_time=ride.departTime.substring(0, pos);
+            pos = ride.departTime.indexOf(',');
+            String depart_date=ride.departTime.substring(pos+1);
 
-            String Hour=depart_time.substring(0,2);
-            String Minute=depart_time.substring(2,4);
+            pos = depart_time.indexOf(':');
 
-            String Year=depart_date.substring(0,4);
-            String Month=depart_date.substring(4,6);
-            String Day=depart_date.substring(6,8);
+            String Hour=depart_time.substring(0,pos);
+            if(ride.departTime.contains("PM"))
+            {
+                int hour = Integer.parseInt(Hour);
+                hour = hour + 12;
+                Hour = String.valueOf(hour);
+            }
+            String Minute=depart_time.substring(pos+1);
 
-            String a = "Hallo";
+            pos = depart_date.indexOf(' ');
+
+            String Day=depart_date.substring(0,pos);
+            String Month="";
+            if(depart_date.contains("Jan"))
+                Month = "1";
+            if(depart_date.contains("Feb"))
+                Month = "2";
+            if(depart_date.contains("Mar"))
+                Month = "3";
+            if(depart_date.contains("Apr"))
+                Month = "4";
+            if(depart_date.contains("May"))
+                Month = "5";
+            if(depart_date.contains("Jun"))
+                Month = "6";
+            if(depart_date.contains("Jul"))
+                Month = "7";
+            if(depart_date.contains("Aug"))
+                Month = "8";
+            if(depart_date.contains("Sep"))
+                Month = "9";
+            if(depart_date.contains("Oct"))
+                Month = "10";
+            if(depart_date.contains("Nov"))
+                Month = "11";
+            if(depart_date.contains("Dec"))
+                Month = "12";
+
+            depart_date=depart_date.substring(pos + 1);
+            pos = depart_date.indexOf(' ');
+
+            String Year=depart_date.substring(pos+1);
 
            // tp.setCurrentHour(Integer.parseInt(hour));
            // tp.setCurrentMinute(Integer.parseInt(minute));
