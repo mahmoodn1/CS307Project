@@ -280,12 +280,15 @@ public class RideActivity extends AppCompatActivity {
                             lat2 = get_lat(CentralData.destination1);
                             long2 = get_loc(CentralData.destination1);
 
-                            tv_distance.setText(String.valueOf(calculateDistance(lat1, long1, lat2, long2)));
 
-                            double fare1 = Double.parseDouble(snapshot.child("fare").getValue().toString());
-                            fare1 = fare1 *calculateDistance(lat1, long1, lat2, long2);
-                            fare1 = round(fare1,2);
-                            tv_fare.setText(String.valueOf(fare1));
+
+//                            double fare1 = Double.parseDouble(snapshot.child("fare").getValue().toString());
+//                            fare1 = fare1 *calculateDistance(lat1, long1, lat2, long2);
+//                            fare1 = round(fare1,2);
+                            tv_distance.setText(snapshot.child("distance").getValue().toString());
+
+
+                            tv_fare.setText(snapshot.child("fare").getValue().toString());
                             tv_maxPassengers.setText(snapshot.child("maxPassengers").getValue().toString());
                             tv_numOfPassengers.setText(snapshot.child("numOfPassengers").getValue().toString());
                             tv_origin.setText(snapshot.child("origin").getValue().toString());

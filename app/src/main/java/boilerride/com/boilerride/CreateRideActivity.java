@@ -12,6 +12,9 @@ import android.content.Intent;
 import android.content.Loader;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
+import android.location.Address;
+import android.location.Geocoder;
+import android.location.Location;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -20,6 +23,7 @@ import android.provider.ContactsContract;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ArrayAdapter;
@@ -38,12 +42,14 @@ import android.widget.TimePicker;
 import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Calendar;
 import java.text.SimpleDateFormat;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 import java.lang.Object;
 import java.util.TimeZone;
@@ -438,8 +444,19 @@ public class CreateRideActivity extends AppCompatActivity{
         } else {
             // Show a progress spinner, and kick off a background task to
             // perform the user login attempt.
+            double lat1, lat2, long1, long2;
+            lat1 = get_lat(origin);
+            long1 = get_loc(origin);
+            lat2 = get_lat(destination);
+            long2 = get_loc(destination);
+
+
+            double distance = (calculateDistance(lat1, long1, lat2, long2));
+            double fare1 = fare;
+            fare1 = fare1 *distance;
+            fare1 = round(fare1, 2);
             showProgress(true);
-            mAuthTask = new CreateRideTask(passengers, fare, 1, origin, destination, maxPassengers, depart, "forever", time,
+            mAuthTask = new CreateRideTask(passengers, fare1, distance, origin, destination, maxPassengers, depart, "forever", time,
                     title, type, CentralData.uid);
             mAuthTask.execute((Void) null);
         }
@@ -636,6 +653,67 @@ public class CreateRideActivity extends AppCompatActivity{
         Intent intent = new Intent(this, ShowRidesActivity.class);
         startActivity(intent);
         finish();
+    }
+    public double calculateDistance(double lat1, double long1, double lat2, double long2) {
+
+        Location locA = new Location("locA");
+        locA.setLatitude(lat1);
+        locA.setLongitude(long1);
+        Location locB = new Location("locB");
+        locB.setLatitude(lat2);
+        locB.setLongitude(long2);
+
+        double distance  = locA.distanceTo(locB);
+        Log.i("Distance in meters: ", distance + "");
+        distance = distance/1600;
+        distance=round(distance,2);
+        return distance;
+    }
+    public static double round(double value, int places) {
+        if (places < 0) throw new IllegalArgumentException();
+
+        long factor = (long) Math.pow(10, places);
+        value = value * factor;
+        long tmp = Math.round(value);
+        return (double) tmp / factor;
+    }
+    public double get_loc( String  myLocation) {
+        Geocoder geocoder = new Geocoder(this, Locale.getDefault());
+
+
+        List<Address> addresses = null;
+        try {
+            addresses = geocoder.getFromLocationName(myLocation, 1);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        Address address = addresses.get(0);
+        if (addresses.size() > 0) {
+
+            double longitude = addresses.get(0).getLongitude();
+
+            return longitude;
+        }
+        return 0;
+    }
+    public double get_lat( String  myLocation) {
+        Geocoder geocoder = new Geocoder(this, Locale.getDefault());
+
+
+        List<Address> addresses = null;
+        try {
+            addresses = geocoder.getFromLocationName(myLocation, 1);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        Address address = addresses.get(0);
+        if (addresses.size() > 0) {
+            double latitude = addresses.get(0).getLatitude();
+
+
+            return latitude;
+        }
+        return 0;
     }
 }
 
