@@ -497,6 +497,13 @@ public class MapsActivity extends FragmentActivity implements
 
             // Drawing polyline in the Google Map for the i-th route
 
+            LatLngBounds.Builder bc = new LatLngBounds.Builder();
+
+            for (LatLng item : points) {
+                bc.include(item);
+            }
+
+            mMap.moveCamera(CameraUpdateFactory.newLatLngBounds(bc.build(), 50));
             mMap.addPolyline(lineOptions
                     .width(5)
                     .color(Color.RED));
