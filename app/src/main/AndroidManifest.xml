@@ -54,7 +54,7 @@
         </activity>
         <activity
             android:name=".ResetPwdActivity"
-            android:label="@string/title_activity_reset_pwd" />
+            android:label="BoilerRide" />
         <activity
             android:name=".RideActivity"
             android:label="@string/title_activity_ride"
