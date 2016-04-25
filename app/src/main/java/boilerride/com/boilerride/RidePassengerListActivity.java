@@ -42,12 +42,6 @@ public class RidePassengerListActivity extends AppCompatActivity {
 
         list = (ListView) findViewById(R.id.rate_passenger_listView);
         attemptPull();
-        if(peopleInRides.isEmpty()){
-            nopeople.setVisibility(View.VISIBLE);
-        }else{
-            nopeople.setVisibility(View.GONE);
-        }
-
 
         adapter = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_spinner_item, peopleNamesInRides) {
             @Override
@@ -92,6 +86,11 @@ public class RidePassengerListActivity extends AppCompatActivity {
             // perform the user login attempt.
             mAuthTask = new GetRideTask();
             mAuthTask.execute((Void) null);
+        }
+        if(peopleInRides.isEmpty()){
+            nopeople.setVisibility(View.VISIBLE);
+        }else{
+            nopeople.setVisibility(View.GONE);
         }
     }
     /**

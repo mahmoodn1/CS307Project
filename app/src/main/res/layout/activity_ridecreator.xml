@@ -1,21 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="wrap_content"
     >
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        android:orientation="vertical" android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-    android:id="@+id/layout_ridecreator">
+
     <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
             <ImageView android:id="@+id/img_gravatar"
                 android:layout_centerInParent="true"
-                android:layout_width="wrap_content"
+                android:layout_width="140sp"
                 android:layout_centerVertical="true"
-                android:layout_height="wrap_content"
+                android:layout_height="140sp"
                 android:visibility="visible" />
             <TextView
                 android:id="@+id/gravatarLink"
@@ -29,7 +26,7 @@
                 android:gravity="center"
                 android:textColor="#000000" />
         </RelativeLayout>
-        <include layout="@layout/item_divider" />
+
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -56,7 +53,7 @@
                 android:layout_toEndOf="@+id/rideCreator_firstnameF"
                 android:id="@+id/rideCreator_lastnameF" />
         </RelativeLayout>
-        <include layout="@layout/item_divider" />
+
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -86,7 +83,7 @@
                 android:layout_toRightOf="@+id/rideCreator_emailF"
                 android:layout_toEndOf="@+id/rideCreator_emailF" />
         </RelativeLayout>
-        <include layout="@layout/item_divider" />
+
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -137,21 +134,15 @@
                 android:layout_height="wrap_content"
                 android:gravity="left"
                 android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text="Ride Creator Ratings\n"
+                android:text="Ride Creator Ratings"
                 android:textColor="#000000"
                 android:textStyle="bold"
                 android:id="@+id/rideCreator_commentsTitle" />
-
-        </RelativeLayout>
-
             <ListView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_below="@+id/rideCreator_commentsTitle"
                 android:id="@+id/comments_listView" />
-
-
-
-
+        </RelativeLayout>
 
 </LinearLayout>
-</ScrollView>
