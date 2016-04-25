@@ -408,8 +408,8 @@ public class CreateRideActivity extends AppCompatActivity{
         String destination = mDestView.getText().toString();
         String origin = mOriginView.getText().toString();
         String title = mTitleView.getText().toString();
-        String time = new SimpleDateFormat("h:mm a ,d MMM yyyy").format(Calendar.getInstance().getTime());
-
+        String time = new SimpleDateFormat("HH:mm, MM.dd.yyyy").format(Calendar.getInstance().getTime());
+        System.out.println("Date::"+new SimpleDateFormat("HH:mm,MM.dd.yyyy").format(Calendar.getInstance().getTime()));
         String time1 = new SimpleDateFormat("h:mm a").format(Calendar.getInstance().getTime());
 
         System.out.println("timeposted"+time1);
