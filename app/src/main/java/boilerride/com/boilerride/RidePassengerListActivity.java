@@ -24,6 +24,7 @@ import java.util.ArrayList;
 public class RidePassengerListActivity extends AppCompatActivity {
 
     public static ArrayList<String> peopleInRides = new ArrayList<String>();
+    public static ArrayList<String> peopleNamesInRides = new ArrayList<String>();
     private Firebase myFirebase = new Firebase("https://luminous-torch-1510.firebaseio.com/peopleInRides");
     private GetRideTask mAuthTask = null;
     private static ListView list;
@@ -40,7 +41,7 @@ public class RidePassengerListActivity extends AppCompatActivity {
         list = (ListView) findViewById(R.id.rate_passenger_listView);
         attemptPull();
 
-        adapter = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_spinner_item, peopleInRides) {
+        adapter = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_spinner_item, peopleNamesInRides) {
             @Override
             public View getView(int position, View convertView, ViewGroup parent) {
                 View view = super.getView(position, convertView, parent);
@@ -111,8 +112,33 @@ public class RidePassengerListActivity extends AppCompatActivity {
                                 System.out.println("THE KEY IS " + postSnapshot.getKey());
                                 String aux = postSnapshot.getKey().toString();
                                 System.out.println(aux);
-                                if(!peopleInRides.contains(aux))
+                                if(!peopleInRides.contains(aux)){
                                     peopleInRides.add(aux);
+                                    Firebase userProfile = new Firebase("https://luminous-torch-1510.firebaseio.com/users");
+                                    Query getName = userProfile.child(aux);
+                                    getName.addValueEventListener(new ValueEventListener() {
+                                        @Override
+                                        public void onDataChange(DataSnapshot snap) {
+                                            if (snap == null) {
+                                                Log.d("SNAPSHOT NULL:", "ERROR SNAPSHOT DOES NOT EXIST");
+                                                peopleNamesInRides.add("Name not available");
+                                            } else {
+                                                Log.d("SNAPSHOT EXISTS:", "YAY");
+                                                User user = snap.getValue(User.class);
+                                                if(user==null){
+                                                    System.out.println("Error user null");
+                                                }
+                                                String name = user.getFirstName() + " " + user.getLastName();
+                                                peopleNamesInRides.add(name);
+                                            }
+                                        }
+                                        @Override
+                                        public void onCancelled(FirebaseError firebaseError) {
+                                            System.out.println("The read failed: " + firebaseError.getMessage());
+                                        }
+                                    });
+                                }
+
                             }
                         }
                     }
