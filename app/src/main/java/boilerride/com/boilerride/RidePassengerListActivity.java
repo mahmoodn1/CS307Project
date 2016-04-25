@@ -29,17 +29,25 @@ public class RidePassengerListActivity extends AppCompatActivity {
     private GetRideTask mAuthTask = null;
     private static ListView list;
     public ArrayAdapter adapter;
-
+    private TextView nopeople;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_passenger_list);
 
+        nopeople=(TextView)findViewById(R.id.nopassengers);
+
         getSupportActionBar().setTitle("People in ride");
 
         list = (ListView) findViewById(R.id.rate_passenger_listView);
         attemptPull();
+        if(peopleInRides.isEmpty()){
+            nopeople.setVisibility(View.VISIBLE);
+        }else{
+            nopeople.setVisibility(View.GONE);
+        }
+
 
         adapter = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_spinner_item, peopleNamesInRides) {
             @Override
