@@ -408,7 +408,12 @@ public class CreateRideActivity extends AppCompatActivity{
         String destination = mDestView.getText().toString();
         String origin = mOriginView.getText().toString();
         String title = mTitleView.getText().toString();
-        String time = new SimpleDateFormat("yyyyMMdd_HHmmss").format(Calendar.getInstance().getTime());
+        String time = new SimpleDateFormat("h:mm a ,d MMM yyyy").format(Calendar.getInstance().getTime());
+
+        String time1 = new SimpleDateFormat("h:mm a").format(Calendar.getInstance().getTime());
+
+        System.out.println("timeposted"+time1);
+
         Calendar cal = Calendar.getInstance();
         cal.set(year, month, day, hour, minute);
         String depart = new SimpleDateFormat("yyyyMMdd_HHmmss").format(cal.getTime());
@@ -714,6 +719,25 @@ public class CreateRideActivity extends AppCompatActivity{
             return latitude;
         }
         return 0;
+    }
+    public String timechange(String time){
+        String newtime = "" ;
+        for (int i = 9;i < time.length(); i++){
+            newtime = newtime + time.charAt(i);
+
+        }
+        for (int i = 0;i < newtime.length(); i++){
+            newtime = newtime + time.charAt(i);
+
+            if (i == 2) {
+                newtime = newtime + ":";
+                i--;
+            }
+
+
+        }
+
+        return newtime;
     }
 }
 
