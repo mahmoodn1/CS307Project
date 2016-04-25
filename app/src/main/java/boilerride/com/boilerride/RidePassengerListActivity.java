@@ -87,11 +87,7 @@ public class RidePassengerListActivity extends AppCompatActivity {
             mAuthTask = new GetRideTask();
             mAuthTask.execute((Void) null);
         }
-        if(peopleInRides.isEmpty()){
-            nopeople.setVisibility(View.VISIBLE);
-        }else{
-            nopeople.setVisibility(View.GONE);
-        }
+
     }
     /**
      * Represents an asynchronous login/registration task used to authenticate
@@ -137,7 +133,9 @@ public class RidePassengerListActivity extends AppCompatActivity {
                                                 }
                                                 String name = user.getFirstName() + " " + user.getLastName();
                                                 peopleNamesInRides.add(name);
+
                                             }
+
                                         }
                                         @Override
                                         public void onCancelled(FirebaseError firebaseError) {
@@ -146,6 +144,12 @@ public class RidePassengerListActivity extends AppCompatActivity {
                                     });
                                 }
 
+                            }
+                            list.setAdapter(adapter);
+                            if(peopleInRides.isEmpty()){
+                                nopeople.setVisibility(View.VISIBLE);
+                            }else{
+                                nopeople.setVisibility(View.GONE);
                             }
                         }
                     }
