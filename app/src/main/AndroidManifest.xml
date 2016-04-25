@@ -69,7 +69,7 @@
         <activity
             android:name=".RideCreatorActivity"
             android:label="@string/title_activity_ride_creator"
-            android:theme="@style/AppTheme.NoActionBar" />
+            />
         <activity
             android:name=".RateDriverActivity"
             android:label="@string/title_activity_rate_driver"
@@ -85,7 +85,7 @@
         <activity
             android:name=".RidePassengerProfileActivity"
             android:label="@string/rate_passenger_profile"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+           ></activity>
     </application>
 
 </manifest>

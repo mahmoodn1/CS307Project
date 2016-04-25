@@ -1,163 +1,157 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
-
-
-
+    android:layout_height="wrap_content"
+    >
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:orientation="vertical" android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+    android:id="@+id/layout_ridecreator">
     <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
-        <ImageView android:id="@+id/img_gravatar"
-            android:layout_centerInParent="true"
-            android:layout_width="wrap_content"
-            android:layout_centerVertical="true"
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:visibility="visible" />
-        <TextView
-            android:id="@+id/gravatarLink"
-            android:layout_width="wrap_content"
+            android:orientation="vertical">
+            <ImageView android:id="@+id/img_gravatar"
+                android:layout_centerInParent="true"
+                android:layout_width="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_height="wrap_content"
+                android:visibility="visible" />
+            <TextView
+                android:id="@+id/gravatarLink"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignLeft="@+id/img_gravatar"
+                android:layout_alignTop="@+id/img_gravatar"
+                android:layout_alignRight="@+id/img_gravatar"
+                android:layout_alignBottom="@+id/img_gravatar"
+                android:layout_margin="1dp"
+                android:gravity="center"
+                android:textColor="#000000" />
+        </RelativeLayout>
+        <include layout="@layout/item_divider" />
+        <RelativeLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignLeft="@+id/img_gravatar"
-            android:layout_alignTop="@+id/img_gravatar"
-            android:layout_alignRight="@+id/img_gravatar"
-            android:layout_alignBottom="@+id/img_gravatar"
-            android:layout_margin="1dp"
-            android:gravity="center"
-            android:textColor="#000000" />
-    </RelativeLayout>
-    <include layout="@layout/item_divider" />
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="?attr/selectableItemBackground"
-        android:clickable="true"
-        android:padding="@dimen/activity_horizontal_margin">
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:id="@+id/rideCreator_firstnameF"
-            android:textStyle="bold"
-            android:text="First name" />
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:text="Lastname"
-            android:textStyle="bold"
-            android:layout_marginLeft="15dp"
-            android:layout_marginStart="15dp"
-            android:layout_alignParentTop="true"
-            android:layout_toRightOf="@+id/rideCreator_firstnameF"
-            android:layout_toEndOf="@+id/rideCreator_firstnameF"
-            android:id="@+id/rideCreator_lastnameF" />
-    </RelativeLayout>
-    <include layout="@layout/item_divider" />
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="?attr/selectableItemBackground"
-        android:clickable="true"
-        android:padding="@dimen/activity_horizontal_margin">
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_weight="50"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:text="Email"
-            android:id="@+id/rideCreator_emailF"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true" />
-        <ImageButton
-            android:id="@+id/email_fab"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:layout_gravity="center"
+            android:background="?attr/selectableItemBackground"
             android:clickable="true"
-            android:background="@drawable/email"
-            android:layout_alignParentTop="true"
-            android:layout_marginLeft="15dp"
-            android:layout_marginStart="15dp"
-            android:layout_toRightOf="@+id/rideCreator_emailF"
-            android:layout_toEndOf="@+id/rideCreator_emailF" />
-    </RelativeLayout>
-    <include layout="@layout/item_divider" />
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="?attr/selectableItemBackground"
-        android:clickable="true"
-        android:padding="@dimen/activity_horizontal_margin">
-        <TextView
-            android:layout_width="wrap_content"
+            android:padding="@dimen/activity_horizontal_margin">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:id="@+id/rideCreator_firstnameF"
+                android:textStyle="bold"
+                android:text="First name" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="Lastname"
+                android:textStyle="bold"
+                android:layout_marginLeft="15dp"
+                android:layout_marginStart="15dp"
+                android:layout_alignParentTop="true"
+                android:layout_toRightOf="@+id/rideCreator_firstnameF"
+                android:layout_toEndOf="@+id/rideCreator_firstnameF"
+                android:id="@+id/rideCreator_lastnameF" />
+        </RelativeLayout>
+        <include layout="@layout/item_divider" />
+        <RelativeLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:text="Phone"
-            android:id="@+id/rideCreator_phoneF" />
-        <ImageButton
-            android:id="@+id/phone_fab"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:layout_gravity="center"
+            android:background="?attr/selectableItemBackground"
             android:clickable="true"
-            android:layout_marginLeft="15dp"
-            android:layout_marginStart="15dp"
-            android:layout_toRightOf="@+id/rideCreator_phoneF"
-            android:layout_toEndOf="@+id/rideCreator_phoneF"
-            android:background="@drawable/phone"/>
-        <ImageButton
-            android:id="@+id/text_fab"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:layout_weight="1"
-            android:layout_gravity="end"
+            android:padding="@dimen/activity_horizontal_margin">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_weight="50"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="Email"
+                android:id="@+id/rideCreator_emailF"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true" />
+            <ImageButton
+                android:id="@+id/email_fab"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_gravity="center"
+                android:clickable="true"
+                android:background="@drawable/email"
+                android:layout_alignParentTop="true"
+                android:layout_marginLeft="15dp"
+                android:layout_marginStart="15dp"
+                android:layout_toRightOf="@+id/rideCreator_emailF"
+                android:layout_toEndOf="@+id/rideCreator_emailF" />
+        </RelativeLayout>
+        <include layout="@layout/item_divider" />
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="?attr/selectableItemBackground"
             android:clickable="true"
-            android:layout_marginLeft="15dp"
-            android:layout_marginStart="15dp"
-            android:layout_toRightOf="@+id/phone_fab"
-            android:layout_toEndOf="@+id/phone_fab"
-            android:background="@drawable/texting"/>
-    </RelativeLayout>
+            android:padding="@dimen/activity_horizontal_margin">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="Phone"
+                android:id="@+id/rideCreator_phoneF" />
+            <ImageButton
+                android:id="@+id/phone_fab"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_gravity="center"
+                android:clickable="true"
+                android:layout_marginLeft="15dp"
+                android:layout_marginStart="15dp"
+                android:layout_toRightOf="@+id/rideCreator_phoneF"
+                android:layout_toEndOf="@+id/rideCreator_phoneF"
+                android:background="@drawable/phone"/>
+            <ImageButton
+                android:id="@+id/text_fab"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_weight="1"
+                android:layout_gravity="end"
+                android:clickable="true"
+                android:layout_marginLeft="15dp"
+                android:layout_marginStart="15dp"
+                android:layout_toRightOf="@+id/phone_fab"
+                android:layout_toEndOf="@+id/phone_fab"
+                android:background="@drawable/texting"/>
+        </RelativeLayout>
 
-    <include layout="@layout/item_divider" />
+        <include layout="@layout/item_divider" />
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="?attr/selectableItemBackground"
-        android:clickable="true"
-        android:padding="@dimen/activity_horizontal_margin">
-        <TextView
-            android:layout_width="wrap_content"
+        <RelativeLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="left"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:text="Ride Creator Ratings\n"
-            android:textColor="#000000"
-            android:textStyle="bold"
-            android:id="@+id/rideCreator_commentsTitle" />
+            android:background="?attr/selectableItemBackground"
+            android:clickable="true"
+            android:padding="@dimen/activity_horizontal_margin">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="left"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="Ride Creator Ratings\n"
+                android:textColor="#000000"
+                android:textStyle="bold"
+                android:id="@+id/rideCreator_commentsTitle" />
 
-    </RelativeLayout>
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="?attr/selectableItemBackground"
-        android:clickable="true"
-        android:padding="@dimen/activity_horizontal_margin">
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="left"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:id="@+id/rideCreator_comments" />
+        </RelativeLayout>
 
-        <ListView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/comments_listView" />
-    </RelativeLayout>
+            <ListView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/comments_listView" />
+
+
+
+
 
 </LinearLayout>
+</ScrollView>

@@ -17,6 +17,7 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -65,8 +66,9 @@ public class RideCreatorActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ridecreator);
-
+        //getSupportActionBar().setTitle("User profile");
         Firebase.setAndroidContext(getApplicationContext());
+
         attemptPull();
 
         tv_firstname=(TextView)findViewById(R.id.rideCreator_firstnameF);
@@ -141,6 +143,16 @@ public class RideCreatorActivity extends AppCompatActivity {
         list.setAdapter(adapter);
 
         adapter.notifyDataSetChanged();
+        // Gets linearlayout
+        LinearLayout layout = (LinearLayout)findViewById(R.id.layout_ridecreator);
+        // Gets the layout params that will allow you to resize the layout
+        ViewGroup.LayoutParams params = layout.getLayoutParams();
+        // Changes the height and width to the specified *pixels*
+        for(String i: comments){
+            params.height += 20;
+            layout.setLayoutParams(params);
+        }
+
     }
 
     /**
@@ -261,9 +273,11 @@ public class RideCreatorActivity extends AppCompatActivity {
                             for (DataSnapshot postSnapshot : snapshot.getChildren()) {
                                 System.out.println("POSTSNAPSHOT IS " + postSnapshot.getValue());
                                 System.out.println("THE KEY IS " + postSnapshot.getKey());
-                                String aux = postSnapshot.child("comment").getValue().toString();
-                                System.out.println(aux);
-                                comments.add(aux);
+                                String comment = postSnapshot.child("comment").getValue().toString();
+                                String rating =  postSnapshot.child("rate").getValue().toString();
+                                //System.out.println(aux);
+                                String total = "Comment: " + comment + " Rating: " + rating;
+                                comments.add(total);
                             }
                         }
                         adapter.notifyDataSetChanged();

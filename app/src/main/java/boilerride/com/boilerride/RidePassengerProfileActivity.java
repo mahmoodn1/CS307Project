@@ -48,7 +48,7 @@ public class RidePassengerProfileActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ridecreator);
-
+        getSupportActionBar().setTitle("User profile");
         Firebase.setAndroidContext(getApplicationContext());
         attemptPull();
 
