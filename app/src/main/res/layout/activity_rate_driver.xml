@@ -14,7 +14,7 @@
         android:id="@+id/lblRateMe"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Rate The Driver"
+        android:text="Give a Rate"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:layout_weight="0.06" />
 
