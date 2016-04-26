@@ -35,11 +35,11 @@
                 <menu>
                     <item android:id="@+id/menu_price"
                         android:title="Price" />
-                    <item android:id="@+id/menu_distance"
+                    <item android:id="@+id/menu_search"
                         android:title="Time Posted" />
                     <item android:id="@+id/menu_offer"
                         android:title="Destination" />
-                    <item android:id="@+id/menu_search"
+                    <item android:id="@+id/menu_distance"
                         android:title="Distance" />
                 </menu>
             </item>

@@ -135,6 +135,8 @@ public class ShowRidesActivity extends AppCompatActivity implements FilterDialog
                 return true;
             case R.id.menu_price:
                 filterByPrice();
+            case R.id.menu_distance:
+                filterByDistance();
             //case R.id.menu_offer:
             //    menuFilter();
             //    return true;
@@ -551,6 +553,51 @@ public class ShowRidesActivity extends AppCompatActivity implements FilterDialog
         listofRidesKeysFiltered=(ArrayList)NewArrayList2.clone();
     }
 
+    private void filterByDistance(){
+        ArrayList NewArrayList = new ArrayList<Ride>();
+        ArrayList NewArrayList2 = new ArrayList<String>();
+
+        ArrayList<Ride> auxList = new ArrayList <Ride>();
+        ArrayList<String> auxKeyList = new ArrayList <String>();
+        if(listofRidesFiltered.isEmpty()){
+            auxList = (ArrayList)listofRides.clone();
+            auxKeyList = (ArrayList)listofRidesKeys.clone();
+        }else{
+            auxList = (ArrayList)listofRidesFiltered.clone();
+            auxKeyList = (ArrayList)listofRidesKeysFiltered.clone();
+        }
+
+        while(!auxList.isEmpty()){
+            double distance = 0;
+            Ride add = null;
+            int index = 0;
+            /*Get the ride with the highest price*/
+            for ( Ride aux : auxList ){
+                if (aux.distance >= distance){
+                    add = aux;
+                    distance = aux.distance;
+                    index = auxList.indexOf(aux);
+                }
+            }
+            NewArrayList.add(add);
+            NewArrayList2.add(auxKeyList.get(index));
+            auxList.remove(index);
+            auxKeyList.remove(index);
+        }
+
+        ArrayAdapter adapter = new ArrayAdapter<Ride>(getApplicationContext(), android.R.layout.simple_spinner_item, NewArrayList){
+            @Override
+            public View getView(int position, View convertView, ViewGroup parent) {
+                View view = super.getView(position, convertView, parent);
+                TextView text = (TextView) view.findViewById(android.R.id.text1);
+                text.setTextColor(Color.BLACK);
+                return view;
+            }
+        };
+        list.setAdapter(adapter);
+        listofRidesFiltered=(ArrayList)NewArrayList.clone();
+        listofRidesKeysFiltered=(ArrayList)NewArrayList2.clone();
+    }
 
     /**
      * Shows the progress UI and hides the login form.
