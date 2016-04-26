@@ -23,4 +23,5 @@
     <string name="rate_passenger_list">RidePassengerListActivity</string>
     <string name="rate_passenger_profile">RidePassengerProfileActivity</string>
     <string name="edittext_hint"><font size="12">Search by Keyword, Destination, or Date Posted(EX:Year/Month/Day)" </font></string>
+    <string name="title_activity_rate_individual_passenger">RateIndividualPassengerActivity</string>
 </resources>

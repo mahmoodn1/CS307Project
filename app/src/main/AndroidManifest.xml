@@ -68,24 +68,25 @@
 
         <activity
             android:name=".RideCreatorActivity"
-            android:label="@string/title_activity_ride_creator"
-            />
+            android:label="@string/title_activity_ride_creator" />
         <activity
             android:name=".RateDriverActivity"
-            android:label="@string/title_activity_rate_driver"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:label="@string/title_activity_rate_driver" />
         <activity
             android:name=".RatePassengerActivity"
             android:label="@string/title_activity_rate_passenger"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".RidePassengerListActivity"
             android:label="@string/rate_passenger_list"
-            android:theme="@style/AppTheme"></activity>
+            android:theme="@style/AppTheme" />
         <activity
             android:name=".RidePassengerProfileActivity"
-            android:label="@string/rate_passenger_profile"
-           ></activity>
+            android:label="@string/rate_passenger_profile" />
+        <activity
+            android:name=".RateIndividualPassengerActivity"
+            android:label="@string/title_activity_rate_individual_passenger"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>

@@ -2,11 +2,13 @@ package boilerride.com.boilerride;
 
 import android.content.Intent;
 import android.graphics.Color;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -18,7 +20,11 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
+import com.firebase.client.FirebaseError;
+import com.firebase.client.Query;
+import com.firebase.client.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -26,26 +32,21 @@ import java.util.Map;
 
 public class RatePassengerActivity extends AppCompatActivity {
 
-    private RatingBar ratingBar;
-    private EditText tv_textview;
-    private Button btnSubmit;
-    private double score;
+    private static ArrayList<String> peopleInRides = new ArrayList<String>();
+    private static ArrayList<String> peopleNamesInRides = new ArrayList<String>();
+    private Firebase myFirebase = new Firebase("https://luminous-torch-1510.firebaseio.com/peopleInRides");
+    private GetRideTask mAuthTask = null;
+    private static ListView list;
     private ArrayAdapter adapter;
-    public ListView list;
-    public String passengerUid;
-    private Firebase myFirebase = new Firebase("https://luminous-torch-1510.firebaseio.com/ratings");
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_rate_passenger);
 
-
-        tv_textview = (EditText)findViewById(R.id.rate_passenger);
-
-       // list = (ListView) findViewById(R.id.passenger_listView);
-        adapter = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_spinner_item, CentralData.peopleInRides) {
+        list = (ListView) findViewById(R.id.passenger_listView);
+        attemptPull();
+        adapter = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_spinner_item, peopleNamesInRides) {
             @Override
             public View getView(int position, View convertView, ViewGroup parent) {
                 View view = super.getView(position, convertView, parent);
@@ -62,52 +63,117 @@ public class RatePassengerActivity extends AppCompatActivity {
         list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapter, View view, int position, long arg) {
-                passengerUid = CentralData.peopleInRides.get(position);
-                Toast.makeText(getApplicationContext(), "Rating User: " + passengerUid,
-                        Toast.LENGTH_LONG).show();
-            }
-        });
-        addListenerOnRatingBar();
-        addListenerOnButton();
-
-    }
-    public void addListenerOnRatingBar() {
-
-        ratingBar = (RatingBar) findViewById(R.id.rate_passenger_ratingBar);
-        //if rating value is changed,
-        //display the current rating value in the result (textview) automatically
-        ratingBar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
-            public void onRatingChanged(RatingBar ratingBar, float rating,
-                                        boolean fromUser) {
-                score = rating;
+                CentralData.passengerKey = peopleInRides.get(position);
+                Intent intent = new Intent(getApplicationContext(), RateIndividualPassengerActivity.class);
+                startActivity(intent);
             }
         });
     }
 
-    public void addListenerOnButton() {
+    private void attemptPull() {
+        if (mAuthTask != null) {
+            return;
+        }
 
-        ratingBar = (RatingBar) findViewById(R.id.rate_passenger_ratingBar);
-        btnSubmit = (Button) findViewById(R.id.rate_passenger_submit);
+        boolean cancel = false;
+        View focusView = null;
 
-        //if click on me, then display the current rating value.
-        btnSubmit.setOnClickListener(new View.OnClickListener() {
+        if (cancel) {
+            // There was an error; don't attempt login and focus the first
+            // form field with an error.
+            focusView.requestFocus();
+        } else {
+            // Show a progress spinner, and kick off a background task to
+            // perform the user login attempt.
+            mAuthTask = new GetRideTask();
+            mAuthTask.execute((Void) null);
+        }
 
-            @Override
-            public void onClick(View v) {
-                Firebase userComments = myFirebase.child(passengerUid);
-                String comment = tv_textview.getText().toString();
-                Map<String, String> post1 = new HashMap<String, String>();
-                post1.put("reviewer", CentralData.uid);
-                post1.put("reviewed", passengerUid);
-                post1.put("rate", String.valueOf(score));
-                post1.put("comment", comment);
-                userComments.push().setValue(post1);
-                /*
-                Toast.makeText(RateDriverActivity.this,
-                        String.valueOf(ratingBar.getRating()), Toast.LENGTH_SHORT).show();
-                        */
+    }
+
+    public class GetRideTask extends AsyncTask<Void, Void, Boolean> {
+
+        public GetRideTask() {
+        }
+
+        protected Boolean doInBackground(Void... params) {
+            // TODO: attempt authentication against a network service.
+
+            try {
+                Query queryRef2 = myFirebase.child(CentralData.rideKey);
+                queryRef2.addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot snapshot) {
+                        if (snapshot == null) {
+                        } else {
+                            for (DataSnapshot postSnapshot : snapshot.getChildren()) {
+                                String aux = postSnapshot.getKey().toString();
+                                System.out.println(aux);
+                                if(!peopleInRides.contains(aux)){
+                                    peopleInRides.add(aux);
+                                    Firebase userProfile = new Firebase("https://luminous-torch-1510.firebaseio.com/users");
+                                    Query getName = userProfile.child(aux);
+                                    getName.addValueEventListener(new ValueEventListener() {
+                                        @Override
+                                        public void onDataChange(DataSnapshot snap) {
+                                            if (snap == null) {
+                                                peopleNamesInRides.add("Name not available");
+                                            } else {
+                                                Log.d("SNAPSHOT EXISTS:", "YAY");
+                                                User user = snap.getValue(User.class);
+                                                if(user==null){
+                                                    System.out.println("Error user null");
+                                                }
+                                                String name = user.getFirstName() + " " + user.getLastName();
+                                                peopleNamesInRides.add(name);
+                                            }
+                                        }
+                                        @Override
+                                        public void onCancelled(FirebaseError firebaseError) {
+                                            System.out.println("The read failed: " + firebaseError.getMessage());
+                                        }
+                                    });
+                                }
+                            }
+                            list.setAdapter(adapter);
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(FirebaseError firebaseError) {
+                        System.out.println("The read failed: " + firebaseError.getMessage());
+                    }
+                });
+
+                if(peopleInRides.isEmpty()){
+                    System.out.println("This is so shitty peopleInRides is empty");
+                }else{
+                    System.out.println("This is not shitty peopleInRides is NOT empty");
+                    for(String i : peopleInRides){
+                        System.out.println("THE USER IN THIS RIDE IS " + i);
+                    }
+                }
+                // Simulate network access.
+                Thread.sleep(500);
+            } catch (InterruptedException e) {
+                return false;
             }
-        });
+            // TODO: register the new account here.
+            return true;
+        }
+
+        protected void onPostExecute(final Boolean success) {
+            mAuthTask = null;
+        }
+
+        protected void onCancelled() {
+            mAuthTask = null;
+        }
+    }
+
+    private void attemptRateIndividualPassengerActivity(){
+        Intent intent = new Intent(this, RateIndividualPassengerActivity.class);
+        startActivity(intent);
     }
 
 }
