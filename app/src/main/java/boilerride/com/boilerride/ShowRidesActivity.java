@@ -133,8 +133,8 @@ public class ShowRidesActivity extends AppCompatActivity implements FilterDialog
             case R.id.logout:
                 menulogout();
                 return true;
-            //case R.id.order_by_price:
-            //    filterByPrice();
+            case R.id.menu_price:
+                filterByPrice();
             //case R.id.menu_offer:
             //    menuFilter();
             //    return true;

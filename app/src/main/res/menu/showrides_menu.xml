@@ -34,7 +34,7 @@
                 <!-- "file" submenu -->
                 <menu>
                     <item android:id="@+id/menu_price"
-                        android:title="Data" />
+                        android:title="Price" />
                     <item android:id="@+id/menu_distance"
                         android:title="Time Posted" />
                     <item android:id="@+id/menu_offer"
