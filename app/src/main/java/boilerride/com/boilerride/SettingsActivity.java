@@ -48,7 +48,7 @@ public class SettingsActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_settings);
+        setContentView(R.layout.activity_settings2);
 
         tv_firstname = (EditText)findViewById(R.id.firstname_field);
         tv_lastname = (EditText)findViewById(R.id.lastname_field);
