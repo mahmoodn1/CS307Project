@@ -380,7 +380,7 @@ public class CreateRideActivity extends AppCompatActivity {
         // node.removeValue()
 
         finish();
-
+        startShowRidesActivity();
     }
 
     @Override
@@ -588,6 +588,7 @@ public class CreateRideActivity extends AppCompatActivity {
         return newtime;
     }
 
+
     /**
      * Represents an asynchronous login/registration task used to authenticate
      * the user.
@@ -725,6 +726,7 @@ public class CreateRideActivity extends AppCompatActivity {
             mAuthTask = null;
             showProgress(false);
         }
+
     }
 }
 
