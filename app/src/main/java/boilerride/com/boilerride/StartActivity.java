@@ -57,7 +57,7 @@ public class StartActivity extends AppCompatActivity{
         attemptPull();
 
         TextView tv = (TextView)findViewById(R.id.startTitle);
-        String text = "<font color=#FFD700>Boiler</font><font color=#000000>Ride</font>";
+        String text = "<font color=#CE9A21>Boiler</font><font color=#ffffff>Ride</font>";
         tv.setText(Html.fromHtml(text));
 
         // Set up the login form.

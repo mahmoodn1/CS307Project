@@ -44,7 +44,7 @@
                 </menu>
             </item>
             <item android:id="@+id/logout"
-                android:title="LogOut" >
+                android:title="Log out" >
                 <!-- "file" submenu -->
             </item>
         </menu>

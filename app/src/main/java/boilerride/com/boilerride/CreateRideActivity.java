@@ -5,6 +5,7 @@ import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.TimePickerDialog;
 import android.content.Intent;
+import android.graphics.Color;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
@@ -186,7 +187,8 @@ public class CreateRideActivity extends AppCompatActivity {
 
         Tv_price = (TextView) findViewById(R.id.createride_tv_price);
         mSeekbar = (SeekBar) findViewById(R.id.createride_seekBar);
-
+        mSeekbar.setBackgroundColor(Color.parseColor("#ffffff"));
+        mSeekbar.setDrawingCacheBackgroundColor(Color.parseColor("#ffffff"));
         mSeekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 fare = ((double) progress) / 100;
@@ -203,6 +205,8 @@ public class CreateRideActivity extends AppCompatActivity {
         Tv_passengers = (TextView) findViewById(R.id.createride_tv_passengers);
 
         mSeekbar2 = (SeekBar) findViewById(R.id.createride_seekBar2);
+        mSeekbar2.setBackgroundColor(Color.parseColor("#ffffff"));
+        mSeekbar2.setDrawingCacheBackgroundColor(Color.parseColor("#ffffff"));
 
         mSeekbar2.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
@@ -220,6 +224,8 @@ public class CreateRideActivity extends AppCompatActivity {
         Tv_rideSeekers = (TextView) findViewById(R.id.createride_tv_NumberSeekers);
 
         mSeekbar3 = (SeekBar) findViewById(R.id.createride_seekBar3);
+        mSeekbar3.setBackgroundColor(Color.parseColor("#ffffff"));
+        mSeekbar3.setDrawingCacheBackgroundColor(Color.parseColor("#ffffff"));
 
         mSeekbar3.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {

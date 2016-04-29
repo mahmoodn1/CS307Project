@@ -10,6 +10,7 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="boilerride.com.boilerride.RatePassengerActivity"
-    tools:showIn="@layout/activity_rate_passenger">
+    tools:showIn="@layout/activity_rate_passenger"
+    android:background="@color/gold">
 
 </RelativeLayout>

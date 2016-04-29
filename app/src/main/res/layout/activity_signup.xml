@@ -33,7 +33,7 @@
             android:text="Enter your information"
             android:id="@+id/textView2"
             android:textSize="25dp"
-            android:textColor="#FFD700"
+            android:textColor="#CE9A21"
             android:layout_gravity="center_horizontal"/>
 
 
@@ -53,8 +53,8 @@
             <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textColor="#FFD700"
-                android:textColorHint="#FFD700">
+                android:textColor="#CE9A21"
+                android:textColorHint="#CE9A21">
 
                 <AutoCompleteTextView
                     android:id="@+id/sign_up_email"
@@ -64,8 +64,8 @@
                     android:inputType="textEmailAddress"
                     android:maxLines="1"
                     android:singleLine="true"
-                    android:textColorHint="#FFD700"
-                    android:textColor="#FFD700"
+                    android:textColorHint="#CE9A21"
+                    android:textColor="#CE9A21"
                     />
 
             </android.support.design.widget.TextInputLayout>
@@ -73,8 +73,8 @@
             <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textColor="#FFD700"
-                android:textColorHint="#FFD700">
+                android:textColor="#CE9A21"
+                android:textColorHint="#CE9A21">
 
                 <EditText
                     android:id="@+id/sign_up_firstname"
@@ -87,8 +87,8 @@
                     android:inputType="text"
                     android:maxLines="1"
                     android:singleLine="true"
-                    android:textColorHint="#FFD700"
-                    android:textColor="#FFD700" />
+                    android:textColorHint="#CE9A21"
+                    android:textColor="#CE9A21" />
 
             </android.support.design.widget.TextInputLayout>
 
@@ -96,7 +96,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textColor="#FFD700"
-                android:textColorHint="#FFD700">
+                android:textColorHint="#CE9A21">
 
             <EditText
                 android:id="@+id/sign_up_lastname"
@@ -104,7 +104,7 @@
                 android:layout_height="wrap_content"
                 android:hint="Last name"
                 android:textColor="#FFD700"
-                android:textColorHint="#FFD700"
+                android:textColorHint="#CE9A21"
                 android:imeActionId="@+id/login"
                 android:imeActionLabel="Sign up"
                 android:imeOptions="actionUnspecified"
@@ -119,16 +119,16 @@
             <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textColor="#FFD700"
-                android:textColorHint="#FFD700">
+                android:textColor="#CE9A21"
+                android:textColorHint="#CE9A21">
 
                 <EditText
                     android:id="@+id/sign_up_phonenumber"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="Phone Number"
-                    android:textColor="#FFD700"
-                    android:textColorHint="#FFD700"
+                    android:textColor="#CE9A21"
+                    android:textColorHint="#CE9A21"
                     android:imeActionId="@+id/login"
                     android:imeActionLabel="Sign up"
                     android:imeOptions="actionUnspecified"

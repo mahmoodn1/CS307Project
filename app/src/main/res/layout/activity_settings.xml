@@ -5,7 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    tools:context="com.letsnurture.ln_202.coordinatorlayoutpart1.ScrollingActivity">
+    tools:context="com.letsnurture.ln_202.coordinatorlayoutpart1.ScrollingActivity"
+    android:background="@color/gold">
 
     <android.support.design.widget.AppBarLayout
         android:id="@+id/app_bar"

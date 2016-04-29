@@ -8,7 +8,8 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="boilerride.com.boilerride.LoginActivity">
+    tools:context="boilerride.com.boilerride.LoginActivity"
+    android:background="@color/gold">
 
     <!-- Login progress -->
     <ProgressBar
@@ -108,6 +109,11 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
                     android:text="Date"
+                    android:layout_marginRight="50dp"
+                    android:background="#4d5f70"
+                    android:backgroundTint="#1a364f"
+                    android:focusableInTouchMode="false"
+                    android:textColor="#fefefe"
                     android:textStyle="bold" />
 
                 <Button
@@ -117,7 +123,12 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
                     android:text="Time"
-                    android:textStyle="bold" />
+                    android:textStyle="bold"
+                    android:layout_marginRight="50dp"
+                    android:background="#4d5f70"
+                    android:backgroundTint="#1a364f"
+                    android:focusableInTouchMode="false"
+                    android:textColor="#fefefe"/>
 
             </LinearLayout>
             <TextView
@@ -186,7 +197,12 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:text="Post"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                android:layout_marginRight="50dp"
+                android:background="#4d5f70"
+                android:backgroundTint="#1a364f"
+                android:focusableInTouchMode="false"
+                android:textColor="#fefefe"/>
 
             <Button
                 android:id="@+id/createride_BtnDelete"
@@ -195,8 +211,11 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:text="Delete ride"
-                android:background="#ff6666"
-                android:textStyle="bold" />
+                android:background="#9f4a44"
+                android:backgroundTint="#bf3a31"
+                android:textColor="#fefefe"
+                android:textStyle="bold"
+                android:layout_centerInParent="true"/>
 
         </LinearLayout>
 

@@ -70,9 +70,11 @@ public class ShowRidesActivity extends AppCompatActivity implements FilterDialog
 
     public static ListView list;
     public static String content;
+    public Menu menu;
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
+        this.menu = menu;
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.showrides_menu, menu);
         return true;
@@ -147,7 +149,7 @@ public class ShowRidesActivity extends AppCompatActivity implements FilterDialog
                 view.setLayoutParams(new ViewGroup.LayoutParams(10, 15));
                 view.setBackgroundColor(Color.parseColor("#FFD700"));
                 TextView text = (TextView) view.findViewById(android.R.id.text1);
-                text.setTextColor(Color.parseColor("#FFD700"));
+                text.setTextColor(Color.parseColor("#ffffff"));
                 text.setHeight(150); // Height
                 return view;
                 /*final View view;
@@ -193,7 +195,7 @@ public class ShowRidesActivity extends AppCompatActivity implements FilterDialog
         });
 
         etSearch = (EditText) findViewById(R.id.showrides_search);
-        etSearch.setHintTextColor(Color.parseColor("#FFD700"));
+        etSearch.setHintTextColor(Color.parseColor("#ffffff"));
 
         etSearch.addTextChangedListener(new TextWatcher() {
 
@@ -303,7 +305,7 @@ public class ShowRidesActivity extends AppCompatActivity implements FilterDialog
             public View getView(int position, View convertView, ViewGroup parent) {
                 View view = super.getView(position, convertView, parent);
                 TextView text = (TextView) view.findViewById(android.R.id.text1);
-                text.setTextColor(Color.parseColor("#FFD700"));
+                text.setTextColor(Color.parseColor("#ffffff"));
                 text.setHeight(150); // Height
                 return view;
             }
@@ -464,7 +466,7 @@ public class ShowRidesActivity extends AppCompatActivity implements FilterDialog
             public View getView(int position, View convertView, ViewGroup parent) {
                 View view = super.getView(position, convertView, parent);
                 TextView text = (TextView) view.findViewById(android.R.id.text1);
-                text.setTextColor(Color.parseColor("#FFD700"));
+                text.setTextColor(Color.parseColor("#ffffff"));
                 text.setHeight(150); // Height
                 return view;
             }
@@ -504,7 +506,7 @@ public class ShowRidesActivity extends AppCompatActivity implements FilterDialog
             public View getView(int position, View convertView, ViewGroup parent) {
                 View view = super.getView(position, convertView, parent);
                 TextView text = (TextView) view.findViewById(android.R.id.text1);
-                text.setTextColor(Color.parseColor("#FFD700"));
+                text.setTextColor(Color.parseColor("#ffffff"));
                 text.setHeight(150); // Height
                 return view;
             }
@@ -556,7 +558,7 @@ public class ShowRidesActivity extends AppCompatActivity implements FilterDialog
             public View getView(int position, View convertView, ViewGroup parent) {
                 View view = super.getView(position, convertView, parent);
                 TextView text = (TextView) view.findViewById(android.R.id.text1);
-                text.setTextColor(Color.parseColor("#FFD700"));
+                text.setTextColor(Color.parseColor("#ffffff"));
                 text.setHeight(150); // Height
                 return view;
             }
@@ -603,7 +605,7 @@ public class ShowRidesActivity extends AppCompatActivity implements FilterDialog
             public View getView(int position, View convertView, ViewGroup parent) {
                 View view = super.getView(position, convertView, parent);
                 TextView text = (TextView) view.findViewById(android.R.id.text1);
-                text.setTextColor(Color.parseColor("#FFD700"));
+                text.setTextColor(Color.parseColor("#ffffff"));
                 text.setHeight(150); // Height
                 return view;
             }

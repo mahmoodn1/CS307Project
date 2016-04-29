@@ -8,7 +8,8 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="boilerride.com.boilerride.RatePassengerActivity">
+    tools:context="boilerride.com.boilerride.RatePassengerActivity"
+    android:background="@color/gold">
 
     <LinearLayout
         android:orientation="horizontal"
@@ -19,7 +20,8 @@
         <ListView
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/passenger_listView" />
+            android:id="@+id/passenger_listView"
+            android:textColor="#ffffff"/>
     </LinearLayout>
 
 

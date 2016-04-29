@@ -12,5 +12,5 @@
         android:layout_marginTop="10dp"
         android:shadowColor="#f4ececec"
         android:singleLine="true"
-        android:textColor="#FFD700"/>
+        android:textColor="#CE9A21"/>
 </LinearLayout>

@@ -8,7 +8,8 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="boilerride.com.boilerride.rateDriverActivity">
+    tools:context="boilerride.com.boilerride.rateDriverActivity"
+    android:background="@color/gold">
 
     <TextView
         android:id="@+id/lblRateMe"
@@ -16,7 +17,8 @@
         android:layout_height="wrap_content"
         android:text="Give a Rate"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:layout_weight="0.06" />
+        android:layout_weight="0.06"
+        android:textColor="#ffffff" />
 
     <LinearLayout
         android:orientation="horizontal"
@@ -29,7 +31,8 @@
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:id="@+id/ratedriver_comment"
-            android:text="Put a comment  " />
+            android:text="Put a comment  "
+            android:textColor="#ffffff"/>
 
         <EditText
             android:layout_width="wrap_content"
@@ -38,7 +41,8 @@
             android:gravity="left"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:text=""
-            android:id="@+id/rate_driver123" />
+            android:id="@+id/rate_driver123"
+            android:textColor="#ffffff"/>
 
     </LinearLayout>
 
@@ -66,7 +70,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text=""
-            android:textAppearance="?android:attr/textAppearanceSmall" />
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:textColor="#ffffff"/>
 
     </LinearLayout>
 

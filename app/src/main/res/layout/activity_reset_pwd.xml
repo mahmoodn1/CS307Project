@@ -5,7 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    tools:context="boilerride.com.boilerride.ResetPwdActivity">
+    tools:context="boilerride.com.boilerride.ResetPwdActivity"
+    android:background="@color/gold">
 
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"

@@ -23,7 +23,7 @@
             android:text="Please sign-in"
             android:id="@+id/textView2"
             android:textSize="25dp"
-            android:textColor="#FFD700"
+            android:textColor="#CE9A21"
             android:layout_gravity="center_horizontal"/>
 
 
@@ -52,16 +52,16 @@
                         android:inputType="textEmailAddress" android:maxLines="1"
                         android:singleLine="true"
                         android:layout_marginBottom="10dp"
-                        android:textColorHint="#FFD700"
-                        android:textColor="#FFD700" />
+                        android:textColorHint="#CE9A21"
+                        android:textColor="#CE9A21" />
 
                     <EditText android:id="@+id/password" android:layout_width="match_parent"
                         android:layout_height="wrap_content" android:hint="@string/prompt_password"
                         android:imeOptions="actionUnspecified" android:inputType="textPassword"
                         android:maxLines="1" android:singleLine="true"
                         android:layout_marginBottom="10dp"
-                        android:textColorHint="#FFD700"
-                        android:textColor="#FFD700" />
+                        android:textColorHint="#CE9A21"
+                        android:textColor="#CE9A21" />
 
                     <Button
                         android:id="@+id/email_sign_in_button"

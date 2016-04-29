@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    >
+    android:background="@color/gold">
 
     <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
             android:layout_width="fill_parent"
@@ -24,7 +24,7 @@
                 android:layout_alignBottom="@+id/img_gravatar"
                 android:layout_margin="1dp"
                 android:gravity="center"
-                android:textColor="#000000" />
+                android:textColor="#ffffff" />
         </RelativeLayout>
 
         <RelativeLayout
@@ -32,6 +32,7 @@
             android:layout_height="wrap_content"
             android:background="?attr/selectableItemBackground"
             android:clickable="true"
+            android:gravity="center"
             android:padding="@dimen/activity_horizontal_margin">
             <TextView
                 android:layout_width="wrap_content"
@@ -39,7 +40,8 @@
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:id="@+id/rideCreator_firstnameF"
                 android:textStyle="bold"
-                android:text="First name" />
+                android:text="First name"
+                android:textColor="#ffffff"/>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -51,7 +53,8 @@
                 android:layout_alignParentTop="true"
                 android:layout_toRightOf="@+id/rideCreator_firstnameF"
                 android:layout_toEndOf="@+id/rideCreator_firstnameF"
-                android:id="@+id/rideCreator_lastnameF" />
+                android:id="@+id/rideCreator_lastnameF"
+                android:textColor="#ffffff"/>
         </RelativeLayout>
 
         <RelativeLayout
@@ -69,7 +72,8 @@
                 android:id="@+id/rideCreator_emailF"
                 android:layout_alignParentTop="true"
                 android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true" />
+                android:layout_alignParentStart="true"
+                android:textColor="#ffffff"/>
             <ImageButton
                 android:id="@+id/email_fab"
                 android:layout_width="24dp"
@@ -95,7 +99,8 @@
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:text="Phone"
-                android:id="@+id/rideCreator_phoneF" />
+                android:id="@+id/rideCreator_phoneF"
+                android:textColor="#ffffff"/>
             <ImageButton
                 android:id="@+id/phone_fab"
                 android:layout_width="24dp"
@@ -135,7 +140,7 @@
                 android:gravity="left"
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:text="Ride Creator Ratings"
-                android:textColor="#000000"
+                android:textColor="#ffffff"
                 android:textStyle="bold"
                 android:id="@+id/rideCreator_commentsTitle" />
             <ListView

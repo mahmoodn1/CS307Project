@@ -18,7 +18,8 @@
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/gold">
 
     <LinearLayout
         android:orientation="horizontal"
@@ -73,7 +74,8 @@
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:id="@+id/ride_departureF"
-            android:text="Departure Time" />
+            android:text="Departure Time"
+            android:layout_weight="50"/>
     </LinearLayout>
 
     <LinearLayout
@@ -94,7 +96,8 @@
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="Destination"
-        android:id="@+id/ride_destinationF" />
+        android:id="@+id/ride_destinationF"
+        android:layout_weight="50"/>
     </LinearLayout>
 
     <LinearLayout
@@ -115,7 +118,8 @@
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:text="Distance"
-            android:id="@+id/ride_distanceF" />
+            android:id="@+id/ride_distanceF"
+            android:layout_weight="50"/>
     </LinearLayout>
 
     <LinearLayout
@@ -136,7 +140,8 @@
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:text="Fare"
-            android:id="@+id/ride_fareF" />
+            android:id="@+id/ride_fareF"
+            android:layout_weight="50"/>
     </LinearLayout>
 
     <LinearLayout
@@ -150,13 +155,15 @@
             android:gravity="left"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:text="Maximum Passengers:           "
-            android:id="@+id/ride_passengers" />
+            android:id="@+id/ride_passengers"
+            android:layout_weight="50"/>
         <TextView
             android:layout_width="27dp"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:text="0"
-            android:id="@+id/ride_maxpassengersF" />
+            android:id="@+id/ride_maxpassengersF"
+            android:layout_weight="50"/>
     </LinearLayout>
 
     <LinearLayout
@@ -170,7 +177,8 @@
             android:gravity="left"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:text="Number of Passengers         "
-            android:id="@+id/ride_numberpassengers" />
+            android:id="@+id/ride_numberpassengers"
+            android:layout_weight="50"/>
         <TextView
             android:layout_width="wrap_content"
             android:layout_weight="50"
@@ -275,13 +283,23 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="User  Profile"
-        android:id="@+id/ride_userprofileButton" />
+        android:id="@+id/ride_userprofileButton"
+        android:layout_centerHorizontal="true"
+        android:backgroundTint="#1a364f"
+        android:focusableInTouchMode="false"
+        android:textColor="#fefefe"
+        android:shadowColor="#1b8440"/>
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Map"
-        android:id="@+id/mapbutton1" />
+        android:id="@+id/mapbutton1"
+        android:layout_centerHorizontal="true"
+        android:backgroundTint="#1a364f"
+        android:focusableInTouchMode="false"
+        android:textColor="#fefefe"
+        android:shadowColor="#1b8440"/>
         </LinearLayout>
 
     <LinearLayout
@@ -289,15 +307,21 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:weightSum="3"
-        android:layout_gravity="right">
+        android:layout_centerHorizontal="true"
+        android:layout_gravity="right"
+        android:paddingLeft="4.0dip"
+        android:paddingTop="5.0dip"
+        android:paddingRight="4.0dip"
+        android:paddingBottom="1.0dip">
 
         <ImageButton
             android:id="@+id/payment1_fab"
             android:layout_width="48dp"
             android:layout_height="68dp"
-            android:layout_weight="0.5"
+            android:layout_weight="1.0"
             android:clickable="true"
             android:background="@drawable/android"
+            android:layout_centerHorizontal="true"
             android:cropToPadding="false" />
 
         <ImageButton
@@ -305,15 +329,18 @@
             android:layout_width="78dp"
             android:layout_height="match_parent"
             android:clickable="true"
+            android:layout_weight="1.0"
             android:background="@drawable/chase"
+            android:layout_centerHorizontal="true"
             android:layout_gravity="center_vertical" />
 
         <ImageButton
         android:id="@+id/payment2_fab"
         android:layout_width="68dp"
         android:layout_height="68dp"
-        android:layout_weight="0.25"
+        android:layout_weight="1.0"
             android:clickable="true"
+            android:layout_centerHorizontal="true"
         android:background="@drawable/venmo"/>
 
     </LinearLayout>
@@ -321,38 +348,66 @@
         android:orientation="horizontal"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:weightSum="100">
+        android:weightSum="100"
+        android:paddingLeft="4.0dip"
+        android:paddingTop="5.0dip"
+        android:paddingRight="4.0dip"
+        android:paddingBottom="1.0dip">
     <Button
         style="?android:attr/buttonStyleSmall"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Join Ride"
-        android:id="@+id/ride_joinButton" />
+        android:id="@+id/ride_joinButton"
+        android:backgroundTint="#1a364f"
+        android:focusableInTouchMode="false"
+        android:textColor="#fefefe"
+        android:shadowColor="#1b8440"
+        android:layout_weight="1.0"/>
 
     <Button
         style="?android:attr/buttonStyleSmall"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Leave Ride"
-        android:id="@+id/ride_leaveButton" />
+        android:id="@+id/ride_leaveButton"
+        android:backgroundTint="#1a364f"
+        android:focusableInTouchMode="false"
+        android:textColor="#fefefe"
+        android:shadowColor="#1b8440"
+        android:layout_weight="1.0"/>
     </LinearLayout>
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="End Ride"
-        android:id="@+id/end_fab" />
 
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:weightSum="100">
+        android:weightSum="100"
+        android:paddingLeft="4.0dip"
+        android:paddingTop="5.0dip"
+        android:paddingRight="4.0dip"
+        android:paddingBottom="1.0dip">
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="End Ride"
+            android:id="@+id/end_fab"
+            android:background="#9f4a44"
+            android:backgroundTint="#bf3a31"
+            android:textColor="#fefefe"
+            android:layout_weight="1.0"
+            />
         <Button
             style="?android:attr/buttonStyleSmall"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Rate User"
-            android:id="@+id/ride_rateUser" />
+            android:id="@+id/ride_rateUser"
+            android:backgroundTint="#1a364f"
+            android:focusableInTouchMode="false"
+            android:textColor="#fefefe"
+            android:shadowColor="#1b8440"
+            android:layout_weight="1.0"/>
 
     </LinearLayout>
 </LinearLayout>
