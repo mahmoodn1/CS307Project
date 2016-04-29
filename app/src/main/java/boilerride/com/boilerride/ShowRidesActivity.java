@@ -37,8 +37,13 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.view.LayoutInflater;
+import android.view.ViewGroup;
+import android.widget.Toast;
+import android.support.v7.widget.RecyclerView.ViewHolder;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -62,11 +67,6 @@ import com.firebase.client.FirebaseError;
 import com.firebase.client.ValueEventListener;
 import com.firebase.client.Query;
 
-import static android.Manifest.permission.READ_CONTACTS;
-
-/**
- * A login screen that offers login via email/password.
- */
 public class ShowRidesActivity extends AppCompatActivity implements FilterDialogFragment.FilterDialogFragmentListener {
 
 
@@ -156,7 +156,7 @@ public class ShowRidesActivity extends AppCompatActivity implements FilterDialog
         myFirebase  = new Firebase("https://luminous-torch-1510.firebaseio.com/");
         attemptPull();
 
-        list = (ListView) findViewById(R.id.showrides_listView);
+        list = (ListView)findViewById(R.id.showrides_listView);
         registerForContextMenu(list);
 
         listofRidesFiltered=(ArrayList)listofRides.clone();
@@ -168,9 +168,31 @@ public class ShowRidesActivity extends AppCompatActivity implements FilterDialog
             @Override
             public View getView(int position, View convertView, ViewGroup parent) {
                 View view = super.getView(position, convertView, parent);
+                view.setLayoutParams(new ViewGroup.LayoutParams(10, 15));
+                view.setBackgroundColor(Color.parseColor("#FFD700"));
                 TextView text = (TextView) view.findViewById(android.R.id.text1);
-                text.setTextColor(Color.BLACK);
+                text.setTextColor(Color.parseColor("#FFD700"));
+                text.setHeight(150); // Height
                 return view;
+                /*final View view;
+                ViewHolder holder;
+                if (convertView == null) {
+                    view = ((LayoutInflater) getApplicationContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE)).inflate(R.layout.list_item, parent, false);
+                    holder = new ViewHolder();
+                    holder.ride = (TextView) view.findViewById(R.id.expandedListItem);
+                    view.setTag(holder);
+                View view = super.getView(position, convertView, parent);
+                TextView text = (TextView) view.findViewById(android.R.id.text1);
+                text.setTextColor(Color.parseColor("#FFD700"));
+                return view;
+                }
+                else {
+                    view = convertView;
+                    holder = (ViewHolder)view.getTag();
+                }
+                holder.ride.setText(listofRidesFiltered.get(position).title + " lol");
+                holder.ride.setTextColor(Color.parseColor("#FFD700"));
+                return view;*/
             }
         };
 
@@ -195,6 +217,7 @@ public class ShowRidesActivity extends AppCompatActivity implements FilterDialog
         });
 
         etSearch = (EditText) findViewById(R.id.showrides_search);
+        etSearch.setHintTextColor(Color.parseColor("#FFD700"));
 
         etSearch.addTextChangedListener(new TextWatcher() {
 
@@ -232,7 +255,17 @@ public class ShowRidesActivity extends AppCompatActivity implements FilterDialog
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(intent);
-            }
+    }
+
+    public class ViewHolder {
+        public TextView ride;
+        public LinearLayout expanded;
+        public TextView distance;
+        public TextView currCap;
+        public TextView totCap;
+        public Button checkIn;
+        public Button checkOut;
+    }
 
     @Override
     protected void onResume() {
@@ -294,7 +327,8 @@ public class ShowRidesActivity extends AppCompatActivity implements FilterDialog
             public View getView(int position, View convertView, ViewGroup parent) {
                 View view = super.getView(position, convertView, parent);
                 TextView text = (TextView) view.findViewById(android.R.id.text1);
-                text.setTextColor(Color.BLACK);
+                text.setTextColor(Color.parseColor("#FFD700"));
+                text.setHeight(150); // Height
                 return view;
             }
         };
@@ -382,7 +416,7 @@ public class ShowRidesActivity extends AppCompatActivity implements FilterDialog
         FragmentManager fm = getSupportFragmentManager();
         FilterDialogFragment editNameDialog = new FilterDialogFragment();
 
-        editNameDialog.show(fm, "HiHiHifragment_edit_name");
+        editNameDialog.show(fm, " ");
     }
 
     @Override
@@ -454,7 +488,8 @@ public class ShowRidesActivity extends AppCompatActivity implements FilterDialog
             public View getView(int position, View convertView, ViewGroup parent) {
                 View view = super.getView(position, convertView, parent);
                 TextView text = (TextView) view.findViewById(android.R.id.text1);
-                text.setTextColor(Color.BLACK);
+                text.setTextColor(Color.parseColor("#FFD700"));
+                text.setHeight(150); // Height
                 return view;
             }
         };
@@ -493,7 +528,8 @@ public class ShowRidesActivity extends AppCompatActivity implements FilterDialog
             public View getView(int position, View convertView, ViewGroup parent) {
                 View view = super.getView(position, convertView, parent);
                 TextView text = (TextView) view.findViewById(android.R.id.text1);
-                text.setTextColor(Color.BLACK);
+                text.setTextColor(Color.parseColor("#FFD700"));
+                text.setHeight(150); // Height
                 return view;
             }
         };
@@ -544,7 +580,8 @@ public class ShowRidesActivity extends AppCompatActivity implements FilterDialog
             public View getView(int position, View convertView, ViewGroup parent) {
                 View view = super.getView(position, convertView, parent);
                 TextView text = (TextView) view.findViewById(android.R.id.text1);
-                text.setTextColor(Color.BLACK);
+                text.setTextColor(Color.parseColor("#FFD700"));
+                text.setHeight(150); // Height
                 return view;
             }
         };
@@ -590,7 +627,8 @@ public class ShowRidesActivity extends AppCompatActivity implements FilterDialog
             public View getView(int position, View convertView, ViewGroup parent) {
                 View view = super.getView(position, convertView, parent);
                 TextView text = (TextView) view.findViewById(android.R.id.text1);
-                text.setTextColor(Color.BLACK);
+                text.setTextColor(Color.parseColor("#FFD700"));
+                text.setHeight(150); // Height
                 return view;
             }
         };

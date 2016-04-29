@@ -3,10 +3,14 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
     <TextView
-        android:id="@+id/expandedListItem"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:paddingLeft="?android:attr/expandableListPreferredChildPaddingLeft"
-        android:paddingTop="10dp"
-        android:paddingBottom="10dp" />
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:id="@+id/expandedListItem"
+        android:background="#d1f7f7f7"
+        android:padding="15dp"
+        android:layout_marginTop="10dp"
+        android:shadowColor="#f4ececec"
+        android:singleLine="true"
+        android:textColor="#FFD700"/>
 </LinearLayout>
