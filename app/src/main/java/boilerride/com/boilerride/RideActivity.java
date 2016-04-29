@@ -441,8 +441,6 @@ public class RideActivity extends AppCompatActivity {
         }
         if (addresses.size() > 0) {
             double latitude = addresses.get(0).getLatitude();
-
-
             return latitude;
         }
         return 0;
