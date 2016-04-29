@@ -112,6 +112,19 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             // etc
             mEmailView.setText(email);
             mPasswordView.setText(password);
+            Boolean loginSucces=prefs.getBoolean("loginSucces", false);
+            if(loginSucces)
+            {
+                mAuthTask = new UserLoginTask(email, password);
+                mAuthTask.execute((Void) null);
+            }
+
+        }
+        else
+        {
+            SharedPreferences.Editor edit = prefs.edit();
+            edit.putBoolean("loginSucces", false);
+            edit.commit();
         }
 
     }
@@ -385,10 +398,19 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             showProgress(false);
 
             if (success) {
+                SharedPreferences prefs = getSharedPreferences("text", 0);
+                SharedPreferences.Editor edit = prefs.edit();
+                edit.putBoolean("loginSucces", true);
+                edit.commit();
                 startShowRidesActivity();
+
             } else {
                 mPasswordView.setError(getString(R.string.error_incorrect_password));
                 mPasswordView.requestFocus();
+                SharedPreferences prefs = getSharedPreferences("text", 0);
+                SharedPreferences.Editor edit = prefs.edit();
+                edit.putBoolean("loginSucces", false);
+                edit.commit();
             }
         }
 
