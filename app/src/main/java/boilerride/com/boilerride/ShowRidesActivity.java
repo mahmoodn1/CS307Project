@@ -7,6 +7,7 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -207,15 +208,30 @@ public class ShowRidesActivity extends AppCompatActivity implements FilterDialog
                 listofRidesKeysFiltered.clear();
 
                 String formattedDate = s.toString().replaceAll("/", "");
-                for (int i = 0; i < listofRides.size(); i++) {
+                for (int i = 0; i < listofRides.size()-1; i++) {
                     if (listofRides.get(i).title.toLowerCase().contains(s.toString().toLowerCase()) ||
                             listofRides.get(i).destination.toLowerCase().contains(s.toString().toLowerCase()) ||
                             listofRides.get(i).timePosted.toLowerCase().contains(formattedDate)) {
-                        listofRidesFiltered.add(listofRides.get(i));
-                        listofRidesKeysFiltered.add(listofRidesKeys.get(i));
+                        if(i<listofRidesKeys.size()-1){
+                            listofRidesFiltered.add(listofRides.get(i));
+                            listofRidesKeysFiltered.add(listofRidesKeys.get(i));
+                        }
+                        //check out of bounds
                     }
                 }
                 adapter.notifyDataSetChanged();
+
+                ArrayAdapter adapter = new ArrayAdapter<Ride>(getApplicationContext(), android.R.layout.simple_spinner_item, listofRidesFiltered){
+                    @Override
+                    public View getView(int position, View convertView, ViewGroup parent) {
+                        View view = super.getView(position, convertView, parent);
+                        TextView text = (TextView) view.findViewById(android.R.id.text1);
+                        text.setTextColor(Color.parseColor("#FFD700"));
+                        text.setHeight(150); // Height
+                        return view;
+                    }
+                };
+                list.setAdapter(adapter);
 
             }
 
@@ -228,11 +244,15 @@ public class ShowRidesActivity extends AppCompatActivity implements FilterDialog
     private void menulogout(){
               //  Intent intent = new Intent(this, SettingsActivity.class);
             //   startActivity(intent);
-          //  finish();
-        Intent intent = new Intent(getApplicationContext(),StartActivity.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        startActivity(intent);
+        SharedPreferences prefs = getSharedPreferences("text", 0);
+        SharedPreferences.Editor edit = prefs.edit();
+        edit.putBoolean("loginSucces", false);
+        edit.commit();
+            finish();
+       // Intent intent = new Intent(getApplicationContext(),StartActivity.class);
+        //intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        //intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        //startActivity(intent);
     }
 
     public class ViewHolder {
@@ -672,9 +692,13 @@ public class ShowRidesActivity extends AppCompatActivity implements FilterDialog
                         for (DataSnapshot postSnapshot : snapshot.getChildren()) {
                             String key1 = postSnapshot.getKey();
                             String value = postSnapshot.toString();
-                            boolean inRide = value.toLowerCase().contains(CentralData.uid.toLowerCase());
-                            if (inRide) {
-                                CentralData.myRides.add(key1);
+                            if(value != null){
+                                if(CentralData.uid != null){
+                                    boolean inRide = value.toLowerCase().contains(CentralData.uid.toLowerCase());
+                                    if (inRide) {
+                                        CentralData.myRides.add(key1);
+                                    }
+                                }
                             }
                         }
                     }

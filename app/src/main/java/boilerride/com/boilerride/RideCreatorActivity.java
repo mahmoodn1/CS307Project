@@ -235,7 +235,7 @@ public class RideCreatorActivity extends AppCompatActivity {
                                 String comment = postSnapshot.child("comment").getValue().toString();
                                 String rating =  postSnapshot.child("rate").getValue().toString();
                                 //System.out.println(aux);
-                                String total = comment + System.getProperty("line.seperator")  + "Rating: " + rating;
+                                String total = comment + System.getProperty("line.separator")  + "Rating: " + rating;
                                 comments.add(total);
                             }
                         }

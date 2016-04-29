@@ -59,8 +59,8 @@ public class CreateRideActivity extends AppCompatActivity {
     //  DatePicker dp;
     public ListView list;
     public double passengers = 1;
-    public double fare;
-    public double maxPassengers;
+    public double fare = 0.3;
+    public double maxPassengers = 3;
     Switch sw;
     int year = 2016;
     int month = 6;
@@ -386,7 +386,7 @@ public class CreateRideActivity extends AppCompatActivity {
         // node.removeValue()
 
         finish();
-
+        startShowRidesActivity();
     }
 
     @Override
@@ -545,7 +545,7 @@ public class CreateRideActivity extends AppCompatActivity {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        Address address = addresses.get(0);
+        //Address address = addresses.get(0);
         if (addresses.size() > 0) {
 
             double longitude = addresses.get(0).getLongitude();
@@ -565,7 +565,6 @@ public class CreateRideActivity extends AppCompatActivity {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        Address address = addresses.get(0);
         if (addresses.size() > 0) {
             double latitude = addresses.get(0).getLatitude();
 
@@ -594,6 +593,7 @@ public class CreateRideActivity extends AppCompatActivity {
 
         return newtime;
     }
+
 
     /**
      * Represents an asynchronous login/registration task used to authenticate
@@ -732,6 +732,7 @@ public class CreateRideActivity extends AppCompatActivity {
             mAuthTask = null;
             showProgress(false);
         }
+
     }
 }
 
