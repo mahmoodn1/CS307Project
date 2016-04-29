@@ -205,12 +205,13 @@ public class ShowRidesActivity extends AppCompatActivity implements FilterDialog
                 listofRidesKeysFiltered.clear();
 
                 String formattedDate = s.toString().replaceAll("/", "");
-                for (int i = 0; i < listofRides.size(); i++) {
+                for (int i = 0; i < listofRides.size()-1; i++) {
                     if (listofRides.get(i).title.toLowerCase().contains(s.toString().toLowerCase()) ||
                             listofRides.get(i).destination.toLowerCase().contains(s.toString().toLowerCase()) ||
                             listofRides.get(i).timePosted.toLowerCase().contains(formattedDate)) {
                         listofRidesFiltered.add(listofRides.get(i));
                         listofRidesKeysFiltered.add(listofRidesKeys.get(i));
+                        //check out of bounds
                     }
                 }
                 adapter.notifyDataSetChanged();
