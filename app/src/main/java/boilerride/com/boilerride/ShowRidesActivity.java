@@ -241,11 +241,11 @@ public class ShowRidesActivity extends AppCompatActivity implements FilterDialog
     private void menulogout(){
               //  Intent intent = new Intent(this, SettingsActivity.class);
             //   startActivity(intent);
-          //  finish();
-        Intent intent = new Intent(getApplicationContext(),StartActivity.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        startActivity(intent);
+            finish();
+       // Intent intent = new Intent(getApplicationContext(),StartActivity.class);
+        //intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        //intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        //startActivity(intent);
     }
 
     public class ViewHolder {
