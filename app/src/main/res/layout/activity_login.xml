@@ -7,7 +7,7 @@
     android:paddingTop="@dimen/activity_vertical_margin" tools:context=".LoginActivity"
     android:descendantFocusability="beforeDescendants"
     android:focusableInTouchMode="true"
-    android:background="@drawable/bell">
+    android:background="@drawable/bg">
 
     <LinearLayout
         android:id="@+id/ll1"
@@ -20,10 +20,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="BoilerRide"
+            android:text="Please sign-in"
             android:id="@+id/textView2"
-            android:textSize="65dp"
-            android:textColor="#ffffffff" />
+            android:textSize="25dp"
+            android:textColor="#FFD700"
+            android:layout_gravity="center_horizontal"/>
 
 
     </LinearLayout>
@@ -51,17 +52,16 @@
                         android:inputType="textEmailAddress" android:maxLines="1"
                         android:singleLine="true"
                         android:layout_marginBottom="10dp"
-                        android:textColorHint="#ffffffff"
-                        android:textColor="#ffffffff" />
+                        android:textColorHint="#FFD700"
+                        android:textColor="#FFD700" />
 
                     <EditText android:id="@+id/password" android:layout_width="match_parent"
                         android:layout_height="wrap_content" android:hint="@string/prompt_password"
-                        android:imeActionLabel="@string/action_sign_in"
                         android:imeOptions="actionUnspecified" android:inputType="textPassword"
                         android:maxLines="1" android:singleLine="true"
                         android:layout_marginBottom="10dp"
-                        android:textColorHint="#ffffffff"
-                        android:textColor="#ffffffff" />
+                        android:textColorHint="#FFD700"
+                        android:textColor="#FFD700" />
 
                     <Button
                         android:id="@+id/email_sign_in_button"
@@ -69,17 +69,28 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="16dp"
-                        android:textColor="#000000"
                         android:text="@string/action_sign_in_short"
-                        android:textStyle="bold" />
+                        android:textStyle="bold"
+                        android:background="#4d5f70"
+                        android:backgroundTint="#1a364f"
+                        android:focusableInTouchMode="false"
+                        android:textColor="#fefefe"
+                        android:shadowColor="#1b8440"
+                        android:allowUndo="true"/>
 
                     <Button
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Forgot Password?"
-                        android:textColor="#000000"
                         android:id="@+id/forgot_pass"
-                        android:layout_gravity="center_horizontal" />
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginLeft="50dp"
+                        android:layout_marginRight="50dp"
+                        android:background="#9f4a44"
+                        android:backgroundTint="#bf3a31"
+                        android:textColor="#fefefe"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginTop="16dp"/>
 
 
                 </LinearLayout>

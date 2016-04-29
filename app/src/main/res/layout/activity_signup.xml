@@ -8,7 +8,7 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    android:background="@drawable/bell"
+    android:background="@drawable/bg"
     tools:context="boilerride.com.boilerride.LoginActivity">
 
     <!-- Login progress -->
@@ -30,10 +30,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="BoilerRide"
+            android:text="Enter your information"
             android:id="@+id/textView2"
-            android:textSize="65dp"
-            android:textColor="#ffffffff" />
+            android:textSize="25dp"
+            android:textColor="#FFD700"
+            android:layout_gravity="center_horizontal"/>
 
 
     </LinearLayout>
@@ -51,7 +52,9 @@
 
             <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:textColor="#FFD700"
+                android:textColorHint="#FFD700">
 
                 <AutoCompleteTextView
                     android:id="@+id/sign_up_email"
@@ -61,14 +64,17 @@
                     android:inputType="textEmailAddress"
                     android:maxLines="1"
                     android:singleLine="true"
-                    android:textColorHint="#ffffffff"
-                    android:textColor="#ffffffff" />
+                    android:textColorHint="#FFD700"
+                    android:textColor="#FFD700"
+                    />
 
             </android.support.design.widget.TextInputLayout>
 
             <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:textColor="#FFD700"
+                android:textColorHint="#FFD700">
 
                 <EditText
                     android:id="@+id/sign_up_firstname"
@@ -81,22 +87,24 @@
                     android:inputType="text"
                     android:maxLines="1"
                     android:singleLine="true"
-                    android:textColorHint="#ffffffff"
-                    android:textColor="#ffffffff" />
+                    android:textColorHint="#FFD700"
+                    android:textColor="#FFD700" />
 
             </android.support.design.widget.TextInputLayout>
 
             <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:textColor="#FFD700"
+                android:textColorHint="#FFD700">
 
             <EditText
                 android:id="@+id/sign_up_lastname"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Last name"
-                android:textColor="#ffffffff"
-                android:textColorHint="#ffffffff"
+                android:textColor="#FFD700"
+                android:textColorHint="#FFD700"
                 android:imeActionId="@+id/login"
                 android:imeActionLabel="Sign up"
                 android:imeOptions="actionUnspecified"
@@ -106,26 +114,30 @@
 
         </android.support.design.widget.TextInputLayout>
 
-            <EditText
-                android:id="@+id/sign_up_phonenumber"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="Phone Number"
-                android:textColor="#ffffffff"
-                android:textColorHint="#ffffffff"
-                android:imeActionId="@+id/login"
-                android:imeActionLabel="Sign up"
-                android:imeOptions="actionUnspecified"
-                android:inputType="text"
-                android:maxLines="1"
-                android:singleLine="true" />
 
 
             <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:textColor="#FFD700"
+                android:textColorHint="#FFD700">
+
+                <EditText
+                    android:id="@+id/sign_up_phonenumber"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Phone Number"
+                    android:textColor="#FFD700"
+                    android:textColorHint="#FFD700"
+                    android:imeActionId="@+id/login"
+                    android:imeActionLabel="Sign up"
+                    android:imeOptions="actionUnspecified"
+                    android:inputType="text"
+                    android:maxLines="1"
+                    android:singleLine="true" />
 
             </android.support.design.widget.TextInputLayout>
+
 
             <Button
                 android:id="@+id/sign_up_button"
@@ -134,8 +146,13 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:text="Sign up"
-                android:textColor="#000000"
-                android:textStyle="bold" />
+                android:textColor="#fefefe"
+                android:textStyle="bold"
+                android:background="#4d5f70"
+                android:backgroundTint="#1a364f"
+                android:focusableInTouchMode="false"
+                android:shadowColor="#1b8440"
+                android:allowUndo="true"/>
 
         </LinearLayout>
     </ScrollView>

@@ -1,33 +1,21 @@
 package boilerride.com.boilerride;
 
-import android.animation.Animator;
-import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
-import android.app.LoaderManager.LoaderCallbacks;
 import android.app.TimePickerDialog;
-import android.content.CursorLoader;
 import android.content.Intent;
-import android.content.Loader;
-import android.content.pm.PackageManager;
-import android.database.Cursor;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
-import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
-import android.provider.ContactsContract;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.ArrayAdapter;
-import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.DatePicker;
@@ -38,37 +26,27 @@ import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.TimePicker;
 
-
 import com.firebase.client.Firebase;
-import com.firebase.client.FirebaseError;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Calendar;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
-import java.lang.Object;
 import java.util.TimeZone;
-
-import static android.Manifest.permission.READ_CONTACTS;
 
 /**
  * A login screen that offers login via email/password.
  */
-public class CreateRideActivity extends AppCompatActivity{
+public class CreateRideActivity extends AppCompatActivity {
 
     /**
      * Id to identity READ_CONTACTS permission request.
      */
     private static final int REQUEST_READ_CONTACTS = 0;
-    Switch sw;
-   // TimePicker tp;
-  //  DatePicker dp;
-
     /**
      * A dummy authentication store containing known user names and passwords.
      * TODO: remove after connecting to a real authentication system.
@@ -76,11 +54,22 @@ public class CreateRideActivity extends AppCompatActivity{
     private static final String[] DUMMY_CREDENTIALS = new String[]{
             "foo@example.com:hello", "bar@example.com:world"
     };
+    // TimePicker tp;
+    //  DatePicker dp;
+    public ListView list;
+    public double passengers = 1;
+    public double fare;
+    public double maxPassengers;
+    Switch sw;
+    int year = 2016;
+    int month = 6;
+    int day = 2;
+    int hour = 18;
+    int minute = 30;
     /**
      * Keep track of the login task to ensure we can cancel it if requested.
      */
     private CreateRideTask mAuthTask = null;
-
     // UI references.
     private EditText mDestView;
     private EditText mTitleView;
@@ -89,23 +78,50 @@ public class CreateRideActivity extends AppCompatActivity{
     private View mLoginFormView;
     private Ride ride;
     private boolean type;
-    public ListView list;
-
     private TextView Tv_price;
     private SeekBar mSeekbar;
     private TextView Tv_passengers;
     private SeekBar mSeekbar2;
     private TextView Tv_rideSeekers;
     private SeekBar mSeekbar3;
-
     private Button DelButton;
     private Button DateButton;
     private Button TimeButton;
-
     private Firebase myFirebase;
-    public double passengers = 1;
-    public double fare;
-    public double maxPassengers;
+    private DatePickerDialog.OnDateSetListener myDateListener = new DatePickerDialog.OnDateSetListener() {
+        @Override
+        public void onDateSet(DatePicker arg0, int arg1, int arg2, int arg3) {
+            // arg1 = year
+            // arg2 = month
+            // arg3 = day
+            year = arg1;
+            month = arg2;
+            day = arg3;
+
+            DateButton.setText("Date: " + String.valueOf(month) + "/" + String.valueOf(day) + "/" + String.valueOf(year));
+        }
+    };
+    private TimePickerDialog.OnTimeSetListener myTimeListener = new TimePickerDialog.OnTimeSetListener() {
+        @Override
+        public void onTimeSet(TimePicker view, int hourOfDay, int minuteOfHour) {
+            // arg1 = year
+            // arg2 = month
+            // arg3 = day
+            hour = hourOfDay;
+            minute = minuteOfHour;
+
+            TimeButton.setText("Time: " + String.valueOf(hour) + ":" + String.valueOf(minute));
+        }
+    };
+
+    public static double round(double value, int places) {
+        if (places < 0) throw new IllegalArgumentException();
+
+        long factor = (long) Math.pow(10, places);
+        value = value * factor;
+        long tmp = Math.round(value);
+        return (double) tmp / factor;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -113,12 +129,12 @@ public class CreateRideActivity extends AppCompatActivity{
         setContentView(R.layout.activity_createride);
 
         Firebase.setAndroidContext(this);
-        myFirebase  = new Firebase("https://luminous-torch-1510.firebaseio.com/");
+        myFirebase = new Firebase("https://luminous-torch-1510.firebaseio.com/");
 
         // Set up the login form.
         mTitleView = (EditText) findViewById(R.id.createride_title);
         mOriginView = (EditText) findViewById(R.id.createride_origin);
-        mDestView = (EditText)findViewById(R.id.createride_destination);
+        mDestView = (EditText) findViewById(R.id.createride_destination);
 
 
         Button DelButton = (Button) findViewById(R.id.createride_BtnDelete);
@@ -155,9 +171,9 @@ public class CreateRideActivity extends AppCompatActivity{
         });
 
         Calendar calendar = Calendar.getInstance(TimeZone.getDefault());
-        year=calendar.get(Calendar.YEAR);
-        month=calendar.get(Calendar.MONTH);
-        day=calendar.get(Calendar.DAY_OF_MONTH);
+        year = calendar.get(Calendar.YEAR);
+        month = calendar.get(Calendar.MONTH);
+        day = calendar.get(Calendar.DAY_OF_MONTH);
 
         Date dt = new Date();
         //year = dt.getYear();
@@ -166,9 +182,6 @@ public class CreateRideActivity extends AppCompatActivity{
 
         hour = dt.getHours();
         minute = dt.getMinutes();
-
-
-
 
 
         Tv_price = (TextView) findViewById(R.id.createride_tv_price);
@@ -221,19 +234,18 @@ public class CreateRideActivity extends AppCompatActivity{
             }
         });
 
-        sw=(Switch) findViewById(R.id.createride_switch);
+        sw = (Switch) findViewById(R.id.createride_switch);
         sw.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 // do something, the isChecked will be
                 // true if the switch is in the On position
 
-                TextView tv1=(TextView) findViewById(R.id.createride_textView1);
-                TextView tv2=(TextView) findViewById(R.id.createride_textView2);
-                TextView tv3=(TextView) findViewById(R.id.createride_textView3);
+                TextView tv1 = (TextView) findViewById(R.id.createride_textView1);
+                TextView tv2 = (TextView) findViewById(R.id.createride_textView2);
+                TextView tv3 = (TextView) findViewById(R.id.createride_textView3);
 
                 type = isChecked;
-                if(isChecked)
-                {
+                if (isChecked) {
                     mSeekbar.setVisibility(View.GONE);
                     mSeekbar2.setVisibility(View.GONE);
                     mSeekbar3.setVisibility(View.VISIBLE);
@@ -243,9 +255,7 @@ public class CreateRideActivity extends AppCompatActivity{
                     tv1.setVisibility(View.GONE);
                     tv2.setVisibility(View.GONE);
                     tv3.setVisibility(View.VISIBLE);
-                }
-                else
-                {
+                } else {
                     mSeekbar.setVisibility(View.VISIBLE);
                     mSeekbar2.setVisibility(View.VISIBLE);
                     mSeekbar3.setVisibility(View.GONE);
@@ -260,8 +270,8 @@ public class CreateRideActivity extends AppCompatActivity{
         });
 
 
-      //  tp = (TimePicker) findViewById(R.id.dlgDateTimePickerTime);
-      //  dp = (DatePicker) findViewById(R.id.dlgDateTimePickerDate);
+        //  tp = (TimePicker) findViewById(R.id.dlgDateTimePickerTime);
+        //  dp = (DatePicker) findViewById(R.id.dlgDateTimePickerDate);
 
 
         Bundle extras = getIntent().getExtras();
@@ -271,94 +281,88 @@ public class CreateRideActivity extends AppCompatActivity{
             getSupportActionBar().setTitle("Edit ride");
 
             rideId = extras.getInt("ChangeRide");
-            Ride ride=CentralData.RideList.get(rideId);
+            Ride ride = CentralData.RideList.get(rideId);
             mTitleView.setText(ride.title);
             mOriginView.setText(ride.origin);
             mDestView.setText(ride.destination);
             sw.setChecked(ride.type);
 
-            if(!ride.type)
-            {
-                int progr=(int)(ride.fare*100);
+            if (!ride.type) {
+                int progr = (int) (ride.fare * 100);
                 mSeekbar.setProgress(progr);
-                mSeekbar2.setProgress(((int)ride.maxPassengers)-1);
-            }
-            else
-            {
-                mSeekbar3.setProgress((int)ride.numOfPassengers-1);
+                mSeekbar2.setProgress(((int) ride.maxPassengers) - 1);
+            } else {
+                mSeekbar3.setProgress((int) ride.numOfPassengers - 1);
             }
 
             int pos = ride.departTime.indexOf(' ');
 
-            String depart_time=ride.departTime.substring(0, pos);
+            String depart_time = ride.departTime.substring(0, pos);
             pos = ride.departTime.indexOf(',');
-            String depart_date=ride.departTime.substring(pos+1);
+            String depart_date = ride.departTime.substring(pos + 1);
 
             pos = depart_time.indexOf(':');
 
-            String Hour=depart_time.substring(0,pos);
-            if(ride.departTime.contains("PM"))
-            {
+            String Hour = depart_time.substring(0, pos);
+            if (ride.departTime.contains("PM")) {
                 int hour = Integer.parseInt(Hour);
                 hour = hour + 12;
                 Hour = String.valueOf(hour);
             }
-            String Minute=depart_time.substring(pos+1);
+            String Minute = depart_time.substring(pos + 1);
 
             pos = depart_date.indexOf(' ');
 
-            String Day=depart_date.substring(0,pos);
-            String Month="";
-            if(depart_date.contains("Jan"))
+            String Day = depart_date.substring(0, pos);
+            String Month = "";
+            if (depart_date.contains("Jan"))
                 Month = "1";
-            if(depart_date.contains("Feb"))
+            if (depart_date.contains("Feb"))
                 Month = "2";
-            if(depart_date.contains("Mar"))
+            if (depart_date.contains("Mar"))
                 Month = "3";
-            if(depart_date.contains("Apr"))
+            if (depart_date.contains("Apr"))
                 Month = "4";
-            if(depart_date.contains("May"))
+            if (depart_date.contains("May"))
                 Month = "5";
-            if(depart_date.contains("Jun"))
+            if (depart_date.contains("Jun"))
                 Month = "6";
-            if(depart_date.contains("Jul"))
+            if (depart_date.contains("Jul"))
                 Month = "7";
-            if(depart_date.contains("Aug"))
+            if (depart_date.contains("Aug"))
                 Month = "8";
-            if(depart_date.contains("Sep"))
+            if (depart_date.contains("Sep"))
                 Month = "9";
-            if(depart_date.contains("Oct"))
+            if (depart_date.contains("Oct"))
                 Month = "10";
-            if(depart_date.contains("Nov"))
+            if (depart_date.contains("Nov"))
                 Month = "11";
-            if(depart_date.contains("Dec"))
+            if (depart_date.contains("Dec"))
                 Month = "12";
 
-            depart_date=depart_date.substring(pos + 1);
+            depart_date = depart_date.substring(pos + 1);
             pos = depart_date.indexOf(' ');
 
-            String Year=depart_date.substring(pos+1);
+            String Year = depart_date.substring(pos + 1);
 
-           // tp.setCurrentHour(Integer.parseInt(hour));
-           // tp.setCurrentMinute(Integer.parseInt(minute));
+            // tp.setCurrentHour(Integer.parseInt(hour));
+            // tp.setCurrentMinute(Integer.parseInt(minute));
 
-            year=Integer.parseInt(Year);
-            month=Integer.parseInt(Month);
-            day=Integer.parseInt(Day);
+            year = Integer.parseInt(Year);
+            month = Integer.parseInt(Month);
+            day = Integer.parseInt(Day);
 
-            hour=Integer.parseInt(Hour);
-            minute=Integer.parseInt(Minute);
+            hour = Integer.parseInt(Hour);
+            minute = Integer.parseInt(Minute);
 
-           // dp.updateDate(year, month, day);
+            // dp.updateDate(year, month, day);
 
             // and get whatever type user account id is
-        }
-        else {
+        } else {
             //DelButton.setVisibility(View.GONE);
             View b = findViewById(R.id.createride_BtnDelete);
             b.setVisibility(View.GONE);
         }
-
 
 
         DateButton.setText("Date: " + String.valueOf(month) + "/" + String.valueOf(day) + "/" + String.valueOf(year));
@@ -366,11 +370,10 @@ public class CreateRideActivity extends AppCompatActivity{
 
     }
 
-    private void DeleteRide()
-    {
+    private void DeleteRide() {
 
 
-        myFirebase  = new Firebase("https://luminous-torch-1510.firebaseio.com/rides");
+        myFirebase = new Firebase("https://luminous-torch-1510.firebaseio.com/rides");
 
         Firebase node = myFirebase.child(CentralData.rideKey);
         node.setValue(null);
@@ -379,12 +382,6 @@ public class CreateRideActivity extends AppCompatActivity{
         finish();
 
     }
-
-
-
-    int year = 2016;
-    int month = 6;
-    int day = 2;
 
     @Override
     protected Dialog onCreateDialog(int id) {
@@ -397,36 +394,6 @@ public class CreateRideActivity extends AppCompatActivity{
         }
         return null;
     }
-
-    private DatePickerDialog.OnDateSetListener myDateListener = new DatePickerDialog.OnDateSetListener() {
-        @Override
-        public void onDateSet(DatePicker arg0, int arg1, int arg2, int arg3) {
-            // arg1 = year
-            // arg2 = month
-            // arg3 = day
-            year = arg1;
-            month = arg2;
-            day = arg3;
-
-            DateButton.setText("Date: " + String.valueOf(month) + "/" + String.valueOf(day) + "/" + String.valueOf(year));
-        }
-    };
-
-    int hour = 18;
-    int minute = 30;
-
-    private TimePickerDialog.OnTimeSetListener myTimeListener = new TimePickerDialog.OnTimeSetListener() {
-        @Override
-        public void onTimeSet(TimePicker view, int hourOfDay, int minuteOfHour) {
-            // arg1 = year
-            // arg2 = month
-            // arg3 = day
-            hour = hourOfDay;
-            minute = minuteOfHour;
-
-            TimeButton.setText("Time: " + String.valueOf(hour) + ":" + String.valueOf(minute));
-        }
-    };
 
     /**
      * Attempts to post ride specified by the login form.
@@ -446,10 +413,10 @@ public class CreateRideActivity extends AppCompatActivity{
         String origin = mOriginView.getText().toString();
         String title = mTitleView.getText().toString();
         String time = new SimpleDateFormat("HH:mm, MM.dd.yyyy").format(Calendar.getInstance().getTime());
-        System.out.println("Date::"+new SimpleDateFormat("HH:mm,MM.dd.yyyy").format(Calendar.getInstance().getTime()));
+        System.out.println("Date::" + new SimpleDateFormat("HH:mm,MM.dd.yyyy").format(Calendar.getInstance().getTime()));
         String time1 = new SimpleDateFormat("h:mm a").format(Calendar.getInstance().getTime());
 
-        System.out.println("timeposted"+time1);
+        System.out.println("timeposted" + time1);
 
         Calendar cal = Calendar.getInstance();
         cal.set(year, month, day, hour, minute);
@@ -478,7 +445,6 @@ public class CreateRideActivity extends AppCompatActivity{
         }
 
 
-
         if (cancel) {
             // There was an error; don't attempt login and focus the first
             // form field with an error.
@@ -495,7 +461,7 @@ public class CreateRideActivity extends AppCompatActivity{
 
             double distance = (calculateDistance(lat1, long1, lat2, long2));
             double fare1 = fare;
-            fare1 = fare1 *distance;
+            fare1 = fare1 * distance;
             fare1 = round(fare1, 2);
             String distanced;
             showProgress(true);
@@ -541,7 +507,87 @@ public class CreateRideActivity extends AppCompatActivity{
         }
     }
 
+    private void startShowRidesActivity() {
+        Intent intent = new Intent(this, ShowRidesActivity.class);
+        startActivity(intent);
+        finish();
+    }
 
+    public double calculateDistance(double lat1, double long1, double lat2, double long2) {
+
+        Location locA = new Location("locA");
+        locA.setLatitude(lat1);
+        locA.setLongitude(long1);
+        Location locB = new Location("locB");
+        locB.setLatitude(lat2);
+        locB.setLongitude(long2);
+
+        double distance = locA.distanceTo(locB);
+        Log.i("Distance in meters: ", distance + "");
+        distance = distance / 1600;
+        distance = round(distance, 2);
+        return distance;
+    }
+
+    public double get_loc(String myLocation) {
+        Geocoder geocoder = new Geocoder(this, Locale.getDefault());
+
+
+        List<Address> addresses = null;
+        try {
+            addresses = geocoder.getFromLocationName(myLocation, 1);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        Address address = addresses.get(0);
+        if (addresses.size() > 0) {
+
+            double longitude = addresses.get(0).getLongitude();
+
+            return longitude;
+        }
+        return 0;
+    }
+
+    public double get_lat(String myLocation) {
+        Geocoder geocoder = new Geocoder(this, Locale.getDefault());
+
+
+        List<Address> addresses = null;
+        try {
+            addresses = geocoder.getFromLocationName(myLocation, 1);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        Address address = addresses.get(0);
+        if (addresses.size() > 0) {
+            double latitude = addresses.get(0).getLatitude();
+
+
+            return latitude;
+        }
+        return 0;
+    }
+
+    public String timechange(String time) {
+        String newtime = "";
+        for (int i = 9; i < time.length(); i++) {
+            newtime = newtime + time.charAt(i);
+
+        }
+        for (int i = 0; i < newtime.length(); i++) {
+            newtime = newtime + time.charAt(i);
+
+            if (i == 2) {
+                newtime = newtime + ":";
+                i--;
+            }
+
+
+        }
+
+        return newtime;
+    }
 
     /**
      * Represents an asynchronous login/registration task used to authenticate
@@ -585,43 +631,37 @@ public class CreateRideActivity extends AppCompatActivity{
 
             if (extras == null) {
 
-            try {
-                Firebase fireRide = myFirebase.child("rides");
-                Map<String, String> ride1 = new HashMap<String, String>();
-                ride1.put("numOfPassengers", String.valueOf(numOfPassengers));
-                ride1.put("fare", String.valueOf(fare));
-                ride1.put("distance", String.valueOf(distance));
-                ride1.put("origin", origin);
-                ride1.put("destination", destination);
-                ride1.put("maxPassengers", String.valueOf(maxPassengers));
-                ride1.put("departTime", departTime);
-                ride1.put("arrivalTime", arrivalTime);
-                ride1.put("timePosted", timePosted);
-                ride1.put("title", title);
-                ride1.put("uid", uid);
-                ride1.put("completed", "false");
-                if (type == false) {
-                    ride1.put("type", "offer");
+                try {
+                    Firebase fireRide = myFirebase.child("rides");
+                    Map<String, String> ride1 = new HashMap<String, String>();
+                    ride1.put("numOfPassengers", String.valueOf(numOfPassengers));
+                    ride1.put("fare", String.valueOf(fare));
+                    ride1.put("distance", String.valueOf(distance));
+                    ride1.put("origin", origin);
+                    ride1.put("destination", destination);
+                    ride1.put("maxPassengers", String.valueOf(maxPassengers));
+                    ride1.put("departTime", departTime);
+                    ride1.put("arrivalTime", arrivalTime);
+                    ride1.put("timePosted", timePosted);
+                    ride1.put("title", title);
+                    ride1.put("uid", uid);
+                    ride1.put("completed", "false");
+                    if (type == false) {
+                        ride1.put("type", "offer");
+                    } else
+                        ride1.put("type", "request");
+
+                    fireRide.push().setValue(ride1);
+                    // Simulate network access.
+                    Thread.sleep(500);
+                } catch (InterruptedException e) {
+                    return false;
                 }
-                else
-                    ride1.put("type", "request");
-
-                fireRide.push().setValue(ride1);
-                // Simulate network access.
-                Thread.sleep(500);
-            } catch (InterruptedException e) {
-                return false;
-            }
 
 
+            } else {
 
-
-            }
-
-            else
-            {
-
-                myFirebase  = new Firebase("https://luminous-torch-1510.firebaseio.com/rides");
+                myFirebase = new Firebase("https://luminous-torch-1510.firebaseio.com/rides");
 
                 Firebase node = myFirebase.child(CentralData.rideKey);
 
@@ -663,10 +703,7 @@ public class CreateRideActivity extends AppCompatActivity{
                 node.updateChildren(newArrivalTime);
 
 
-
             }
-
-
 
 
             // TODO: register the new account here.
@@ -689,93 +726,6 @@ public class CreateRideActivity extends AppCompatActivity{
             mAuthTask = null;
             showProgress(false);
         }
-    }
-
-    private void startShowRidesActivity()
-    {
-        Intent intent = new Intent(this, ShowRidesActivity.class);
-        startActivity(intent);
-        finish();
-    }
-    public double calculateDistance(double lat1, double long1, double lat2, double long2) {
-
-        Location locA = new Location("locA");
-        locA.setLatitude(lat1);
-        locA.setLongitude(long1);
-        Location locB = new Location("locB");
-        locB.setLatitude(lat2);
-        locB.setLongitude(long2);
-
-        double distance  = locA.distanceTo(locB);
-        Log.i("Distance in meters: ", distance + "");
-        distance = distance/1600;
-        distance=round(distance,2);
-        return distance;
-    }
-    public static double round(double value, int places) {
-        if (places < 0) throw new IllegalArgumentException();
-
-        long factor = (long) Math.pow(10, places);
-        value = value * factor;
-        long tmp = Math.round(value);
-        return (double) tmp / factor;
-    }
-    public double get_loc( String  myLocation) {
-        Geocoder geocoder = new Geocoder(this, Locale.getDefault());
-
-
-        List<Address> addresses = null;
-        try {
-            addresses = geocoder.getFromLocationName(myLocation, 1);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        Address address = addresses.get(0);
-        if (addresses.size() > 0) {
-
-            double longitude = addresses.get(0).getLongitude();
-
-            return longitude;
-        }
-        return 0;
-    }
-    public double get_lat( String  myLocation) {
-        Geocoder geocoder = new Geocoder(this, Locale.getDefault());
-
-
-        List<Address> addresses = null;
-        try {
-            addresses = geocoder.getFromLocationName(myLocation, 1);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        Address address = addresses.get(0);
-        if (addresses.size() > 0) {
-            double latitude = addresses.get(0).getLatitude();
-
-
-            return latitude;
-        }
-        return 0;
-    }
-    public String timechange(String time){
-        String newtime = "" ;
-        for (int i = 9;i < time.length(); i++){
-            newtime = newtime + time.charAt(i);
-
-        }
-        for (int i = 0;i < newtime.length(); i++){
-            newtime = newtime + time.charAt(i);
-
-            if (i == 2) {
-                newtime = newtime + ":";
-                i--;
-            }
-
-
-        }
-
-        return newtime;
     }
 }
 

@@ -1,71 +1,47 @@
 package boilerride.com.boilerride;
 
-import android.animation.Animator;
-import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
 import android.app.AlarmManager;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.SystemClock;
-import android.provider.ContactsContract;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.TaskStackBuilder;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
-import android.text.TextUtils;
 import android.text.TextWatcher;
-import android.util.Log;
+import android.view.ContextMenu;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.View.OnClickListener;
-import android.widget.AutoCompleteTextView;
+import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.view.LayoutInflater;
-import android.view.ViewGroup;
 import android.widget.Toast;
-import android.support.v7.widget.RecyclerView.ViewHolder;
-
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.logging.Filter;
-import java.util.Calendar;
-import java.util.HashMap;
-import java.util.Map;
-
-import android.widget.ArrayAdapter;
-import android.widget.AdapterView;
-import android.view.ViewGroup;
-import android.widget.Toast;
-import android.widget.AdapterView.OnItemClickListener;
-import android.view.*;
-import android.widget.TimePicker;
 
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
-import com.firebase.client.ValueEventListener;
 import com.firebase.client.Query;
+import com.firebase.client.ValueEventListener;
+
+import java.util.ArrayList;
+import java.util.Iterator;
 
 public class ShowRidesActivity extends AppCompatActivity implements FilterDialogFragment.FilterDialogFragmentListener {
 
@@ -734,16 +710,10 @@ public class ShowRidesActivity extends AppCompatActivity implements FilterDialog
                             String uid = postSnapshot.child("uid").getValue().toString();
                             String completed1 = postSnapshot.child("completed").getValue().toString();
                             boolean type;
-                            if (type1.equals("offer"))
-                                type = false;
-                            else
-                                type = true;
+                            type = !type1.equals("offer");
 
                             boolean completed;
-                            if (completed1.equals("false"))
-                                completed = false;
-                            else
-                                completed = true;
+                            completed = !completed1.equals("false");
 
                             Ride ride = new Ride(numOfPassengers, fare, distance, origin, destination, maxPassengers, departTime, arrivalTime,
                                     timePosted, title, type, uid, completed);

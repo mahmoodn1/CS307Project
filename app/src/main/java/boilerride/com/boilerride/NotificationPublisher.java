@@ -3,6 +3,7 @@ package boilerride.com.boilerride;
 /**
  * Created by nadeemmahmood on 3/23/16.
  */
+
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -18,12 +19,11 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
+import com.firebase.client.ChildEventListener;
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
 import com.firebase.client.Query;
-import com.firebase.client.ValueEventListener;
-import com.firebase.client.ChildEventListener;
 
 import java.util.ArrayList;
 
