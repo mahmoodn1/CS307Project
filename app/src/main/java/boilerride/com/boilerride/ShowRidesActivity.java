@@ -209,8 +209,10 @@ public class ShowRidesActivity extends AppCompatActivity implements FilterDialog
                     if (listofRides.get(i).title.toLowerCase().contains(s.toString().toLowerCase()) ||
                             listofRides.get(i).destination.toLowerCase().contains(s.toString().toLowerCase()) ||
                             listofRides.get(i).timePosted.toLowerCase().contains(formattedDate)) {
-                        listofRidesFiltered.add(listofRides.get(i));
-                        listofRidesKeysFiltered.add(listofRidesKeys.get(i));
+                        if(i<listofRidesKeys.size()-1){
+                            listofRidesFiltered.add(listofRides.get(i));
+                            listofRidesKeysFiltered.add(listofRidesKeys.get(i));
+                        }
                         //check out of bounds
                     }
                 }
