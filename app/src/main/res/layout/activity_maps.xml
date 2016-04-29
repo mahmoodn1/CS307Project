@@ -16,7 +16,12 @@
         android:padding="10dp"
         android:id="@+id/mapdistance"
         android:layout_marginTop="20dp"
-        android:paddingRight="10dp"/>
+        android:paddingRight="10dp"
+        android:background="#4d5f70"
+        android:backgroundTint="#1a364f"
+        android:focusableInTouchMode="false"
+        android:textColor="#fefefe"
+        android:shadowColor="#1b8440"/>
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -25,5 +30,10 @@
         android:padding="10dp"
         android:id="@+id/maptime"
         android:layout_marginTop="20dp"
-        android:paddingLeft="10dp"/>
+        android:paddingLeft="10dp"
+        android:background="#4d5f70"
+        android:backgroundTint="#1a364f"
+        android:focusableInTouchMode="false"
+        android:textColor="#fefefe"
+        android:shadowColor="#1b8440"/>
     </fragment>
