@@ -671,10 +671,13 @@ public class ShowRidesActivity extends AppCompatActivity implements FilterDialog
                         for (DataSnapshot postSnapshot : snapshot.getChildren()) {
                             String key1 = postSnapshot.getKey();
                             String value = postSnapshot.toString();
-                            boolean inRide = value.toLowerCase().contains(CentralData.uid.toLowerCase());
-                            if (inRide) {
-                                CentralData.myRides.add(key1);
+                            if(value != null){
+                                boolean inRide = value.toLowerCase().contains(CentralData.uid.toLowerCase());
+                                if (inRide) {
+                                    CentralData.myRides.add(key1);
+                                }
                             }
+
                         }
                     }
 
