@@ -58,8 +58,8 @@ public class CreateRideActivity extends AppCompatActivity {
     //  DatePicker dp;
     public ListView list;
     public double passengers = 1;
-    public double fare;
-    public double maxPassengers;
+    public double fare = 0.3;
+    public double maxPassengers = 3;
     Switch sw;
     int year = 2016;
     int month = 6;
