@@ -216,6 +216,18 @@ public class ShowRidesActivity extends AppCompatActivity implements FilterDialog
                 }
                 adapter.notifyDataSetChanged();
 
+                ArrayAdapter adapter = new ArrayAdapter<Ride>(getApplicationContext(), android.R.layout.simple_spinner_item, listofRidesFiltered){
+                    @Override
+                    public View getView(int position, View convertView, ViewGroup parent) {
+                        View view = super.getView(position, convertView, parent);
+                        TextView text = (TextView) view.findViewById(android.R.id.text1);
+                        text.setTextColor(Color.parseColor("#FFD700"));
+                        text.setHeight(150); // Height
+                        return view;
+                    }
+                };
+                list.setAdapter(adapter);
+
             }
 
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
