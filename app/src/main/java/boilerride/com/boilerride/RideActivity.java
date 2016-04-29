@@ -420,7 +420,7 @@ public class RideActivity extends AppCompatActivity {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        Address address = addresses.get(0);
+
         if (addresses.size() > 0) {
 
             double longitude = addresses.get(0).getLongitude();
@@ -439,7 +439,6 @@ public class RideActivity extends AppCompatActivity {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        Address address = addresses.get(0);
         if (addresses.size() > 0) {
             double latitude = addresses.get(0).getLatitude();
 
